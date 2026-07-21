@@ -23,6 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
+    android:minHeight="78dp"
     android:orientation="horizontal"
     android:padding="@dimen/padding_small">
 
@@ -31,14 +32,15 @@
         android:layout_width="@dimen/icon_size_default"
         android:layout_height="@dimen/icon_size_default"
         android:layout_gravity="center_vertical"
+        android:visibility="gone"
         app:tint="?colorAccent"
         tools:src="@drawable/ic_menu_about" />
 
     <View
-        android:layout_width="@dimen/margin_xxsmall"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margin_xlarge"
-        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/divider_line"
         android:backgroundTint="?colorControlHighlight" />
 
@@ -49,16 +51,20 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/line1"
-            style="@style/AuroraTextStyle.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/metro_white"
+            android:textSize="24sp"
             tools:text="Title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/line2"
-            style="@style/AuroraTextStyle.Line2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/metro_gray"
+            android:textSize="16sp"
             tools:text="Subtitle" />
     </LinearLayout>
 </LinearLayout>

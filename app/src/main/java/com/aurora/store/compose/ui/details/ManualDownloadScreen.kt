@@ -12,10 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -43,7 +42,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -165,7 +163,7 @@ private fun ScreenContent(
                             coroutineScope.launch { snackBarHostState.showSnackbar(errorMessage) }
                         }
                     },
-                    shape = RoundedCornerShape(10.dp),
+                    shape = RectangleShape,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
@@ -177,7 +175,7 @@ private fun ScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
             ) {
-                FilledTonalButton(
+                OutlinedButton(
                     modifier = Modifier.weight(1F),
                     onClick = onNavigateUp
                 ) {
@@ -188,7 +186,7 @@ private fun ScreenContent(
                     )
                 }
 
-                Button(
+                OutlinedButton(
                     modifier = Modifier.weight(1F),
                     onClick = { onDownload(versionCode.text.toLong()) }) {
                     Text(

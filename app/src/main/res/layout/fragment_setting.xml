@@ -22,13 +22,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical"
     tools:context=".view.ui.preferences.SettingsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="96dp"
+        android:background="@color/metro_black"
+        app:titleTextAppearance="@style/TextAppearance.Metro.Toolbar"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
     <!--

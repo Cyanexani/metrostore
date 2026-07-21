@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,11 +59,11 @@ fun AppComposable(modifier: Modifier = Modifier, app: App, onClick: () -> Unit =
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .requiredSize(dimensionResource(R.dimen.icon_size_cluster))
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_medium)))
+                .clip(RectangleShape)
         )
         Text(
             text = app.displayName,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -73,7 +73,8 @@ fun AppComposable(modifier: Modifier = Modifier, app: App, onClick: () -> Unit =
             } else {
                 app.downloadString
             },
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

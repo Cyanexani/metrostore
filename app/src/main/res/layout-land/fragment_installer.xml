@@ -24,15 +24,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="96dp"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="@string/pref_install_mode_title" />
+        app:title="@string/pref_install_mode_title"
+        app:titleTextAppearance="@style/TextAppearance.Metro.Toolbar" />
 
     <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/epoxy_recycler"

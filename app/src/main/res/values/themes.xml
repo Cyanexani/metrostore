@@ -19,11 +19,27 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="chipStyle">@style/Chip.Filter</item>
         <item name="preferenceTheme">@style/AppTheme.PreferenceThemeOverlay</item>
         <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/metro_green</item>
+        <item name="colorOnPrimary">@color/metro_white</item>
+        <item name="colorSecondary">@color/metro_green</item>
+        <item name="colorSurface">@color/metro_black</item>
+        <item name="colorOnSurface">@color/metro_white</item>
+        <item name="colorSurfaceContainer">@color/metro_command_bar</item>
+        <item name="colorOutline">@color/metro_white</item>
+        <item name="android:colorAccent">@color/metro_green</item>
+        <item name="android:colorBackground">@color/metro_black</item>
+        <item name="android:windowBackground">@color/metro_black</item>
+        <item name="android:navigationBarColor">@color/metro_command_bar</item>
+        <item name="android:statusBarColor">@color/metro_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="toolbarStyle">@style/Widget.Metro.Toolbar</item>
+        <item name="materialButtonStyle">@style/Widget.Metro.Button</item>
     </style>
 
     <style name="AppTheme.Translucent" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
@@ -40,18 +56,38 @@
 
     <style name="AppTheme.PreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
         <item name="android:layout">@layout/fragment_setting</item>
+        <item name="preferenceStyle">@style/AppTheme.Preference</item>
+        <item name="preferenceCategoryStyle">@style/AppTheme.PreferenceCategory</item>
         <item name="switchPreferenceCompatStyle">@style/AppTheme.SwitchPreference</item>
     </style>
 
+    <style name="AppTheme.Preference" parent="@style/Preference.Material">
+        <item name="android:layout">@layout/item_preference</item>
+    </style>
+
+    <style name="AppTheme.PreferenceCategory" parent="@style/Preference.Category.Material">
+        <item name="android:layout">@layout/item_preference_category</item>
+    </style>
+
     <style name="AppTheme.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="android:layout">@layout/item_preference</item>
         <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
 
-    <style name="Chip.Filter" parent="@style/Widget.Material3.Chip.Filter" />
+    <style name="Chip.Filter" parent="@style/Widget.Material3.Chip.Filter">
+        <item name="chipCornerRadius">0dp</item>
+    </style>
 
     <style name="Chip.TopChart" parent="@style/Widget.Material3.Chip.Filter">
-        <item name="android:textAppearance">@style/TextAppearance.Aurora.Line1</item>
-        <item name="chipStrokeColor">?attr/colorControlHighlight</item>
+        <item name="android:textAppearance">@style/TextAppearance.Metro.Panorama</item>
+        <item name="android:textColor">@color/metro_tab_text</item>
+        <item name="chipBackgroundColor">@android:color/transparent</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipCornerRadius">0dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
 
     <style name="Chip.Tag" parent="@style/Widget.Material3.Chip.Assist">
@@ -59,5 +95,26 @@
         <item name="android:textAppearance">@style/TextAppearance.Aurora.Line2</item>
         <item name="chipBackgroundColor">?attr/colorControlHighlight</item>
         <item name="chipStrokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.Metro.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/metro_black</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Metro.Toolbar</item>
+        <item name="subtitleTextColor">@color/metro_gray</item>
+        <item name="navigationIconTint">@color/metro_white</item>
+    </style>
+
+    <style name="Widget.Metro.Button" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">0dp</item>
+        <item name="strokeColor">@color/metro_white</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">@color/metro_white</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.Metro.Navigation.Indicator" parent="Widget.Material3.NavigationBar.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
     </style>
 </resources>

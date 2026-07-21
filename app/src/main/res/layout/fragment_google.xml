@@ -22,6 +22,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical"
     tools:context=".view.ui.account.GoogleFragment">
 
@@ -35,8 +36,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackCornerRadius="10dp"
-        app:trackThickness="5dp" />
+        app:trackCornerRadius="0dp"
+        app:trackThickness="4dp" />
 
     <WebView
         android:id="@+id/webview"

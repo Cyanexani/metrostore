@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -129,6 +131,12 @@ private fun ScreenContent(
                 .fillMaxSize()
                 .padding(vertical = dimensionResource(R.dimen.padding_medium))
         ) {
+            Text(
+                text = stringResource(R.string.title_download_manager).lowercase(),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_large))
+            )
+
             when {
                 downloads.loadState.refresh is LoadState.Loading && initialLoad -> {
                     ProgressComposable()

@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,21 +63,26 @@ fun AppListComposable(modifier: Modifier = Modifier, app: App, onClick: () -> Un
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .requiredSize(dimensionResource(R.dimen.icon_size_medium))
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_medium)))
+                .clip(RectangleShape)
         )
         Column(
             modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.margin_small)),
         ) {
             Text(
                 text = app.displayName,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(text = app.developerName, style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = app.developerName,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
             Text(
                 text = buildExtras(app).joinToString(separator = "  •  "),
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

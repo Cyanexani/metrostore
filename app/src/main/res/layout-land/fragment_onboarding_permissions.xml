@@ -24,17 +24,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical"
     android:showDividers="middle">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="96dp"
         android:visibility="gone"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="@string/onboarding_title_permissions" />
+        app:title="@string/onboarding_title_permissions"
+        app:titleTextAppearance="@style/TextAppearance.Metro.Toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,8 +56,9 @@
                 android:includeFontPadding="true"
                 android:text="@string/onboarding_title_permissions"
                 android:textAlignment="textStart"
-                android:textColor="?colorAccent"
-                android:textSize="42sp" />
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/metro_white"
+                android:textSize="48sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subtitle"
@@ -64,7 +66,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/onboarding_permission_select"
-                android:textAlignment="textStart" />
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="textStart"
+                android:textColor="@color/metro_gray"
+                android:textSize="22sp" />
         </LinearLayout>
 
         <com.airbnb.epoxy.EpoxyRecyclerView

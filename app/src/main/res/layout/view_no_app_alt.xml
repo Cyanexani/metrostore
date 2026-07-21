@@ -20,7 +20,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_header">
+    android:layout_height="64dp"
+    android:background="@color/metro_black">
 
     <TextView
         android:id="@+id/txt_msg"
@@ -28,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/margin_xsmall"
-        android:textAppearance="@style/TextAppearance.Aurora.Line1"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/metro_gray"
+        android:textSize="22sp"
         tools:text="No updates available" />
 </RelativeLayout>

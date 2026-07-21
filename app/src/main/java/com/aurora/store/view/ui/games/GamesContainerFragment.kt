@@ -95,7 +95,8 @@ class GamesContainerFragment : BaseFragment<FragmentAppsGamesBinding>() {
             isForYouEnabled
         )
 
-        binding.pager.isUserInputEnabled = false
+        // Keep the Windows Phone panorama interaction from the reference UI.
+        binding.pager.isUserInputEnabled = true
 
         val tabTitles: MutableList<String> = mutableListOf<String>().apply {
             if (isForYouEnabled) {

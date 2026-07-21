@@ -8,28 +8,20 @@ package com.aurora.store.compose.composables.details
 import android.text.format.DateUtils
 import android.widget.RatingBar
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.viewinterop.AndroidView
-import coil3.compose.AsyncImage
 import coil3.compose.LocalAsyncImagePreviewHandler
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.aurora.gplayapi.data.models.Review
 import com.aurora.store.R
 import com.aurora.store.compose.preview.ReviewPreviewProvider
@@ -42,7 +34,7 @@ import com.aurora.store.compose.preview.coilPreviewProvider
  */
 @Composable
 fun ReviewComposable(modifier: Modifier = Modifier, review: Review) {
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(
@@ -50,48 +42,32 @@ fun ReviewComposable(modifier: Modifier = Modifier, review: Review) {
                 vertical = dimensionResource(R.dimen.padding_small)
             )
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(review.userPhotoUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .requiredSize(dimensionResource(R.dimen.icon_size_small))
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_medium)))
+        Text(
+            text = review.userName,
+            style = MaterialTheme.typography.headlineLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
-        Column(
-            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.margin_small)),
-        ) {
-            Text(
-                text = review.userName,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = DateUtils.formatDateTime(
-                    LocalContext.current,
-                    review.timeStamp,
-                    DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR
-                ),
-                style = MaterialTheme.typography.bodySmall
-            )
-            AndroidView(
-                factory = { context ->
-                    RatingBar(context, null, android.R.attr.ratingBarStyleSmall)
-                },
-                update = { view ->
-                    view.rating = review.rating.toFloat()
-                }
-            )
-            Text(
-                text = review.comment,
-                style = MaterialTheme.typography.bodySmall,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+        AndroidView(
+            factory = { context ->
+                RatingBar(context, null, android.R.attr.ratingBarStyleSmall)
+            },
+            update = { view -> view.rating = review.rating.toFloat() }
+        )
+        Text(
+            text = review.comment,
+            style = MaterialTheme.typography.bodyMedium,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = DateUtils.formatDateTime(
+                LocalContext.current,
+                review.timeStamp,
+                DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR
+            ),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

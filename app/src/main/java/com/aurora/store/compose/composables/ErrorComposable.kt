@@ -10,9 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,25 +45,19 @@ fun ErrorComposable(
         modifier = modifier
             .fillMaxSize()
             .padding(dimensionResource(R.dimen.padding_medium)),
-        verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(R.dimen.margin_small),
-            Alignment.CenterVertically
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_normal)),
+        horizontalAlignment = Alignment.Start
     ) {
-        Icon(
-            painter = icon,
-            contentDescription = null,
-            modifier = Modifier.requiredSize(dimensionResource(R.dimen.icon_size))
-        )
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = message,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         if (actionMessage != null) {
-            Button(onClick = onAction) {
+            OutlinedButton(onClick = onAction) {
                 Text(
                     text = actionMessage,
                     maxLines = 1,

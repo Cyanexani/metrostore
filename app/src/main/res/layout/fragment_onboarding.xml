@@ -23,6 +23,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     tools:context=".view.ui.onboarding.OnboardingFragment">
 
     <RelativeLayout
@@ -32,7 +33,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="44dp"
             android:background="@android:color/transparent"
             app:tabBackground="@drawable/tab_selector_onboarding"
             app:tabGravity="center"
@@ -51,14 +52,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_alignParentBottom="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_forward"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Metro.Button"
                 android:layout_width="0dp"
-                android:layout_height="56dp"
+                android:layout_height="48dp"
                 android:layout_margin="@dimen/margin_xsmall"
                 android:text="@string/action_next"
                 android:textAllCaps="false"
@@ -69,9 +70,9 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_backward"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Metro.Button"
                 android:layout_width="0dp"
-                android:layout_height="56dp"
+                android:layout_height="48dp"
                 android:layout_margin="@dimen/margin_xsmall"
                 android:text="@string/action_back"
                 android:textAllCaps="false"

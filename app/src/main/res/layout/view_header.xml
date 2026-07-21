@@ -23,10 +23,10 @@
     android:id="@+id/layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/padding_small"
-    android:paddingTop="@dimen/padding_xxsmall"
+    android:paddingStart="4dp"
+    android:paddingTop="12dp"
     android:paddingEnd="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_xxsmall">
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/txt_title"
@@ -36,13 +36,17 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/img_action"
         android:ellipsize="end"
+        android:fontFamily="sans-serif"
         android:maxLines="1"
+        android:textAllCaps="true"
+        android:textColor="@color/metro_white"
+        android:textSize="17sp"
         tools:text="Header" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_action"
-        android:layout_width="@dimen/icon_size_category"
-        android:layout_height="@dimen/icon_size_category"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/margin_small"

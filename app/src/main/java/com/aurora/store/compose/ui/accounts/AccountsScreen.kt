@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -135,7 +135,7 @@ private fun ScreenContent(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .requiredSize(dimensionResource(R.dimen.icon_size_avatar))
-                        .clip(CircleShape)
+                        .clip(RectangleShape)
                 )
                 Text(
                     text = name,

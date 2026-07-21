@@ -23,29 +23,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/padding_small">
+    android:minHeight="86dp"
+    android:paddingStart="20dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="8dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/line1"
-        style="@style/AuroraTextStyle.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/btn_action"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/metro_white"
+        android:textSize="23sp"
         tools:text="Permission Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/line2"
-        style="@style/AuroraTextStyle.Line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/line1"
         android:layout_toStartOf="@id/btn_action"
         android:maxLines="3"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/metro_gray"
+        android:textSize="16sp"
         tools:text="Permission Description" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_action"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
+        style="@style/Widget.Metro.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

@@ -6,33 +6,34 @@
 package com.aurora.store.compose.ui.search
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.input.clearText
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
-import androidx.compose.material3.AppBarWithSearch
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExpandedDockedSearchBar
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -42,17 +43,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -75,7 +80,6 @@ import com.aurora.store.compose.ui.details.AppDetailsScreen
 import com.aurora.store.data.model.SearchFilter
 import com.aurora.store.viewmodel.search.SearchViewModel
 import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -106,8 +110,7 @@ private fun ScreenContent(
     onFilter: (filter: SearchFilter) -> Unit = {},
     isAnonymous: Boolean = true,
 ) {
-    val textFieldState = rememberTextFieldState()
-    val searchBarState = rememberSearchBarState()
+    var query by rememberSaveable { mutableStateOf("") }
     var isSearching by rememberSaveable { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
@@ -119,9 +122,8 @@ private fun ScreenContent(
         focusRequester.requestFocus()
     }
 
-    LaunchedEffect(key1 = textFieldState) {
-        snapshotFlow { textFieldState.text.toString() }
-            .collectLatest { query -> onFetchSuggestions(query) }
+    LaunchedEffect(key1 = query) {
+        onFetchSuggestions(query)
     }
 
     fun showDetailPane(packageName: String) {
@@ -130,63 +132,71 @@ private fun ScreenContent(
         }
     }
 
-    fun onRequestSearch(query: String) {
-        textFieldState.setTextAndPlaceCursorAtEnd(query.trim())
-        coroutineScope.launch { searchBarState.animateToCollapsed() }
-        onSearch(textFieldState.text.toString())
+    fun onRequestSearch(request: String) {
+        val requestedQuery = request.trim()
+        if (requestedQuery.isBlank()) return
+        query = requestedQuery
+        onSearch(requestedQuery)
         isSearching = true
     }
 
     @Composable
     fun SearchBar() {
-        val inputField = @Composable {
-            SearchBarDefaults.InputField(
-                modifier = Modifier.focusRequester(focusRequester),
-                searchBarState = searchBarState,
-                textFieldState = textFieldState,
-                onSearch = { query -> onRequestSearch(query) },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.search_hint),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .statusBarsPadding()
+                .padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            androidx.compose.foundation.layout.Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onNavigateUp) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(R.string.action_back)
                     )
+                }
+                Text(
+                    text = stringResource(R.string.metro_store_search),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+
+            BasicTextField(
+                value = query,
+                onValueChange = {
+                    query = it
+                    isSearching = false
                 },
-                leadingIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.action_back)
-                        )
-                    }
-                },
-                trailingIcon = {
-                    if (textFieldState.text.isNotBlank()) {
-                        IconButton(
-                            onClick = {
-                                textFieldState.clearText()
-                                focusRequester.requestFocus()
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_cancel),
-                                contentDescription = stringResource(R.string.action_clear)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .background(Color(0xFFF2F2F2))
+                    .border(2.dp, Color(0xFF00A300))
+                    .padding(horizontal = 9.dp, vertical = 10.dp)
+                    .focusRequester(focusRequester),
+                singleLine = true,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
+                cursorBrush = SolidColor(Color(0xFF00A300)),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { onRequestSearch(query) }),
+                decorationBox = { innerTextField ->
+                    Box(contentAlignment = Alignment.CenterStart) {
+                        if (query.isBlank()) {
+                            Text(
+                                text = stringResource(R.string.search_hint),
+                                color = Color(0xFF666666),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
+                        innerTextField()
                     }
                 }
             )
-        }
-
-        AppBarWithSearch(state = searchBarState, inputField = inputField)
-        ExpandedDockedSearchBar(state = searchBarState, inputField = inputField) {
-            suggestions.forEach { suggestion ->
-                SearchSuggestionComposable(
-                    searchSuggestEntry = suggestion,
-                    onClick = { query -> onRequestSearch(query) },
-                    onAction = { query -> textFieldState.setTextAndPlaceCursorAtEnd(query.trim()) }
-                )
-            }
         }
     }
 
@@ -199,50 +209,66 @@ private fun ScreenContent(
                     .fillMaxSize()
                     .padding(vertical = dimensionResource(R.dimen.padding_medium))
             ) {
-                FilterHeader(
-                    isEnabled = isSearching && results.loadState.refresh is LoadState.NotLoading,
-                    isAnonymous = isAnonymous,
-                    onFilter = onFilter
-                )
-
-                when (results.loadState.refresh) {
-                    is LoadState.Loading -> ProgressComposable()
-
-                    is LoadState.Error -> {
-                        ErrorComposable(
-                            modifier = Modifier.padding(paddingValues),
-                            icon = painterResource(R.drawable.ic_disclaimer),
-                            message = stringResource(R.string.error)
-                        )
+                if (!isSearching && query.isNotBlank()) {
+                    LazyColumn {
+                        items(items = suggestions, key = { it.title }) { suggestion ->
+                            SearchSuggestionComposable(
+                                searchSuggestEntry = suggestion,
+                                onClick = { onRequestSearch(it) },
+                                onAction = {
+                                    query = it.trim()
+                                    focusRequester.requestFocus()
+                                }
+                            )
+                        }
                     }
+                } else {
+                    FilterHeader(
+                        isEnabled = isSearching &&
+                            results.loadState.refresh is LoadState.NotLoading,
+                        isAnonymous = isAnonymous,
+                        onFilter = onFilter
+                    )
 
-                    else -> {
-                        if (isSearching && results.itemCount == 0) {
+                    when (results.loadState.refresh) {
+                        is LoadState.Loading -> ProgressComposable()
+
+                        is LoadState.Error -> {
                             ErrorComposable(
                                 modifier = Modifier.padding(paddingValues),
                                 icon = painterResource(R.drawable.ic_disclaimer),
-                                message = stringResource(R.string.no_apps_available)
+                                message = stringResource(R.string.error)
                             )
-                        } else {
-                            LazyColumn {
-                                items(
-                                    count = results.itemCount,
-                                    key = results.itemKey { it.id }
-                                ) { index ->
-                                    results[index]?.let { app ->
-                                        AppListComposable(
-                                            app = app,
-                                            onClick = { showDetailPane(app.packageName) }
-                                        )
+                        }
+
+                        else -> {
+                            if (isSearching && results.itemCount == 0) {
+                                ErrorComposable(
+                                    modifier = Modifier.padding(paddingValues),
+                                    icon = painterResource(R.drawable.ic_disclaimer),
+                                    message = stringResource(R.string.no_apps_available)
+                                )
+                            } else {
+                                LazyColumn {
+                                    items(
+                                        count = results.itemCount,
+                                        key = results.itemKey { it.id }
+                                    ) { index ->
+                                        results[index]?.let { app ->
+                                            AppListComposable(
+                                                app = app,
+                                                onClick = { showDetailPane(app.packageName) }
+                                            )
+                                        }
                                     }
                                 }
                             }
+                        }
                         }
                     }
                 }
             }
         }
-    }
 
     @Composable
     fun DetailPane() {

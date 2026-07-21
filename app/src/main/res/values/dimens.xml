@@ -37,10 +37,10 @@
     <dimen name="icon_size_default">24dp</dimen>
     <dimen name="icon_size_category">36dp</dimen>
     <dimen name="icon_size_small">48dp</dimen>
-    <dimen name="icon_size_medium">56dp</dimen>
+    <dimen name="icon_size_medium">72dp</dimen>
     <dimen name="icon_size">64dp</dimen>
     <dimen name="icon_size_large">72dp</dimen>
-    <dimen name="icon_size_cluster">80dp</dimen>
+    <dimen name="icon_size_cluster">152dp</dimen>
     <dimen name="icon_size_avatar">108dp</dimen>
 
     <!--Almost 16 : 9-->
@@ -67,8 +67,8 @@
 
     <dimen name="review_height">200dp</dimen>
 
-    <dimen name="radius_small">8dp</dimen>
-    <dimen name="radius_medium">10dp</dimen>
-    <dimen name="radius_normal">12dp</dimen>
-    <dimen name="radius_large">16dp</dimen>
+    <dimen name="radius_small">0dp</dimen>
+    <dimen name="radius_medium">0dp</dimen>
+    <dimen name="radius_normal">0dp</dimen>
+    <dimen name="radius_large">0dp</dimen>
 </resources>

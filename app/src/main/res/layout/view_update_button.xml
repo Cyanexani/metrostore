@@ -36,7 +36,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPositive"
-                style="@style/Widget.Material3.Button.TonalButton"
+                style="@style/Widget.Metro.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/action_update" />
@@ -48,7 +48,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNegative"
-                style="@style/Widget.Material3.Button.TonalButton"
+                style="@style/Widget.Metro.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/action_cancel" />

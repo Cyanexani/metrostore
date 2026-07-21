@@ -10,8 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -54,25 +53,25 @@ fun Actions(
             else -> Modifier.widthIn(min = dimensionResource(R.dimen.width_button))
         }
 
-        FilledTonalButton(
-            modifier = buttonWidthModifier,
-            onClick = onSecondaryAction,
-            enabled = isSecondaryActionEnabled
-        ) {
-            Text(
-                text = secondaryActionDisplayName,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-
-        Button(
+        OutlinedButton(
             modifier = buttonWidthModifier,
             onClick = onPrimaryAction,
             enabled = isPrimaryActionEnabled
         ) {
             Text(
-                text = primaryActionDisplayName,
+                text = primaryActionDisplayName.lowercase(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        OutlinedButton(
+            modifier = buttonWidthModifier,
+            onClick = onSecondaryAction,
+            enabled = isSecondaryActionEnabled
+        ) {
+            Text(
+                text = secondaryActionDisplayName.lowercase(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

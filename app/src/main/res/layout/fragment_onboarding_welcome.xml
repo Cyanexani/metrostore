@@ -23,7 +23,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/divider"
+    android:background="@color/metro_black"
     android:orientation="vertical"
     android:showDividers="middle">
 
@@ -31,21 +31,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:includeFontPadding="true"
-        android:paddingStart="@dimen/padding_normal"
-        android:paddingEnd="@dimen/padding_normal"
+        android:fontFamily="sans-serif-light"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="20dp"
         android:text="@string/onboarding_title_welcome"
         android:textAlignment="textStart"
-        android:textColor="?colorAccent"
-        android:textSize="32sp" />
+        android:textColor="@color/metro_white"
+        android:textSize="48sp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/AuroraTextStyle.Subtitle.Alt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/padding_normal"
-        android:paddingEnd="@dimen/padding_normal"
+        android:fontFamily="sans-serif-light"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/onboarding_welcome_select"
-        android:textAlignment="textStart" />
+        android:textAlignment="textStart"
+        android:textColor="@color/metro_gray"
+        android:textSize="23sp" />
 
     <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/epoxy_recycler"
@@ -53,7 +58,9 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:padding="@dimen/padding_medium"
+        android:paddingStart="12dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="12dp"
         android:scrollbars="none"
         tools:listitem="@layout/view_dash" />
 </LinearLayout>

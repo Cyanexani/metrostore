@@ -22,15 +22,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="96dp"
+        android:background="@color/metro_black"
         app:menu="@menu/menu_main"
-        app:title="@string/title_updates" />
+        app:title="@string/title_updates"
+        app:titleTextAppearance="@style/TextAppearance.Metro.Toolbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -49,13 +51,16 @@
             tools:listitem="@layout/view_app_list" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/search_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_large"
+        android:background="@drawable/bg_metro_search"
         android:contentDescription="@string/action_search"
-        app:srcCompat="@drawable/ic_round_search" />
+        android:padding="13dp"
+        app:srcCompat="@drawable/ic_round_search"
+        app:tint="@color/metro_white" />
 </RelativeLayout>

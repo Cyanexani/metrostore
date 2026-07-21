@@ -24,6 +24,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/metro_black"
     android:orientation="vertical"
     android:weightSum="2"
     tools:context=".view.ui.splash.SplashFragment">
@@ -31,8 +32,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="96dp"
+        android:background="@color/metro_black"
+        app:title="@string/metro_store_title"
+        app:titleTextAppearance="@style/TextAppearance.Metro.Toolbar"
         app:menu="@menu/menu_splash" />
 
     <RelativeLayout
@@ -58,8 +61,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginBottom="@dimen/margin_xsmall"
-            android:text="@string/app_name"
-            android:textAlignment="center" />
+            android:fontFamily="sans-serif-light"
+            android:text="@string/metro_store_title"
+            android:textAlignment="center"
+            android:textColor="@color/metro_white"
+            android:textSize="48sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_status"
@@ -70,7 +76,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="@dimen/margin_xlarge"
             android:maxLines="2"
+            android:fontFamily="sans-serif-light"
             android:textAlignment="center"
+            android:textColor="@color/metro_gray"
+            android:textSize="19sp"
             tools:text="@string/session_login" />
     </RelativeLayout>
 

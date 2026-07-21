@@ -7,16 +7,23 @@ package com.aurora.store.compose.ui.details
 
 import android.content.ActivityNotFoundException
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AdaptStrategy
@@ -41,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
@@ -288,18 +296,18 @@ private fun ScreenContentApp(
             is AppState.Updatable -> {
                 Actions(
                     primaryActionDisplayName = stringResource(R.string.action_update),
-                    secondaryActionDisplayName = stringResource(R.string.action_uninstall),
+                    secondaryActionDisplayName = stringResource(R.string.action_share),
                     onPrimaryAction = ::onInstall,
-                    onSecondaryAction = onUninstall
+                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
                 )
             }
 
             is AppState.Installed -> {
                 Actions(
                     primaryActionDisplayName = stringResource(R.string.action_open),
-                    secondaryActionDisplayName = stringResource(R.string.action_uninstall),
+                    secondaryActionDisplayName = stringResource(R.string.action_share),
                     onPrimaryAction = onOpen,
-                    onSecondaryAction = onUninstall
+                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
                 )
             }
 
@@ -312,9 +320,9 @@ private fun ScreenContentApp(
 
                 Actions(
                     primaryActionDisplayName = primaryActionName,
-                    secondaryActionDisplayName = stringResource(R.string.title_manual_download),
+                    secondaryActionDisplayName = stringResource(R.string.action_share),
                     onPrimaryAction = ::onInstall,
-                    onSecondaryAction = { showExtraPane(ExtraScreen.ManualDownload) }
+                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
                 )
             }
         }
@@ -325,87 +333,141 @@ private fun ScreenContentApp(
         Scaffold(
             topBar = {
                 TopAppBarComposable(
+                    title = app.displayName,
                     onNavigateUp = onNavigateUp,
                     actions = { if (shouldShowMenuOnMainPane) SetupMenu() }
                 )
+            },
+            bottomBar = {
+                Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
+                    Box(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                        SetupActions()
+                    }
+                }
             }
         ) { paddingValues ->
-            Column(
+            val pagerState = rememberPagerState(pageCount = { 4 })
+            HorizontalPager(
+                state = pagerState,
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(dimensionResource(R.dimen.padding_medium)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
-            ) {
-                Details(
-                    app = app,
-                    state = state,
-                    onNavigateToDetailsDevProfile = { showExtraPane(Screen.DevProfile(it)) }
-                )
-
-                SetupActions()
-
-                Tags(app = app)
-                Changelog(changelog = app.changes)
-                HeaderComposable(
-                    title = stringResource(R.string.details_more_about_app),
-                    subtitle = app.shortDescription,
-                    onClick = { showExtraPane(ExtraScreen.More) }
-                )
-
-                Screenshots(
-                    screenshots = app.screenshots,
-                    onNavigateToScreenshot = { showExtraPane(ExtraScreen.Screenshot(it)) }
-                )
-
-                RatingAndReviews(
-                    rating = app.rating,
-                    featuredReviews = featuredReviews,
-                    onNavigateToDetailsReview = { showExtraPane(ExtraScreen.Review) }
-                )
-
-                if (!isAnonymous && app.testingProgram?.isAvailable == true) {
-                    Testing(
-                        isSubscribed = app.testingProgram!!.isSubscribed,
-                        onTestingSubscriptionChange = onTestingSubscriptionChange
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(end = 36.dp),
+                pageSpacing = 12.dp
+            ) { page ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(R.dimen.margin_medium)
                     )
-                }
+                ) {
+                    Text(
+                        text = stringResource(
+                            when (page) {
+                                1 -> R.string.metro_reviews
+                                2 -> R.string.metro_details
+                                3 -> R.string.metro_related
+                                else -> R.string.metro_overview
+                            }
+                        ),
+                        style = MaterialTheme.typography.displayMedium,
+                        maxLines = 1
+                    )
 
-                Compatibility(needsGms = app.requiresGMS(), plexusScores = plexusScores)
+                    when (page) {
+                        0 -> {
+                            Details(
+                                app = app,
+                                state = state,
+                                onNavigateToDetailsDevProfile = {
+                                    showExtraPane(Screen.DevProfile(it))
+                                }
+                            )
+                            Tags(app = app)
+                            Changelog(changelog = app.changes)
+                            HeaderComposable(
+                                title = stringResource(R.string.details_more_about_app),
+                                subtitle = app.shortDescription,
+                                onClick = { showExtraPane(ExtraScreen.More) }
+                            )
+                            Screenshots(
+                                screenshots = app.screenshots,
+                                onNavigateToScreenshot = {
+                                    showExtraPane(ExtraScreen.Screenshot(it))
+                                }
+                            )
+                        }
 
-                HeaderComposable(
-                    title = stringResource(R.string.details_permission),
-                    subtitle = if (app.permissions.isNotEmpty()) {
-                        stringResource(R.string.permissions_requested, app.permissions.size)
-                    } else {
-                        stringResource(R.string.details_no_permission)
-                    },
-                    onClick = if (app.permissions.isNotEmpty()) {
-                        { showExtraPane(ExtraScreen.Permission) }
-                    } else {
-                        null
+                        1 -> RatingAndReviews(
+                            rating = app.rating,
+                            featuredReviews = featuredReviews,
+                            onNavigateToDetailsReview = {
+                                showExtraPane(ExtraScreen.Review)
+                            }
+                        )
+
+                        2 -> {
+                            if (!isAnonymous && app.testingProgram?.isAvailable == true) {
+                                Testing(
+                                    isSubscribed = app.testingProgram!!.isSubscribed,
+                                    onTestingSubscriptionChange = onTestingSubscriptionChange
+                                )
+                            }
+                            Compatibility(
+                                needsGms = app.requiresGMS(),
+                                plexusScores = plexusScores
+                            )
+                            HeaderComposable(
+                                title = stringResource(R.string.details_permission),
+                                subtitle = if (app.permissions.isNotEmpty()) {
+                                    stringResource(
+                                        R.string.permissions_requested,
+                                        app.permissions.size
+                                    )
+                                } else {
+                                    stringResource(R.string.details_no_permission)
+                                },
+                                onClick = if (app.permissions.isNotEmpty()) {
+                                    { showExtraPane(ExtraScreen.Permission) }
+                                } else {
+                                    null
+                                }
+                            )
+                            if (dataSafetyReport != null) {
+                                DataSafety(
+                                    report = dataSafetyReport,
+                                    privacyPolicyUrl = app.privacyPolicyUrl
+                                )
+                            }
+                            Privacy(
+                                report = exodusReport,
+                                onNavigateToDetailsExodus =
+                                if (!exodusReport?.trackers.isNullOrEmpty()) {
+                                    { showExtraPane(ExtraScreen.Exodus) }
+                                } else {
+                                    null
+                                }
+                            )
+                            DeveloperDetails(
+                                address = app.developerAddress,
+                                website = app.developerWebsite,
+                                email = app.developerEmail
+                            )
+                        }
+
+                        else -> suggestions.forEach { suggestion ->
+                            AppListComposable(
+                                app = suggestion,
+                                onClick = {
+                                    onNavigateToAppDetails(suggestion.packageName)
+                                }
+                            )
+                        }
                     }
-                )
-
-                if (dataSafetyReport != null) {
-                    DataSafety(report = dataSafetyReport, privacyPolicyUrl = app.privacyPolicyUrl)
                 }
-
-                Privacy(
-                    report = exodusReport,
-                    onNavigateToDetailsExodus = if (!exodusReport?.trackers.isNullOrEmpty()) {
-                        { showExtraPane(ExtraScreen.Exodus) }
-                    } else {
-                        null
-                    }
-                )
-
-                DeveloperDetails(
-                    address = app.developerAddress,
-                    website = app.developerWebsite,
-                    email = app.developerEmail
-                )
             }
         }
     }

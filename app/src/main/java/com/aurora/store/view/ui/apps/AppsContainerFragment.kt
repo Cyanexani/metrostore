@@ -65,7 +65,7 @@ class AppsContainerFragment : BaseFragment<FragmentAppsGamesBinding>() {
 
         // Toolbar
         binding.toolbar.apply {
-            title = getString(R.string.title_apps)
+            title = getString(R.string.metro_store_title)
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.menu_download_manager -> {
@@ -95,8 +95,8 @@ class AppsContainerFragment : BaseFragment<FragmentAppsGamesBinding>() {
             isForYouEnabled
         )
 
-        binding.pager.isUserInputEnabled =
-            false //Disable viewpager scroll to avoid scroll conflicts
+        // The reference Store uses a horizontal panorama to move between sections.
+        binding.pager.isUserInputEnabled = true
 
         val tabTitles: MutableList<String> = mutableListOf<String>().apply {
             if (isForYouEnabled) {

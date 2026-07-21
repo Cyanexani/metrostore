@@ -20,7 +20,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_action"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
+        style="@style/Widget.Metro.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -28,4 +28,3 @@
         android:layout_marginStart="@dimen/margin_small"
         android:text="@string/remove" />
 </RelativeLayout>
-

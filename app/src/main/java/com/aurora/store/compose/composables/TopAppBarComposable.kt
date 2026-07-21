@@ -8,8 +8,10 @@ package com.aurora.store.compose.composables
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -36,7 +38,14 @@ fun TopAppBarComposable(
 ) {
     TopAppBar(
         modifier = modifier,
-        title = { if (title != null) Text(text = title) },
+        title = {
+            if (title != null) {
+                Text(
+                    text = title.uppercase(),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+        },
         navigationIcon = {
             if (onNavigateUp != null) {
                 IconButton(onClick = onNavigateUp) {
@@ -47,7 +56,13 @@ fun TopAppBarComposable(
                 }
             }
         },
-        actions = actions
+        actions = actions,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            titleContentColor = MaterialTheme.colorScheme.onBackground,
+            navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+            actionIconContentColor = MaterialTheme.colorScheme.onBackground
+        )
     )
 }
 

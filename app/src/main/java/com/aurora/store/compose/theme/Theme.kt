@@ -5,46 +5,123 @@
 
 package com.aurora.store.compose.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.material3.MaterialExpressiveTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import com.aurora.store.R
-import com.aurora.store.util.Preferences
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
+private val MetroGreen = Color(0xFF00A300)
+private val MetroBlack = Color.Black
+private val MetroWhite = Color(0xFFFFFDFD)
+private val MetroGray = Color(0xFF9A9A9A)
+private val MetroCommandBar = Color(0xFF202020)
+
+private val MetroColorScheme = darkColorScheme(
+    primary = MetroGreen,
+    onPrimary = MetroWhite,
+    primaryContainer = MetroGreen,
+    onPrimaryContainer = MetroWhite,
+    secondary = MetroGreen,
+    onSecondary = MetroWhite,
+    background = MetroBlack,
+    onBackground = MetroWhite,
+    surface = MetroBlack,
+    onSurface = MetroWhite,
+    surfaceVariant = MetroCommandBar,
+    onSurfaceVariant = MetroGray,
+    surfaceContainer = MetroCommandBar,
+    outline = MetroWhite,
+    outlineVariant = Color(0xFF555555)
+)
+
+private val MetroTypography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 58.sp,
+        lineHeight = 62.sp,
+        letterSpacing = (-1).sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 48.sp,
+        lineHeight = 52.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 38.sp,
+        lineHeight = 42.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 32.sp,
+        lineHeight = 38.sp
+    ),
+    titleLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 25.sp,
+        lineHeight = 30.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        lineHeight = 23.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 20.sp,
+        lineHeight = 25.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Light,
+        fontSize = 17.sp,
+        lineHeight = 22.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 18.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        fontSize = 15.sp,
+        lineHeight = 19.sp
+    )
+)
+
+private val MetroShapes = Shapes(
+    extraSmall = RectangleShape,
+    small = RectangleShape,
+    medium = RectangleShape,
+    large = RectangleShape,
+    extraLarge = RectangleShape
+)
 
 /**
- * App theme for Aurora Store based on [MaterialTheme]
+ * App theme for Aurora Store using the Windows Phone Store visual language.
  */
 @Composable
 fun AuroraTheme(content: @Composable () -> Unit) {
-    val context = LocalContext.current
-    val themeStyle = Preferences.getInteger(context, Preferences.PREFERENCE_THEME_STYLE)
-    val isDynamicColorSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-    val lightScheme = if (isDynamicColorSupported) {
-        dynamicLightColorScheme(context)
-    } else {
-        lightColorScheme(primary = colorResource(id = R.color.colorAccent))
-    }
-
-    val darkScheme = if (isDynamicColorSupported) {
-        dynamicDarkColorScheme(context)
-    } else {
-        darkColorScheme(primary = colorResource(id = R.color.colorAccent))
-    }
-
-    val colorScheme = when (themeStyle) {
-        1 -> lightScheme
-        2 -> darkScheme
-        else -> if (isSystemInDarkTheme()) darkScheme else lightScheme
-    }
-
-    MaterialExpressiveTheme(colorScheme = colorScheme, content = content)
+    MaterialExpressiveTheme(
+        colorScheme = MetroColorScheme,
+        typography = MetroTypography,
+        shapes = MetroShapes,
+        content = content
+    )
 }
