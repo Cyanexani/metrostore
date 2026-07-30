@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build vanilla debug APK
+    name: Build architecture APKs
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -53,11 +53,43 @@ jobs:
       - name: Build APK
         run: ./gradlew --no-daemon --stacktrace assembleVanillaDebug
 
-      - name: Upload APK
+      - name: Upload ARM64 APK
         uses: actions/upload-artifact@v4
         with:
-          name: metrostore-vanilla-debug-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-debug.apk
+          name: metrostore-arm64-v8a-${{ github.sha }}
+          path: app/build/outputs/apk/vanilla/debug/app-vanilla-arm64-v8a-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload ARMv7 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrostore-armeabi-v7a-${{ github.sha }}
+          path: app/build/outputs/apk/vanilla/debug/app-vanilla-armeabi-v7a-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload x86_64 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrostore-x86_64-${{ github.sha }}
+          path: app/build/outputs/apk/vanilla/debug/app-vanilla-x86_64-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload x86 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrostore-x86-${{ github.sha }}
+          path: app/build/outputs/apk/vanilla/debug/app-vanilla-x86-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload universal APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrostore-universal-${{ github.sha }}
+          path: app/build/outputs/apk/vanilla/debug/app-vanilla-universal-debug.apk
           if-no-files-found: error
           retention-days: 14
 

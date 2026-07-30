@@ -49,6 +49,10 @@ cd metrostore
 
 The APK is written beneath `app/build/outputs/apk/vanilla/debug/`.
 
+Debug builds produce APKs for `arm64-v8a`, `armeabi-v7a`, `x86_64`, and `x86`,
+along with a universal APK. GitHub Actions publishes each output as a separately
+named build artifact.
+
 Useful verification tasks:
 
 ```bash
