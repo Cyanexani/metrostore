@@ -57,7 +57,7 @@
     <string name="pref_install_delete_summary">Besterik adierazi ezean, deskargatutako APK-ak ezabatuko dira instalazioa bukatutakoan</string>
     <string name="pref_filter_fdroid_title">F-Droid aplikazioak kanpoan utzi</string>
     <string name="pref_filter_fdroid_summary">Ez egiaztatu F-Droid-etik instalatutako aplikazioen eguneraketak</string>
-    <string name="onboarding_permission_installer_desc">Aurora Store-ri aplikazioak instalatzeko baimena eman</string>
+    <string name="onboarding_permission_installer_desc">Metro Store-ri aplikazioak instalatzeko baimena eman</string>
     <string name="onboarding_permission_installer">Instalatzailearen baimena</string>
     <string name="onboarding_permission_esm">Kanpoko memoriaren gestorea</string>
     <string name="onboarding_permission_esa_desc">Deskargak gordetzeko (APK-k eta OBB-ak), konfigurazioa esportatu eta inportatu kanpo memoriara.</string>
@@ -186,7 +186,7 @@
     <string name="account_login_using">Saioa hasi hau erabiliz</string>
     <string name="account_google">Google</string>
     <string name="account_anonymous">Ezezaguna</string>
-    <string name="about_xda_summary">Ikustazu Aurora Store-en garapen haria XDA-n eztabaidak eta iradokizunak aurkitzeko.</string>
+    <string name="about_xda_summary">Ikustazu Metro Store-en garapen haria XDA-n eztabaidak eta iradokizunak aurkitzeko.</string>
     <string name="about_xda">XDA Foroak</string>
     <string name="about_telegram_summary">Sartu Aurora Support taldean eztabaidatzeko eta iradokitzeko.</string>
     <string name="about_telegram">Telegram</string>
@@ -194,9 +194,9 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_libera_summary">Egin mezenas Liberapay-en</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_gitlab_summary">Eskuratu Aurora Store-en iturburu-kodea GitLab-en.</string>
+    <string name="about_gitlab_summary">Eskuratu Metro Store-en iturburu-kodea GitLab-en.</string>
     <string name="about_gitlab">Gitlab</string>
-    <string name="about_fdroid_summary">Eskuratu Aurora Store F-Droid-en bidez.</string>
+    <string name="about_fdroid_summary">Eskuratu Metro Store F-Droid-en bidez.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_eth_summary">Eman Ethereum (ETH)</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -269,9 +269,9 @@
     <string name="onboarding_permission_doze">Atzeko planoko deskargak</string>
     <string name="toast_proxy_invalid">Proxy-aren URL baliogabea, egiaztatu formatua!</string>
     <string name="title_search_suggestion">Bilaketarako iradokizuna</string>
-    <string name="pref_aurora_only_desc">Ez bilatu Aurora Store-tik kanpoko iturrietatik instalatutako aplikazioen eguneratzerik dagoen</string>
+    <string name="pref_aurora_only_desc">Ez bilatu Metro Store-tik kanpoko iturrietatik instalatutako aplikazioen eguneratzerik dagoen</string>
     <string name="toast_proxy_success">Proxy-a ezarri da</string>
-    <string name="onboarding_permission_doze_desc">Onartu Aurora Store-ri aplikazioak atzeko planoan deskargatzea eta eguneratzea</string>
+    <string name="onboarding_permission_doze_desc">Onartu Metro Store-ri aplikazioak atzeko planoan deskargatzea eta eguneratzea</string>
     <string name="title_app_settings">Aplikazioaren ezarpenak</string>
     <string name="notification_updates_available_desc_3"><xliff:g id="app_one_name">%1$s</xliff:g>, <xliff:g id="app_two_name">%2$s</xliff:g> eta <xliff:g id="app_three_name">%3$s</xliff:g></string>
     <string name="notification_updates_available"><xliff:g id="apps_count">%1$d</xliff:g> eguneratze eskuragarri</string>
@@ -299,14 +299,14 @@
     <string name="pref_updates_auto_off">Ez eguneratu automatikoki aplikazioak</string>
     <string name="failed_generating_session">Ezin izan da saioa sortu, errore-kodea: <xliff:g id="status_code">%1$d</xliff:g></string>
     <string name="made_with_love">Indian egina honekin: <xliff:g id="heart_emoji">%1$s</xliff:g></string>
-    <string name="force_restart_summary">Aurora Store berrabiarazi behar da aldatu berri diren ezarpenak aplikatzeko</string>
+    <string name="force_restart_summary">Metro Store berrabiarazi behar da aldatu berri diren ezarpenak aplikatzeko</string>
     <string name="notification_channel_account">Kontuarekin lotutako jakinarazpena</string>
     <string name="item_optional">Hautazkoa</string>
     <string name="app_language">Aplikazioaren hizkuntza</string>
     <string name="session_installer_desc">Gomendatua, eraikia eta Android bertsio guztiak onartzen dituena</string>
     <string name="privacy_policy_subtitle">Ikasi Aurora dendak zure datuak nola erabiltzen dituen</string>
     <string name="disclaimer_subtitle">Erantzukizuna eta azalpenak</string>
-    <string name="about_aurora_store_title">Aurora Store-i buruz</string>
+    <string name="about_aurora_store_title">Metro Store-i buruz</string>
     <string name="add_dispenser_error">baliogabeko URL helbidea</string>
     <string name="pref_dispenser_summary">Ikusi eta kudeatu saio-hasiera anonimoetarako token-banatzaileak</string>
     <string name="server_unreachable">Zerbitzaria eskuraezina</string>
@@ -318,7 +318,7 @@
     <string name="root_installer_subtitle">Shell oinarritutako instalatzailea zeinak root baimenak darabiltzan</string>
     <string name="shizuku_installer_subtitle">Sistemaren APIak zuzenean erabiltzea adb/root pribilegioekin</string>
     <string name="privacy_policy_title">Pribatutasun-politika</string>
-    <string name="about_aurora_store_subtitle">Aurora Store-i buruz gehiago jakin</string>
+    <string name="about_aurora_store_subtitle">Metro Store-i buruz gehiago jakin</string>
     <string name="add_dispenser_hint">URL helbide banagailua</string>
     <string name="remove_dispenser_title">Banagailua ezabatu</string>
     <string name="export_app_summary_fail">Ezin izan da esportatu aplikazio-sorta</string>
@@ -334,18 +334,18 @@
     <string name="pref_updates_incompatible_desc">Bistaratu instalatzen huts egin dezaketen aplikazio bateraezinen edo desgaituen eguneraketak</string>
     <string name="pref_updates_auto">Eguneraketa automatikoak</string>
     <string name="access_denied_using_vpn">Sarbidea ukatu da! VPN edo Tor erabiltzen ari al zara?</string>
-    <string name="pref_clear_device_owner_summary">Aurora Store kentzen du, gailuaren jabearen aplikazio gisa</string>
+    <string name="pref_clear_device_owner_summary">Metro Store kentzen du, gailuaren jabearen aplikazio gisa</string>
     <string name="status_cancelled">Ezeztatu egin da</string>
     <string name="action_logout_confirmation_message">Ziur zaude saioa itxi nahi duzula?</string>
     <string name="checking_updates">Eguneraketak bilatzen</string>
-    <string name="force_restart_title">Aurora Store berrabiarazi</string>
+    <string name="force_restart_title">Metro Store berrabiarazi</string>
     <string name="status_queued">Ilaran ezarri da</string>
     <string name="status_unavailable">Eskuraezina</string>
     <string name="authentication_required_title">Autentifikazioa eskatzen du</string>
     <string name="authentication_required_unarchive">Mesedez, hasi saioa zure Google Play kontuan aplikazioa artxibategitik kentzeko!</string>
     <string name="failed_to_generate_session">Ezin izan da saioa sortu</string>
     <string name="action_favourite">Gustukoena</string>
-    <string name="app_links_desc">Baimena eman Aurora Store-i onartzen diren estekak irekitzeko</string>
+    <string name="app_links_desc">Baimena eman Metro Store-i onartzen diren estekak irekitzeko</string>
     <string name="toast_fav_import_success">Gogokoenak inportatu dira!</string>
     <string name="toast_fav_import_failed">Ezin izan dira inportatu zure gogokoenak!</string>
     <string name="toast_fav_export_failed">Ezin izan dira zure gogokoenak esportatu!</string>
@@ -386,7 +386,7 @@
     <string name="pref_network_proxy_url_message">Idatzi baliozko proxy URL bat datu guztiak proxytik pasatzeko.</string>
     <string name="check_updates">Eguneraketak bilatu</string>
     <string name="title_more">Gehiago</string>
-    <string name="about_aurora_store_summary">Aurora Store-k Google Play denda ofizialetik aplikazioak bilatzeko eta deskargatzeko aukera ematen dizu. Aplikazioen deskribapenak, pantaila-argazkiak, eguneraketak, beste erabiltzaileen iruzkinak eta APK-a zuzenean deskarga ditzakezu Google Play-tik zure gailura. Aurora Store erabiltzeko, Google Play kontu bat izan behar duzu eta zure Google Play kontuan saioa hasi behar duzu Aurora Store ireki eta konfiguratzen duzunean.\n\nAplikazio-denda tradizional batek ez bezala, Aurora dendak ez du inolako aplikaziorik, lizentziarik edo banatzen. Aurora dendako aplikazio guztiak, aplikazioen deskribapenak, pantaila-argazkiak eta bestelako edukiak zuzenean atzitu, deskargatu eta/edo bistaratzen dira Google Play-tik. Aurora dendak ate edo arakatzaile baten antzera funtzionatzen du, zure Google Play kontuan saioa hasteko eta Google Play-ko aplikazioak aurkitzeko.\n\nKontuan izan Aurora dendak ez duela Google-ren, Google Play-ren, Aurora Storeren edo aplikazioen garatzaileen bidez deskargatutako aplikaziorik; Aurora dendak ere ez du haiekin loturarik, lankidetzarik edo loturarik.</string>
+    <string name="about_aurora_store_summary">Metro Store-k Google Play denda ofizialetik aplikazioak bilatzeko eta deskargatzeko aukera ematen dizu. Aplikazioen deskribapenak, pantaila-argazkiak, eguneraketak, beste erabiltzaileen iruzkinak eta APK-a zuzenean deskarga ditzakezu Google Play-tik zure gailura. Metro Store erabiltzeko, Google Play kontu bat izan behar duzu eta zure Google Play kontuan saioa hasi behar duzu Metro Store ireki eta konfiguratzen duzunean.\n\nAplikazio-denda tradizional batek ez bezala, Aurora dendak ez du inolako aplikaziorik, lizentziarik edo banatzen. Aurora dendako aplikazio guztiak, aplikazioen deskribapenak, pantaila-argazkiak eta bestelako edukiak zuzenean atzitu, deskargatu eta/edo bistaratzen dira Google Play-tik. Aurora dendak ate edo arakatzaile baten antzera funtzionatzen du, zure Google Play kontuan saioa hasteko eta Google Play-ko aplikazioak aurkitzeko.\n\nKontuan izan Aurora dendak ez duela Google-ren, Google Play-ren, Metro Storeren edo aplikazioen garatzaileen bidez deskargatutako aplikaziorik; Aurora dendak ere ez du haiekin loturarik, lankidetzarik edo loturarik.</string>
     <string name="manage_account">Zure kontua kudeatu</string>
     <string name="pref_clear_device_owner_title">Garbitu gailuaren jabea</string>
     <string name="add_dispenser_summary">Gehitu token-banatzailea Aurora dendan. Token banatzaileek kontu-kredentzialak ematen dizkiote Aurora dendari, modu anonimoan saioa hasteko.</string>

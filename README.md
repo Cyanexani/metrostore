@@ -1,118 +1,121 @@
-# Aurora Store
+# Metro Store
 
-Aurora Store enables you to search and download apps from the official Google Play store. You can check app descriptions, screenshots, updates, reviews, and download the APK directly from Google Play to your device. 
+Metro Store is the Metro OS app-store client: an Android application for browsing,
+downloading, and updating apps available through Google Play. It brings a
+privacy-focused app-store experience to Metro OS with a clean Metro-inspired UI.
 
-To use Aurora Store, log in using Google Play account, when you first open and configure Aurora Store.
+> [!IMPORTANT]
+> Metro Store is an independent project. It is not affiliated with, endorsed by,
+> or sponsored by Google, Google Play, or the developers of apps shown
+> in the client. App metadata and downloads are retrieved from Google Play; Metro
+> Store does not own or distribute that content.
 
-Unlike a traditional app store, Aurora Store does not own, license or distribute any apps. All apps, app descriptions, screenshots and other content in Aurora Store are directly accessed, downloaded and/or displayed from Google Play. 
+## Project status
 
-Aurora Store works exactly like a door or a browser, allowing you to log in to your Google Play account and find the apps from Google Play. 
-
-*_Please note that Aurora Store does not have any approval, sponsorship or authorization from Google, Google Play, any apps downloaded through Aurora Store or any app developers; neither does Aurora Store have any affiliation, cooperation or connection with them._*
-
-[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90">](https://f-droid.org/packages/com.aurora.store/)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="90">](https://apt.izzysoft.de/fdroid/index/apk/com.aurora.store)
+Metro Store is under active development. The Metro visual system is being applied
+incrementally. Use development builds for testing rather than as a production app
+store.
 
 ## Features
 
-- FOSS: Has GPLv3 licence
-- Beautiful design: Built upon latest Material 3 guidelines
-- Account login: You can login with either personal or an anonymous account
-- Device & Locale spoofing: Change your device and/or locale to access geo locked apps
-- [Exodus Privacy](https://exodus-privacy.eu.org/) integration: Instantly see trackers in app
-- [Plexus](https://plexus.techlore.tech/) integration: Instantly see app compatibility without Google Play Services or with microG
-- Updates blacklisting: Ignore updates for specific apps
-- Download manager
-- Manual downloads: allows you to download older version of apps, provided
-  - The APKs are available with Google
-  - You know the version codes for older versions 
+- Browse, search, download, install, and update Google Play apps
+- Anonymous or personal Google account sign-in
+- Device and locale spoofing for device- or region-limited listings
+- Download management and manual version-code downloads
+- Update blacklisting
+- Exodus Privacy tracker information
+- Plexus compatibility information for devices without Google Play Services or
+  devices using microG
+- Native, session, root, Shizuku, privileged-service, and device-owner installer
+  paths, depending on device configuration
+- Metro-inspired Android UI for Metro OS
 
-## Limitations
+## Requirements
 
-- The underlying API used is reversed engineered from the Google Play Store, changes on side may break it.
-- Provides only base minimum features
-  - Can not download or update paid apps.
-  - Can not update apps/games with [Play Asset Delivery](https://developer.android.com/guide/playcore/asset-delivery)
-- Multiple in-app features are not available if logged in as Anonymous.
-  - Library
-  - Purchase History
-  - Editor's choice
-  - Beta Programs
-  - Review Add/Update
-- Token dispenser server is not super reliable, downtimes are expected.  
+- Android 6.0 (API 23) or newer
+- JDK 21
+- Android SDK 36 for local builds
+- Git (the build uses the current commit hash for nightly version names)
 
-## Downloads
+## Build from source
 
-Please only download the latest stable releases from one of these sources:
+Clone the repository and build the default vanilla debug variant:
 
-- [Official website](https://auroraoss.com/)
-- [GitLab Releases](https://gitlab.com/AuroraOSS/AuroraStore/-/releases)
-- [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.aurora.store) (reproducible)
-- [F-Droid](https://f-droid.org/packages/com.aurora.store/) (signed by F-Droid, [more details](https://f-droid.org/docs/Signing_Process/))
-- [App Gallery](https://appgallery.huawei.com/app/C110907863) (limited to certain countries)
+```bash
+git clone https://github.com/Cyanexani/metrostore.git
+cd metrostore
+./gradlew :app:assembleVanillaDebug
+```
 
-You can also get latest debug builds signed with AOSP test keys for testing latest changes from our [GitLab Package Registry](https://gitlab.com/AuroraOSS/AuroraStore/-/packages/24103616).
+The APK is written beneath `app/build/outputs/apk/vanilla/debug/`.
 
-## Certificate Fingerprints
+Useful verification tasks:
 
-- SHA1: 94:42:75:D7:59:8B:C0:3E:48:85:06:06:42:25:A7:19:90:A2:22:02
-- SHA256: 4C:62:61:57:AD:02:BD:A3:40:1A:72:63:55:5F:68:A7:96:63:FC:3E:13:A4:D4:36:9A:12:57:09:41:AA:28:0F
+```bash
+./gradlew :app:testVanillaDebugUnitTest
+./gradlew :app:lintVanillaDebug
+./gradlew ktlintCheck
+```
 
-## Support
+Debug builds use the public AOSP test key included in the repository. Never treat
+that key as a production signing identity. Release signing is configured locally
+through an untracked `app/signing.properties` file.
 
-Aurora Store v4 is still in on-going development! Bugs are to be expected! Any bug reports are appreciated.
-Please visit [Aurora Wiki](https://gitlab.com/AuroraOSS/AuroraStore/-/wikis/home) for FAQs.
+## Variants
 
-- [Telegram](https://t.me/AuroraSupport)
-- [XDA Developers](https://forum.xda-developers.com/t/app-5-0-aurora-store-open-source-google-play-client.3739733/)
+The project currently defines three device flavors:
 
-## Permissions
+- `vanilla` — default build for standard Android devices
+- `huawei` — Huawei-specific integration
+- `preload` — intended for preloaded/system-app deployments
 
-- `android.permission.INTERNET` to download and install/update apps from the Google Play servers
-- `android.permission.ACCESS_NETWORK_STATE` to check internet availability
-- `android.permission.FOREGROUND_SERVICE` to download apps without interruption
-- `android.permission.FOREGROUND_SERVICE_DATA_SYNC` to download apps without interruption
-- `android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` to auto-update apps without interruption (optional)
-- `android.permission.MANAGE_EXTERNAL_STORAGE` to access the OBB directory to download APK expansion files for games or large apps
-- `android.permission.READ_EXTERNAL_STORAGE` to access the OBB directory to download APK expansion files for games or large apps
-- `android.permission.WRITE_EXTERNAL_STORAGE` to access the OBB directory to download APK expansion files for games or large apps
-- `android.permission.QUERY_ALL_PACKAGES` to check updates for all installed apps
-- `android.permission.REQUEST_INSTALL_PACKAGES` to install and update apps
-- `android.permission.REQUEST_DELETE_PACKAGES` to uninstall apps
-- `android.permission.ENFORCE_UPDATE_OWNERSHIP` to silently update apps
-- `android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION` to silently update apps
-- `android.permission.POST_NOTIFICATIONS` to notify user about ongoing downloads, available updates, and errors (optional)
-- `android.permission.USE_CREDENTIALS` to allow users to sign into their personal Google account via microG
+The normal build types are `debug`, `release`, and `nightly`. Huawei and preload
+nightly variants are disabled by the build configuration.
 
-## Screenshots
+## Known limitations
 
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-01.png" height="400">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-03.png" height="400">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-07.png" height="400">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot-08.png" height="400">
+- Google Play's private API is reverse engineered and can change without notice.
+- Paid apps cannot be purchased or downloaded.
+- Apps using Play Asset Delivery cannot currently be installed or updated.
+- Anonymous sessions do not support every account-backed Google Play feature.
+- Anonymous login depends on external token-dispenser availability.
+- The current `com.aurora.store` application ID and package namespace are retained
+  for compatibility and will be migrated separately.
 
-## Translations
+## Security and privacy
 
-Don't see your preferred language? Click on the widget below to help translate Aurora Store!
+Metro Store handles account credentials, app packages, and installation requests.
+Only install builds from a source you trust and verify the signing certificate for
+official releases when release fingerprints are published. Do not report security
+issues in a public issue; contact the repository owner privately through GitHub.
 
-<a href="https://hosted.weblate.org/engage/aurora-store/">
-  <img src="https://hosted.weblate.org/widgets/aurora-store/-/287x66-grey.png" alt="Translation status" />
-</a>
+No telemetry system is intentionally added by this fork. Network requests needed
+for store functionality are made to Google Play and to upstream services used for
+authentication and app metadata. Review the source and network behavior before
+using a development build with a personal account.
 
-## Donations
+## Contributing
 
-You can support Aurora Store's development financially via options below. For more options, checkout the **About** page within the Aurora Store.
+Contributions and reproducible bug reports are welcome. Before submitting a pull
+request:
 
-[![Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/whyorean)
-<a href="https://www.paypal.com/paypalme/AuroraDev">
-  <img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" height="45" alt="PayPal">
-</a>
+1. Keep changes focused and preserve upstream license headers.
+2. Run the relevant unit tests, lint, and `ktlintCheck`.
+3. Describe the device, Android version, build variant, and reproduction steps for
+   UI or installer issues.
+4. Do not commit signing credentials, personal account data, generated APKs, or
+   local Android SDK paths.
 
-## Project references
+## Upstream and licensing
 
-Aurora Store is based on these projects
+Metro Store retains its source history, copyright notices, third-party notices,
+and licensing obligations. The primary project license is GNU GPL 3.0 or later;
+some files are covered by compatible or separately identified licenses. See
+[LICENSES](LICENSES/), [REUSE.toml](REUSE.toml), and the SPDX headers in individual
+files for authoritative details.
 
-- [YalpStore](https://github.com/yeriomin/YalpStore)
-- [AppCrawler](https://github.com/Akdeniz/google-play-crawler)
-- [Raccoon](https://github.com/onyxbits/raccoon4)
-- [SAI](https://github.com/Aefyr/SAI)
+Major upstream references include
+[Yalp Store](https://github.com/yeriomin/YalpStore),
+[AppCrawler](https://github.com/Akdeniz/google-play-crawler),
+[Raccoon](https://github.com/onyxbits/raccoon4), and
+[SAI](https://github.com/Aefyr/SAI).

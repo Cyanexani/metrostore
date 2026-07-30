@@ -24,9 +24,9 @@ object Constants {
     const val PARCEL_DOWNLOAD = "PARCEL_DOWNLOAD"
 
     const val URL_TOS = "https://play.google.com/about/play-terms/"
-    const val URL_LICENSE = "https://gitlab.com/AuroraOSS/AuroraStore/-/tree/master/LICENSES"
-    const val URL_DISCLAIMER = "https://gitlab.com/AuroraOSS/AuroraStore/blob/master/DISCLAIMER.md"
-    const val URL_POLICY = "https://gitlab.com/AuroraOSS/AuroraStore/-/blob/master/POLICY.md"
+    const val URL_LICENSE = "https://github.com/Cyanexani/metrostore/tree/master/LICENSES"
+    const val URL_DISCLAIMER = "https://github.com/Cyanexani/metrostore/blob/master/DISCLAIMER.md"
+    const val URL_POLICY = "https://github.com/Cyanexani/metrostore/blob/master/POLICY.md"
 
     const val EXODUS_SUBMIT_PAGE = "https://reports.exodus-privacy.eu.org/analysis/submit/#"
     const val EXODUS_REPORT_URL = "https://reports.exodus-privacy.eu.org/reports/"
@@ -37,7 +37,7 @@ object Constants {
 
     const val SHARE_URL = "https://play.google.com/store/apps/details?id="
 
-    const val UPDATE_URL_STABLE = "https://gitlab.com/AuroraOSS/AuroraStore/raw/master/updates.json"
+    const val UPDATE_URL_STABLE = "https://raw.githubusercontent.com/Cyanexani/metrostore/master/updates.json"
     const val UPDATE_URL_NIGHTLY =
         "https://auroraoss.com/downloads/AuroraStore/Feeds/nightly_feed.json"
 
@@ -47,7 +47,7 @@ object Constants {
     const val NOTIFICATION_CHANNEL_UPDATES = "NOTIFICATION_CHANNEL_UPDATES"
     const val NOTIFICATION_CHANNEL_ACCOUNT = "NOTIFICATION_CHANNEL_ACCOUNT"
 
-    const val GITLAB_URL = "https://gitlab.com/AuroraOSS/AuroraStore"
+    const val GITLAB_URL = "https://github.com/Cyanexani/metrostore"
     const val URL_DISPENSER = "https://auroraoss.com/api/auth"
 
     //ACCOUNTS

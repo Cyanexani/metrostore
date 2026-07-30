@@ -136,7 +136,7 @@
     <string name="installer_service_misconfigured">Iš pradžių, nustatykite Aurora tarnybas ir suteikite visus leidimus.</string>
     <string name="pref_install_mode_services">Aurora tarnybos</string>
     <string name="tab_trending">Populiarėjančios</string>
-    <string name="about_fdroid_summary">Gauti Aurora Store per F-Droid.</string>
+    <string name="about_fdroid_summary">Gauti Metro Store per F-Droid.</string>
     <string name="about_libera_summary">Tapti rėmėju naudojant Liberapay</string>
     <string name="about_xda">XDA forumai</string>
     <string name="action_filter">Filtrai</string>
@@ -179,7 +179,7 @@
     <string name="installer_status_failure_blocked">Įdiegimas buvo užblokuotas</string>
     <string name="installer_status_failure_storage">Nepakanka atminties</string>
     <string name="onboarding_permission_esa_desc">Kad būtų įrašomi atsiuntimai (APK ir OBB), eksportuojamos ir importuojamos įrenginio konfigūracijos į išorinę saugyklą ir iš jos.</string>
-    <string name="onboarding_permission_installer_desc">Leisti diegti programėles iš Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Leisti diegti programėles iš Metro Store</string>
     <string name="pref_install_delete_summary">Atsiųsti APK paketai bus ištrinami iš karto po įdiegimo</string>
     <string name="pref_install_mode_summary">Pasirinkti APK paketų diegimo veikseną</string>
     <string name="tab_top_charts">Geriausios</string>
@@ -187,12 +187,12 @@
     <string name="tab_top_grossing">Paklausiausios</string>
     <string name="tab_top_paid">Top mokamos</string>
     <string name="title_about">Apie</string>
-    <string name="about_gitlab_summary">Gauti Aurora Store pirminį kodą iš Aurora OSS ties GitLab.</string>
+    <string name="about_gitlab_summary">Gauti Metro Store pirminį kodą iš Metro OS ties GitLab.</string>
     <string name="action_filter_all">Visi</string>
     <string name="filter_review_five">Penkios</string>
     <string name="filter_review_positive">Teigiami</string>
     <string name="account_anonymous">Anonimas</string>
-    <string name="about_xda_summary">Žiūrėti Aurora Store XDA giją, skirtą diskusijoms ir pasiūlymams.</string>
+    <string name="about_xda_summary">Žiūrėti Metro Store XDA giją, skirtą diskusijoms ir pasiūlymams.</string>
     <string name="details_beta_description">Jūs matysite naujas ypatybes ir klaidas anksčiau nei su jomis susidurs visi kiti. Siųskite plėtotojams savo atsiliepimus, kad jie galėtų tobulinti programėles.</string>
     <string name="download_canceled">Atsisakytas</string>
     <string name="download_completed">Atsiuntimas užbaigtas</string>
@@ -203,7 +203,7 @@
     <string name="filter_review_two">Dvi</string>
     <string name="installer_am_unavailable">Įsidiekite programėlių tvarkytuvę arba pasikeiskite diegimo programėlę.</string>
     <string name="installer_status_failure">Diegimo programėlė patyrė nesėkmę</string>
-    <string name="onboarding_permission_select">Aurora Store reikalauja šių leidimų</string>
+    <string name="onboarding_permission_select">Metro Store reikalauja šių leidimų</string>
     <string name="onboarding_permission_esa">Prieiga prie išorinės saugyklos</string>
     <string name="pref_install_delete_title">Po įdiegimo ištrinti APK paketus</string>
     <string name="pref_ui_no_for_you_desc">Rodyti pradžios ekrane puslapius „Jums“</string>
@@ -281,12 +281,12 @@
     <string name="toast_fav_import_failed">Nepavyko importuoti mėgstamų!</string>
     <string name="session_login_failed_google">Nepavyko prisijungti per „Google“</string>
     <string name="disclaimer_subtitle">Atskaitomybė ir atsakomybė</string>
-    <string name="about_aurora_store_title">Apie Aurora Store</string>
-    <string name="about_aurora_store_subtitle">Sužinokite daugiau apie Aurora Store</string>
+    <string name="about_aurora_store_title">Apie Metro Store</string>
+    <string name="about_aurora_store_subtitle">Sužinokite daugiau apie Metro Store</string>
     <string name="toast_fav_export_failed">Nepavyko eksportuoti mėgstamų!</string>
     <string name="toast_fav_import_success">Mėgstamos importuotos!</string>
     <string name="toast_fav_export_success">Mėgstamos eksportuotos!</string>
-    <string name="force_restart_title">Paleisti Aurora Store iš naujo</string>
+    <string name="force_restart_title">Paleisti Metro Store iš naujo</string>
     <string name="pref_updates_incompatible_desc">Rodyti nesuderinamų ar išjungtų programėlių atnaujinimus, kurių gali nepavykti įdiegti</string>
     <string name="am_installer_subtitle">Visiškai parengta atvirojo kodo paketų tvarkytuvė</string>
     <string name="faqs_subtitle">Turite klausimų? Sužinokite atsakymus</string>
@@ -303,10 +303,10 @@
     <string name="session_installer_desc">Rekomenduojama, įtaisyta ir palaiko visas „Android“ versijas</string>
     <string name="status_downloading">Atsiunčiama</string>
     <string name="checking_updates">Tikrinama, ar yra atnaujinimų</string>
-    <string name="force_restart_summary">Aurora Store turi būti paleista iš naujo, kad pritaikytų naujai pakeistus nustatymus</string>
+    <string name="force_restart_summary">Metro Store turi būti paleista iš naujo, kad pritaikytų naujai pakeistus nustatymus</string>
     <string name="authentication_required_title">Reikia nustatyti tapatybę</string>
-    <string name="onboarding_permission_doze_desc">Leisti Aurora Store atsisiųsti ir atnaujinti programėles fone</string>
-    <string name="app_links_desc">Leisti Aurora Store atverti palaikomas nuorodas</string>
+    <string name="onboarding_permission_doze_desc">Leisti Metro Store atsisiųsti ir atnaujinti programėles fone</string>
+    <string name="app_links_desc">Leisti Metro Store atverti palaikomas nuorodas</string>
     <string name="app_links_title">Nuorodos į programėles</string>
     <string name="failed_apk_export">Nepavyko eksportuoti APK paketų</string>
     <string name="native_installer_desc">Geriausiai tinka įrenginiams naudojantiems „Android 4.4“ ir senesnę versiją</string>
@@ -314,9 +314,9 @@
     <string name="download_clear_finished">Išvalyti užbaigtus</string>
     <string name="onboarding_permission_installer_legacy_desc">Leisti programėlių iš nežinomų šaltinių įdiegimą</string>
     <string name="pref_network_proxy_url_message">Įveskite tinkamą įgaliotojo serverio URL, kad perduotumėte visą duomenų srautą per įgaliotąjį serverį.</string>
-    <string name="pref_aurora_only_desc">Rodyti tik Aurora Store įdiegtas programėles Atnaujinimuose ir Įdiegtų programėlių sąraše</string>
+    <string name="pref_aurora_only_desc">Rodyti tik Metro Store įdiegtas programėles Atnaujinimuose ir Įdiegtų programėlių sąraše</string>
     <string name="pref_vending_version_device">Numatytoji (iš įrenginio konfigūracijos)</string>
-    <string name="pref_aurora_only">Tik Aurora Store programėlės</string>
+    <string name="pref_aurora_only">Tik Metro Store programėlės</string>
     <string name="insecure_anonymous_apply">Nepamirškite ir naujo prisijungti ir paleisti programėlę iš naujo, kad pritaikytumėte pakeitimus.</string>
     <string name="export_app_title">Failų eksportavimo įrankis</string>
 </resources>

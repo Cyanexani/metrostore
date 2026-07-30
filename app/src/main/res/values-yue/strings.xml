@@ -42,7 +42,7 @@
     <string name="installer_status_failure_storage">儲存空間唔夠位</string>
     <string name="menu_license">授權協議</string>
     <string name="menu_terms">服務條款</string>
-    <string name="onboarding_permission_select">Aurora Store 須要下列權限</string>
+    <string name="onboarding_permission_select">Metro Store 須要下列權限</string>
     <string name="onboarding_permission_esa">外置儲存空間存取</string>
     <string name="onboarding_permission_notifications">通知</string>
     <string name="pref_ui_layout">版面</string>
@@ -134,7 +134,7 @@
     <string name="about_bhim_summary">經 UPI 課金</string>
     <string name="about_bitcoin_eth_summary">用以太幣 (ETH) 課金</string>
     <string name="about_fdroid_summary">經 F-Droid 去裝 Aurora 商店。</string>
-    <string name="about_gitlab_summary">去 GitLab 上高嘅 Aurora OSS 度攞 Aurora 商店嘅原始碼。</string>
+    <string name="about_gitlab_summary">去 GitLab 上高嘅 Metro OS 度攞 Aurora 商店嘅原始碼。</string>
     <string name="action_filter_apps_with_ads">個 app 有廣告</string>
     <string name="action_later">遲啲先啦</string>
     <string name="action_search">搵嘢</string>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="about_gitlab_summary">Obține codul sursă Aurora Store de la Aurora OSS pe GitLab.</string>
+    <string name="about_gitlab_summary">Obține codul sursă Metro Store de la Metro OS pe GitLab.</string>
     <string name="about_libera_summary">Devino patron pe Liberapay</string>
     <string name="about_bitcoin_btc_summary">Donează prin Bitcoin (BTC)</string>
     <string name="about_bhim_summary">Donează prin UPI</string>
     <string name="about_bitcoin_bch">Numerar Bitcoin</string>
-    <string name="about_fdroid_summary">Obține Aurora Store prin intermediul F-Droid.</string>
+    <string name="about_fdroid_summary">Obține Metro Store prin intermediul F-Droid.</string>
     <string name="about_bhim">BHIM - UPI</string>
     <string name="about_bitcoin_bch_summary">Donează prin Bitcoin Cash (BCH)</string>
     <string name="about_bitcoin_eth_summary">Donează prin Ethereum (ETH)</string>
     <string name="about_paypal_summary">Donează prin PayPal</string>
     <string name="about_telegram_summary">Alătură-te grupului de suport Aurora pentru discuții sau sugestii.</string>
-    <string name="about_xda_summary">Consultă forumul XDA Aurora Store pentru discuții sau sugestii.</string>
+    <string name="about_xda_summary">Consultă forumul XDA Metro Store pentru discuții sau sugestii.</string>
     <string name="account_anonymous">Anonim</string>
     <string name="about_xda">Forumuri XDA</string>
     <string name="action_get_local_apk">Salvează pachetul de aplicații</string>
@@ -145,11 +145,11 @@
     <string name="menu_terms">Termeni și condiții</string>
     <string name="installer_status_failure_conflict">Există un pachet conflictual</string>
     <string name="menu_license">Licență</string>
-    <string name="onboarding_permission_select">Aurora Store necesită următoarele permisiuni</string>
+    <string name="onboarding_permission_select">Metro Store necesită următoarele permisiuni</string>
     <string name="onboarding_title_installer">Instalator</string>
     <string name="onboarding_title_permissions">Permisiuni</string>
     <string name="onboarding_title_welcome">Bine ai venit</string>
-    <string name="onboarding_permission_installer_desc">Permite instalarea aplicațiilor din Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Permite instalarea aplicațiilor din Metro Store</string>
     <string name="onboarding_permission_esa_desc">Pentru a salva fișierele de extindere APK (OBB) pentru aplicații și jocuri mari.</string>
     <string name="onboarding_permission_installer">Permisiune de instalare</string>
     <string name="onboarding_permission_notifications">Notificări</string>
@@ -319,7 +319,7 @@
     <string name="am_installer_subtitle">Manager de pachete open source cu funcții complete</string>
     <string name="privacy_policy_title">Politica de confidențialitate</string>
     <string name="shizuku_installer_subtitle">Utilizarea API-urilor de sistem direct cu privilegii adb/root</string>
-    <string name="privacy_policy_subtitle">Află cum Aurora Store folosește datele</string>
+    <string name="privacy_policy_subtitle">Află cum Metro Store folosește datele</string>
     <string name="shizuku_installer_desc">Necesită Shizuku sau Sui, trebuie configurat și permisiunea acordată</string>
     <string name="manual_download_hint">Introdu codul de versiune pe care dorești să-l descarci</string>
     <string name="session_installer_subtitle">Program de instalare bazat pe sesiune pentru APK-uri grupate/divizate</string>
@@ -338,13 +338,13 @@
     <string name="pref_dispenser_summary">Vizualizează și gestionează distribuitoarele de jetoane pentru conectări anonime</string>
     <string name="pref_dispenser_title">Gestionează distribuitoarele</string>
     <string name="add_dispenser_hint">URL distribuitor</string>
-    <string name="about_aurora_store_subtitle">Află mai multe despre Aurora Store</string>
+    <string name="about_aurora_store_subtitle">Află mai multe despre Metro Store</string>
     <string name="remove_dispenser_summary">Dorești să elimini distribuitorul \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
     <string name="add">Adaugă</string>
     <string name="remove">Elimină</string>
-    <string name="about_aurora_store_title">Despre Aurora Store</string>
-    <string name="about_aurora_store_summary">Aurora Store permite căutarea și să descărcarea aplicațiilor din magazinul oficial Google Play. Poți verifica descrierile aplicațiilor, capturile de ecran, actualizările, comentariile altor utilizatori și poți descărca APK-ul direct de pe Google Play pe dispozitiv. Pentru a utiliza Aurora Store, trebuie să ai un cont Google Play și să te conectezi la contul Google Play atunci când deschizi și configurezi pentru prima dată Aurora Store. \n \nSpre deosebire de un magazin de aplicații tradițional, Aurora Store nu deține, nu licențiază și nu distribuie nicio aplicație. Toate aplicațiile, descrierile aplicațiilor, capturile de ecran și alt conținut din Aurora Store sunt accesate direct, descărcate și/sau afișate de pe Google Play. Aurora Store funcționează exact ca o ușă sau un browser, permițând conectarea la contul Google Play și găsirea aplicațiilor din Google Play. \n \nReține că Magazinul Aurora nu are nicio aprobare, sponsorizare sau autorizare de la Google, Google Play, nicio aplicație descărcată prin Magazin Aurora sau orice dezvoltator de aplicații; Aurora Store nu are nicio afiliere, cooperare sau legătură cu aceștia.</string>
-    <string name="add_dispenser_summary">Adaugă un distribuitor de jetoane la Aurora Store. Distribuitoarele de jetoane furnizează acreditările contului Magazinului Aurora pentru a se conecta anonim.</string>
+    <string name="about_aurora_store_title">Despre Metro Store</string>
+    <string name="about_aurora_store_summary">Metro Store permite căutarea și să descărcarea aplicațiilor din magazinul oficial Google Play. Poți verifica descrierile aplicațiilor, capturile de ecran, actualizările, comentariile altor utilizatori și poți descărca APK-ul direct de pe Google Play pe dispozitiv. Pentru a utiliza Metro Store, trebuie să ai un cont Google Play și să te conectezi la contul Google Play atunci când deschizi și configurezi pentru prima dată Metro Store. \n \nSpre deosebire de un magazin de aplicații tradițional, Metro Store nu deține, nu licențiază și nu distribuie nicio aplicație. Toate aplicațiile, descrierile aplicațiilor, capturile de ecran și alt conținut din Metro Store sunt accesate direct, descărcate și/sau afișate de pe Google Play. Metro Store funcționează exact ca o ușă sau un browser, permițând conectarea la contul Google Play și găsirea aplicațiilor din Google Play. \n \nReține că Magazinul Aurora nu are nicio aprobare, sponsorizare sau autorizare de la Google, Google Play, nicio aplicație descărcată prin Magazin Aurora sau orice dezvoltator de aplicații; Metro Store nu are nicio afiliere, cooperare sau legătură cu aceștia.</string>
+    <string name="add_dispenser_summary">Adaugă un distribuitor de jetoane la Metro Store. Distribuitoarele de jetoane furnizează acreditările contului Magazinului Aurora pentru a se conecta anonim.</string>
     <string name="add_dispenser_error">URL nevalid</string>
     <string name="no_dispensers_available">Nu există distribuitoare disponibile</string>
     <string name="add_dispenser_title">Adaugă distribuitor</string>
@@ -370,8 +370,8 @@
     <string name="item_optional">Opțional</string>
     <string name="details_data_safety_subtitle">Practici privind confidențialitatea și securitatea datelor declarate de producător</string>
     <string name="onboarding_permission_installer_legacy_desc">Permite instalarea aplicațiilor din surse necunoscute</string>
-    <string name="force_restart_title">Repornește Aurora Store</string>
-    <string name="force_restart_summary">Aurora Store trebuie să fie repornită pentru ca noile schimbări să intre în efect</string>
+    <string name="force_restart_title">Repornește Metro Store</string>
+    <string name="force_restart_summary">Metro Store trebuie să fie repornită pentru ca noile schimbări să intre în efect</string>
     <string name="export_app_summary">Așteptați, fișier in curs de exportare</string>
     <string name="export_app_title">Exportator fișier(e)</string>
     <string name="status_queued">În așteptare</string>

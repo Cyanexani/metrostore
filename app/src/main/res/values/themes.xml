@@ -114,7 +114,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="Widget.Metro.Navigation.Indicator" parent="Widget.Material3.NavigationBar.ActiveIndicator">
+    <style name="Widget.Metro.Navigation.Indicator" parent="@android:style/Widget">
         <item name="android:color">@android:color/transparent</item>
     </style>
 </resources>

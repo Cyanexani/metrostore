@@ -58,7 +58,7 @@
     <string name="account_login_using">Bejelentkezés ezzel</string>
     <string name="account_google">Google</string>
     <string name="account_anonymous">Anonim</string>
-    <string name="about_xda_summary">Tekintse meg az Aurora Store XDA fórumrészt a megbeszélésekért vagy javaslatokért.</string>
+    <string name="about_xda_summary">Tekintse meg az Metro Store XDA fórumrészt a megbeszélésekért vagy javaslatokért.</string>
     <string name="about_xda">XDA fórum</string>
     <string name="about_telegram_summary">Csatlakozzon az Aurora Támogatás csoporthoz beszélgetéshez és javaslatokért.</string>
     <string name="about_telegram">Telegram</string>
@@ -66,9 +66,9 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_libera_summary">Legyen támogató a Liberapay-en</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_gitlab_summary">Az Aurora Store forráskódjának beszerzése GitLabról.</string>
+    <string name="about_gitlab_summary">Az Metro Store forráskódjának beszerzése GitLabról.</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_fdroid_summary">Az Aurora Store beszerzése az F-Droidból.</string>
+    <string name="about_fdroid_summary">Az Metro Store beszerzése az F-Droidból.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_eth_summary">Adományozás Ethereum (ETH) segítségével</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -82,7 +82,7 @@
     <string name="onboarding_title_welcome">Üdvözöljük</string>
     <string name="onboarding_title_permissions">Engedélyek</string>
     <string name="onboarding_title_installer">Telepítő</string>
-    <string name="onboarding_permission_select">Az Aurora Store-nak a következő engedélyek szükségesek</string>
+    <string name="onboarding_permission_select">Az Metro Store-nak a következő engedélyek szükségesek</string>
     <string name="dialog_title_self_update">Új frissítés érhető el</string>
     <string name="device_miui_extra">Esetlegesen választhatja a natív telepítőt is, viszont így nem fog tudni kötegelt (osztott) APK-kat telepíteni, a választás az öné.</string>
     <string name="device_miui_description">Tiltsa le a MIUI optimalizálást a telepítések engedélyezéséhez, vagy válassza a Root vagy Szolgáltatások telepítési módot.</string>
@@ -199,7 +199,7 @@
     <string name="pref_install_delete_summary">A letöltött APK-k a telepítés után azonnal törlődnek</string>
     <string name="pref_filter_fdroid_title">F-Droid alkalmazások kiszűrése</string>
     <string name="pref_filter_fdroid_summary">Ne keressen frissítéseket az F-Droidról letöltött vagy telepített alkalmazásokhoz</string>
-    <string name="onboarding_permission_installer_desc">Lehetővé teszi az Aurora Store-ból származó alkalmazások telepítését</string>
+    <string name="onboarding_permission_installer_desc">Lehetővé teszi az Metro Store-ból származó alkalmazások telepítését</string>
     <string name="onboarding_permission_installer">Telepítési engedély</string>
     <string name="onboarding_permission_esm">Külső tárhelykezelő</string>
     <string name="onboarding_permission_esa_desc">Az APK bővítőfájlok (OBB) mentése, nagy alkalmazásokhoz és játékokhoz.</string>
@@ -275,7 +275,7 @@
     <string name="pref_install_mode_shizuku">Shizuku telepítő</string>
     <string name="session_good">Azta! Minden rendben.</string>
     <string name="session_scrapped">Utolsó munkamenet törölve</string>
-    <string name="app_links_desc">Az Aurora Store által támogatott hivatkozások megnyitásának engedélyezése</string>
+    <string name="app_links_desc">Az Metro Store által támogatott hivatkozások megnyitásának engedélyezése</string>
     <string name="check_connectivity">Ellenőrizze az internetkapcsolatot</string>
     <string name="google_play_store_desc">Google Play, avagy Google Play Áruház, korábban Android Market.</string>
     <string name="failed_to_generate_session">Nem sikerült generálni munkamenetet</string>
@@ -286,7 +286,7 @@
     <string name="pref_updates_check_frequency_desc">Automatikus frissítések intervallumának konfigurálása órákban mérve.</string>
     <string name="pref_aurora_only">Más forrásból származó alkalmazások szűrése</string>
     <string name="toast_proxy_invalid">Érvénytelen proxy webcím, ellenőrizze a formátumot!</string>
-    <string name="pref_aurora_only_desc">Ne keressen frissítéseket az Aurora Store-on kívüli forrásból telepített alkalmazásokhoz</string>
+    <string name="pref_aurora_only_desc">Ne keressen frissítéseket az Metro Store-on kívüli forrásból telepített alkalmazásokhoz</string>
     <string name="toast_proxy_success">Proxy sikeresen beállítva</string>
     <string name="title_app_settings">Alkalmazásbeállítások</string>
     <string name="pref_updates_check_frequency">Automatikus frissítések gyakorisága</string>
@@ -299,7 +299,7 @@
     <string name="pref_updates_auto">Automatikus frissítések</string>
     <string name="pref_updates_auto_notify">Ellenőrizze, és értesítsen a rendelkezésre álló frissítésekről</string>
     <string name="pref_updates_auto_off">Ne frissítse automatikusan az alkalmazásokat</string>
-    <string name="onboarding_permission_doze_desc">Engedélyezze az Aurora Store-nak az alkalmazások háttérben való letöltését és frissítését</string>
+    <string name="onboarding_permission_doze_desc">Engedélyezze az Metro Store-nak az alkalmazások háttérben való letöltését és frissítését</string>
     <string name="pref_updates_auto_desc">Automatikus frissítések viselkedésének beállítása</string>
     <string name="pref_updates_auto_install">Ellenőrizze, és automatikusan telepítse a rendelkezésre álló frissítéseket</string>
     <string name="action_request_analysis">Új elemzés kérése</string>
@@ -312,7 +312,7 @@
     <string name="source_code_title">Forráskód</string>
     <string name="source_code_subtitle">Tudja meg, mi van belül</string>
     <string name="privacy_policy_title">Adatvédelmi irányelvek</string>
-    <string name="privacy_policy_subtitle">Ismerje meg, hogyan használja az Aurora Store az adatait</string>
+    <string name="privacy_policy_subtitle">Ismerje meg, hogyan használja az Metro Store az adatait</string>
     <string name="session_installer_subtitle">Munkamenet-alapú telepítő a kötegelt/felosztott APK-khoz</string>
     <string name="session_installer_desc">Ajánlott, beépített és támogatja az összes Android verziót</string>
     <string name="native_installer_desc">Az Android 4.4-nél régebbi verziót futtató eszközökhöz a legmegfelelőbb</string>
@@ -331,11 +331,11 @@
     <string name="session_login">Jelentkezzen be a Google Play-fiókjába</string>
     <string name="title_more">Több</string>
     <string name="manage_account">Fiók kezelése</string>
-    <string name="about_aurora_store_title">Az Aurora Store névjegye</string>
-    <string name="pref_clear_device_owner_summary">Eltávolítja az Aurora Store-t az eszköztulajdonosi rangból</string>
-    <string name="about_aurora_store_subtitle">Tudjon meg többet az Aurora Store-ról</string>
+    <string name="about_aurora_store_title">Az Metro Store névjegye</string>
+    <string name="pref_clear_device_owner_summary">Eltávolítja az Metro Store-t az eszköztulajdonosi rangból</string>
+    <string name="about_aurora_store_subtitle">Tudjon meg többet az Metro Store-ról</string>
     <string name="about_wiki_summary">Találja meg válaszait a gyakran ismételt kérdések között (GYIK), hibaelhárítási lépések és egyebek</string>
-    <string name="about_aurora_store_summary">Az Aurora Store lehetővé teszi az alkalmazások keresését és letöltését a hivatalos Google Play Áruházból. Ellenőrizheti az alkalmazások leírását, képernyőképeit, frissítéseit, más felhasználók megjegyzéseit, és letöltheti az APK-t közvetlenül a Google Play-ről eszközére. Az Aurora Store használatához Google Play-fiókkal kell rendelkeznie, és az Aurora Store első megnyitásakor és konfigurálásakor be kell jelentkeznie a Google Play-fiókjába. \n \nA hagyományos alkalmazásboltokkal ellentétben az Aurora Store nem birtokol, nem licencel és nem terjeszt semmilyen alkalmazást. Az Aurora Store-ban található összes alkalmazás, alkalmazásleírás, képernyőkép és egyéb tartalom közvetlenül a Google Play-ből érhető el, tölthető le és/vagy jeleníthető meg. Az Aurora Store pontosan úgy működik, mint egy ajtó vagy egy böngésző, amely lehetővé teszi, hogy bejelentkezzen a Google Play-fiókjába, és megtalálja az alkalmazásokat a Google Play-ből. \n \nFelhívjuk figyelmét, hogy az Aurora Store nem rendelkezik a Google, a Google Play, az Aurora Store-on keresztül letöltött alkalmazások vagy bármely alkalmazásfejlesztő jóváhagyásával, szponzorálásával vagy engedélyével; az Aurora Store nem áll velük semmilyen együttműködésben vagy kapcsolatban.</string>
+    <string name="about_aurora_store_summary">Az Metro Store lehetővé teszi az alkalmazások keresését és letöltését a hivatalos Google Play Áruházból. Ellenőrizheti az alkalmazások leírását, képernyőképeit, frissítéseit, más felhasználók megjegyzéseit, és letöltheti az APK-t közvetlenül a Google Play-ről eszközére. Az Metro Store használatához Google Play-fiókkal kell rendelkeznie, és az Metro Store első megnyitásakor és konfigurálásakor be kell jelentkeznie a Google Play-fiókjába. \n \nA hagyományos alkalmazásboltokkal ellentétben az Metro Store nem birtokol, nem licencel és nem terjeszt semmilyen alkalmazást. Az Metro Store-ban található összes alkalmazás, alkalmazásleírás, képernyőkép és egyéb tartalom közvetlenül a Google Play-ből érhető el, tölthető le és/vagy jeleníthető meg. Az Metro Store pontosan úgy működik, mint egy ajtó vagy egy böngésző, amely lehetővé teszi, hogy bejelentkezzen a Google Play-fiókjába, és megtalálja az alkalmazásokat a Google Play-ből. \n \nFelhívjuk figyelmét, hogy az Metro Store nem rendelkezik a Google, a Google Play, az Metro Store-on keresztül letöltött alkalmazások vagy bármely alkalmazásfejlesztő jóváhagyásával, szponzorálásával vagy engedélyével; az Metro Store nem áll velük semmilyen együttműködésben vagy kapcsolatban.</string>
     <string name="action_favourite">Kedvenc</string>
     <string name="details_no_favourites">Nem található kedvenc alkalmazás</string>
     <string name="pref_clear_device_owner_title">Az eszköz tulajdonjogának törlése</string>
@@ -354,7 +354,7 @@
     <string name="add_dispenser_error">Érvénytelen hivatkozás</string>
     <string name="export_app_title">Fájlexportáló</string>
     <string name="export_app_summary">Várjon, a fájl exportálása folyamatban</string>
-    <string name="force_restart_title">Az Aurora Store újraindítása</string>
+    <string name="force_restart_title">Az Metro Store újraindítása</string>
     <string name="add">Hozzáadás</string>
     <string name="add_dispenser_hint">Kiosztó hivatkozás</string>
     <string name="remove_dispenser_title">Kiosztó eltávolítása</string>
@@ -363,7 +363,7 @@
     <string name="no_dispensers_available">Nincsenek elérhető kiosztók</string>
     <string name="add_dispenser_title">Kiosztó hozzáadása</string>
     <string name="toast_fav_export_success">Kedvencek exportálva!</string>
-    <string name="add_dispenser_summary">Kiosztótoken hozzáadása az Aurora Store-hoz. A kiosztótokenek hitelesítési adatokat biztosítanak az Aurora Store-hoz a névtelen bejelentkezéshez.</string>
+    <string name="add_dispenser_summary">Kiosztótoken hozzáadása az Metro Store-hoz. A kiosztótokenek hitelesítési adatokat biztosítanak az Metro Store-hoz a névtelen bejelentkezéshez.</string>
     <string name="toast_fav_import_failed">A kedvencek importálása sikertelen!</string>
     <string name="toast_fav_export_failed">A kedvencek exportálása sikertelen!</string>
     <string name="pref_dispenser_summary">Névtelen bejelentkezésekhez szükséges kiosztott tokenek megtekintése és kezelése</string>
@@ -373,7 +373,7 @@
     <string name="export_app_summary_success">Sikeresen exportált alkalmazáscsomag</string>
     <string name="export_app_summary_fail">Nem sikerült az alkalmazáscsomag exportálása</string>
     <string name="action_logout_confirmation_title">Kijelentkezik?</string>
-    <string name="force_restart_summary">Az Aurora Store-t újra kell indítani az újonnan módosított beállítások alkalmazásához</string>
+    <string name="force_restart_summary">Az Metro Store-t újra kell indítani az újonnan módosított beállítások alkalmazásához</string>
     <string name="notification_channel_export">Alkalmazás exportálás értesítés</string>
     <string name="notification_channel_install">Telepítési értesítés</string>
     <string name="notification_channel_downloads">Letöltési értesítés</string>

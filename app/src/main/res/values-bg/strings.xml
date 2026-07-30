@@ -13,7 +13,7 @@
     <string name="about_fdroid">F-Droid</string>
     <string name="about_fdroid_summary">Вземете Aurora Магазин чрез F-Droid.</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_gitlab_summary">Вземете програмния код на Aurora Магазин от Aurora OSS в GitLab.</string>
+    <string name="about_gitlab_summary">Вземете програмния код на Aurora Магазин от Metro OS в GitLab.</string>
     <string name="about_libera">Liberapay</string>
     <string name="about_libera_summary">Станете покровител на Liberapay</string>
     <string name="about_paypal">PayPal</string>
@@ -21,7 +21,7 @@
     <string name="about_telegram">Telegram</string>
     <string name="about_telegram_summary">Присъединете се към групата за подкрепа на Aurora за дискусии или предложения.</string>
     <string name="about_xda">XDA Форум</string>
-    <string name="about_xda_summary">Вижте темата на Aurora Store XDA за дискусии или предложения.</string>
+    <string name="about_xda_summary">Вижте темата на Metro Store XDA за дискусии или предложения.</string>
     <string name="account_anonymous">Анонимен</string>
     <string name="action_export">Експортиране</string>
     <string name="action_filter_apply">Прилагане</string>
@@ -102,7 +102,7 @@
     <string name="details_no_permission">Няма разрешения</string>
     <string name="installer_status_failure">Инсталаторът е неуспешен</string>
     <string name="installer_status_failure_storage">Недостатъчно място в паметта</string>
-    <string name="onboarding_permission_installer_desc">Разрешете инсталирането на приложения от Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Разрешете инсталирането на приложения от Metro Store</string>
     <string name="pref_common_extra">Екстри</string>
     <string name="details_privacy">Поверителност</string>
     <string name="download_cancel_all">Отмени всички</string>
@@ -177,7 +177,7 @@
     <string name="installer_status_success">Успешно инсталиранe</string>
     <string name="menu_terms">Условия за ползване</string>
     <string name="device_miui_subtitle">Програмата за инсталиране на сесии не може да инсталира приложения поради MIUI оптимизации.</string>
-    <string name="onboarding_permission_select">Aurora Store изисква следните разрешения</string>
+    <string name="onboarding_permission_select">Metro Store изисква следните разрешения</string>
     <string name="onboarding_title_installer">Инсталатор</string>
     <string name="onboarding_title_permissions">Разрешения</string>
     <string name="onboarding_title_welcome">Добре дошли</string>

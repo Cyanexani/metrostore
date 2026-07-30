@@ -5,7 +5,7 @@
     <string name="about_xda">Forum på XDA</string>
     <string name="about_telegram_summary">Gå med i Aurora\'s hjälp-grupp för diskussioner eller förslag.</string>
     <string name="about_libera_summary">Bli en gynnare i Liberapay</string>
-    <string name="about_gitlab_summary">Hämta Aurora-butiken\'s källkod från Aurora OSS i GitLab.</string>
+    <string name="about_gitlab_summary">Hämta Aurora-butiken\'s källkod från Metro OS i GitLab.</string>
     <string name="toast_rated_success">Betygsattes, det kan ta ett tag innan det visas</string>
     <string name="toast_page_unavailable">Bläddringssidan otillgänglig</string>
     <string name="toast_manual_available">Grattis, den efterfrågade versionskoden är tillgänglig, hämtar nu.</string>
@@ -339,8 +339,8 @@
     <string name="native_installer_subtitle">Avsiktsbaserat installationsprogram, tillgängligt på alla enheter</string>
     <string name="source_code_title">Källkod</string>
     <string name="privacy_policy_title">Sekretesspolicy</string>
-    <string name="about_aurora_store_subtitle">Lär dig mer om Aurora Store</string>
-    <string name="pref_clear_device_owner_summary">Tar bort Aurora Store som enhetens ägare i appen</string>
+    <string name="about_aurora_store_subtitle">Lär dig mer om Metro Store</string>
+    <string name="pref_clear_device_owner_summary">Tar bort Metro Store som enhetens ägare i appen</string>
     <string name="toast_fav_import_success">Favoriterna importerades!</string>
     <string name="toast_fav_export_success">Favoriterna exporterades!</string>
     <string name="toast_fav_export_failed">Exporteringen av favoriterna misslyckades!</string>
@@ -353,11 +353,11 @@
     <string name="notification_channel_install">Avisering vid installation</string>
     <string name="disclaimer_subtitle">Ansvarsskyldighet och förpliktelser</string>
     <string name="check_updates">Sök efter uppdateringar</string>
-    <string name="force_restart_title">Starta om Aurora Store</string>
+    <string name="force_restart_title">Starta om Metro Store</string>
     <string name="toast_fav_import_failed">Importeringen av favoriterna misslyckades!</string>
     <string name="export_app_summary">Vänta lite, exporterar din fil</string>
     <string name="faqs_subtitle">Har du frågor? Ta reda på svaren</string>
-    <string name="privacy_policy_subtitle">Lär dig hur Aurora Store använder din data</string>
+    <string name="privacy_policy_subtitle">Lär dig hur Metro Store använder din data</string>
     <string name="toast_app_unavailable">Appen är inte tillgänglig för din enhet</string>
     <string name="toast_permission_installer_required">Du behöver godkänna behörighet för installationsprogrammet först</string>
     <string name="item_required">Krävs</string>

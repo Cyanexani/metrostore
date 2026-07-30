@@ -69,7 +69,7 @@
     <string name="about_libera_summary">Conviértite en mecenes en Liberapay</string>
     <string name="action_filter_apply">Aplicar</string>
     <string name="title_updates">Anovamientos</string>
-    <string name="about_gitlab_summary">Consigui\'l códigu fonte d\'Aurora Store dende\'l depósitu d\'Aurora OSS en GitLab.</string>
+    <string name="about_gitlab_summary">Consigui\'l códigu fonte d\'Metro Store dende\'l depósitu d\'Metro OS en GitLab.</string>
     <string name="action_clear">Borrar</string>
     <string name="pref_install_mode_native">Instalador nativu (obsoletu)</string>
     <string name="account_anonymous">Cuenta anónima</string>
@@ -82,7 +82,7 @@
     <string name="toast_apk_blacklisted">Amestóse a la llista prieta</string>
     <string name="action_join">Xunise</string>
     <string name="download_none">Nun hai nenguna descarga</string>
-    <string name="about_fdroid_summary">Consigui Aurora Store per F-Droid.</string>
+    <string name="about_fdroid_summary">Consigui Metro Store per F-Droid.</string>
     <string name="about_telegram_summary">Xúnite al grupu de sofitu d\'Aurora p\'aldericar o suxerir.</string>
     <string name="action_filter_apps_with_ads">Aplicaciones con anuncios</string>
     <string name="action_filter_downloads">Descargues</string>
@@ -114,7 +114,7 @@
     <string name="action_install">Instalar</string>
     <string name="toast_anonymous_restriction">Nun ta disponible nes cuentes anónimes</string>
     <string name="action_share">Compartir</string>
-    <string name="onboarding_permission_select">Aurora Store rique los permisos siguientes</string>
+    <string name="onboarding_permission_select">Metro Store rique los permisos siguientes</string>
     <string name="download_cancel_all">Encaboxar too</string>
     <string name="details_no_app_match">Nun s\'atopó nenguna aplicación que concasare</string>
     <string name="details_beta_description">You will see new features and bugs before the public does. Give your feedback to developers to help them improve.</string>
@@ -124,7 +124,7 @@
     <string name="about_libera">Liberapay</string>
     <string name="action_filter_paid_apps">De pagu</string>
     <string name="action_grant">Conceder</string>
-    <string name="about_xda_summary">Visita\'l filu d\'Aurora Store en XDA p\'aldericar o consiguir suxerencies.</string>
+    <string name="about_xda_summary">Visita\'l filu d\'Metro Store en XDA p\'aldericar o consiguir suxerencies.</string>
     <string name="account_login_using">Aniciar la sesión con</string>
     <string name="action_ignore">Inorar</string>
     <string name="action_installations">Instalación</string>
@@ -152,7 +152,7 @@
     <string name="onboarding_welcome_select">¿Alcuéntreste\?</string>
     <string name="onboarding_permission_esm">Xestor del almacenamientu esternu</string>
     <string name="onboarding_permission_installer">Permisu del instalador</string>
-    <string name="onboarding_permission_installer_desc">Permite la instalación d\'aplicaciones dende Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Permite la instalación d\'aplicaciones dende Metro Store</string>
     <string name="onboarding_permission_notifications">Avisos</string>
     <string name="onboarding_permission_notifications_desc">Unvia avisos rellacionaos col estáu de los procesos d\'instalación</string>
     <string name="pref_common_extra">Configuración adicional</string>
@@ -287,11 +287,11 @@
     <string name="notification_updates_available_desc_2"><xliff:g id="app_one_name">%1$s</xliff:g> y <xliff:g id="app_two_name">%2$s</xliff:g></string>
     <string name="pref_updates_auto_notify">Check &amp; notify for available updates</string>
     <string name="google_play_store_desc">Google Play, tamién conocíu como la tienda Google Play (antiguamente Android Market).</string>
-    <string name="privacy_policy_subtitle">Conoz cómo Aurora Store usa los tos datos</string>
+    <string name="privacy_policy_subtitle">Conoz cómo Metro Store usa los tos datos</string>
     <string name="made_with_love">Fechu con <xliff:g id="heart_emoji">%1$s</xliff:g> n\'India</string>
-    <string name="about_aurora_store_summary">Aurora Store permítete buscar y baxar aplicaciones de la tienda oficial de Google Play. Pues consultar les descripciones de les aplicaciones, los anovamientos, les caputres de pantalla, los comentarios d\'otros usuarios y baxar los APKs direutamente de la tienda al preséu. Pa usar Aurora Store precises tener una cuenta de Google Play y aniciar la sesión nella cuando abras l\'aplicación per primer vegada y la configures.\n\nA diferencia de les tiendes d\'aplicaciones tradicionales, Aurora Store nun contién, llicencia nin distribúi aplicaciones. Tol conteníu que l\'aplicación amuesa provién direutamente de Google Play, quitante les opciones de configuración. Aurora Store funciona como una puerta o un restolador, permítete aniciar la sesión na to cuenta de Google Play y atopar aplicaciones nesta tienda.\n\nDecátate que Aurora Store nun coopera nin ta aprobada, patrocinada, afiliada, nin tien autorización o conexón con Google, Google Play, cualesquier aplicación baxada pente Aurora Store o cualesquier desendolcador.</string>
+    <string name="about_aurora_store_summary">Metro Store permítete buscar y baxar aplicaciones de la tienda oficial de Google Play. Pues consultar les descripciones de les aplicaciones, los anovamientos, les caputres de pantalla, los comentarios d\'otros usuarios y baxar los APKs direutamente de la tienda al preséu. Pa usar Metro Store precises tener una cuenta de Google Play y aniciar la sesión nella cuando abras l\'aplicación per primer vegada y la configures.\n\nA diferencia de les tiendes d\'aplicaciones tradicionales, Metro Store nun contién, llicencia nin distribúi aplicaciones. Tol conteníu que l\'aplicación amuesa provién direutamente de Google Play, quitante les opciones de configuración. Metro Store funciona como una puerta o un restolador, permítete aniciar la sesión na to cuenta de Google Play y atopar aplicaciones nesta tienda.\n\nDecátate que Metro Store nun coopera nin ta aprobada, patrocinada, afiliada, nin tien autorización o conexón con Google, Google Play, cualesquier aplicación baxada pente Metro Store o cualesquier desendolcador.</string>
     <string name="action_logout_confirmation_message">¿De xuru que quies zarrar la sesión?</string>
-    <string name="force_restart_title">Restart Aurora Store</string>
+    <string name="force_restart_title">Restart Metro Store</string>
     <string name="export_app_summary_fail">Failed to exported app bundle</string>
     <string name="authentication_required_unarchive">¡Anicia la sesión na to cuenta de Google Play o desarchiva l\'aplicación!</string>
     <string name="status_downloading">En descarga</string>
@@ -310,7 +310,7 @@
     <string name="action_favourite">Meter en Favoritos</string>
     <string name="toast_proxy_invalid">¡La URL del proxy ye inválida, revisa\'l formatu!</string>
     <string name="shizuku_installer_subtitle">Esti instalador usa direutamente les APIs del sistema colos privilexos d\'ADB/superusuariu</string>
-    <string name="about_aurora_store_title">Tocante a Aurora Store</string>
+    <string name="about_aurora_store_title">Tocante a Metro Store</string>
     <string name="services_installer_subtitle">Installer for background installations</string>
     <string name="services_installer_desc">Requires Aurora Services to be installed as a privileged-system app</string>
     <string name="am_installer_subtitle">Un xestor de paquetes completu de códigu abiertu</string>
@@ -318,13 +318,13 @@
     <string name="title_more">Más</string>
     <string name="manage_account">Xestionar la cuenta</string>
     <string name="pref_clear_device_owner_title">Clear device owner</string>
-    <string name="pref_aurora_only_desc">Amuesa namás les aplicaciones instalaes por Aurora Store y los sos anovamientos</string>
+    <string name="pref_aurora_only_desc">Amuesa namás les aplicaciones instalaes por Metro Store y los sos anovamientos</string>
     <string name="bad_request">¡Error internu! Volvi tentalo nun ratu</string>
     <string name="verifying_new_session">Verificando la sesión nueva</string>
     <string name="check_connectivity">Check internet connectivity</string>
     <string name="app_links_title">Enllaces d\'aplicaciones</string>
     <string name="action_request_analysis">Solicitar un análisis nuevu</string>
-    <string name="pref_aurora_only">Namás les aplicaciones d\'Aurora Store</string>
+    <string name="pref_aurora_only">Namás les aplicaciones d\'Metro Store</string>
     <string name="session_installer_subtitle">Session based installer for bundled/split APKs</string>
     <string name="native_installer_desc">Best suited for devices running below Android 4.4</string>
     <string name="details_data_safety_title">Seguranza de los datos</string>
@@ -345,7 +345,7 @@
     <string name="access_denied_using_vpn">¡Negóse l\'accesu! ¿Tas usando una VPN o Tor?</string>
     <string name="session_installer_desc">Aconseyáu, integráu y compatible con toles versiones d\'Android</string>
     <string name="root_installer_subtitle">L\'instalador basáu na shell qu\'usa los permisos de superusuariu</string>
-    <string name="add_dispenser_summary">Amiesta un fornidor de pases a Aurora Store. Los fornidores de pases apurren credenciales de cuenta a Aurora Store p\'aniciar la sesión anónimamente.</string>
+    <string name="add_dispenser_summary">Amiesta un fornidor de pases a Metro Store. Los fornidores de pases apurren credenciales de cuenta a Metro Store p\'aniciar la sesión anónimamente.</string>
     <string name="add_dispenser_error">La URL ye inválida</string>
     <string name="add_dispenser_hint">URL del fornidor de pases</string>
     <string name="remove_dispenser_title">Desaniciu del fornidor</string>
@@ -355,7 +355,7 @@
     <string name="pref_updates_check_frequency">Frecuencia d\'anovamientos automáticos</string>
     <string name="pref_updates_check_frequency_desc">Configure intervals for auto and self updates, in hour.</string>
     <string name="action_uninstall_success">Desinstalóse correutamente</string>
-    <string name="onboarding_permission_doze_desc">Permite qu\'Aurora Store baxe y anueve aplicaciones en segundu planu</string>
+    <string name="onboarding_permission_doze_desc">Permite qu\'Metro Store baxe y anueve aplicaciones en segundu planu</string>
     <string name="pref_clear_device_owner_desc">This will revoke session installer\'s permission to silently install app. Proceed with clearing device ownership?</string>
     <string name="pref_dispenser_title">Xestionar los fornidores de pases</string>
     <string name="toast_fav_import_failed">Failed to import favourites!</string>
@@ -365,7 +365,7 @@
     <string name="pref_updates_auto_off">Nun anovar automáticamente les aplicaciones</string>
     <string name="pref_updates_auto">Anovamientu automáticu d\'aplicaciones</string>
     <string name="toast_fav_export_failed">Failed to export favourites!</string>
-    <string name="pref_clear_device_owner_summary">Removes Aurora Store as the device owner app</string>
+    <string name="pref_clear_device_owner_summary">Removes Metro Store as the device owner app</string>
     <string name="toast_fav_import_success">¡Importáronse les aplicaciones favorites!</string>
     <string name="toast_fav_export_success">¡Esportáronse les aplicaciones favorites!</string>
     <string name="notification_channel_export">App export notification</string>
@@ -381,5 +381,5 @@
     <string name="native_installer_subtitle">Intent based installer, available on all devices</string>
     <string name="shizuku_installer_desc">Requires Shizuku or Sui, needs to be setup and permission granted</string>
     <string name="source_code_title">Códigu fonte</string>
-    <string name="about_aurora_store_subtitle">Conoz más tocante a Aurora Store</string>
+    <string name="about_aurora_store_subtitle">Conoz más tocante a Metro Store</string>
 </resources>

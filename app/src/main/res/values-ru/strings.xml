@@ -50,12 +50,12 @@
     <string name="account_google">Google</string>
     <string name="account_anonymous">Анонимный</string>
     <string name="about_telegram_summary">Присоединяйтесь к группе поддержки Aurora для обсуждения или предложений.</string>
-    <string name="about_xda_summary">Присоединяйтесь к обсуждению Aurora Store в теме.</string>
+    <string name="about_xda_summary">Присоединяйтесь к обсуждению Metro Store в теме.</string>
     <string name="about_xda">Форумы XDA</string>
     <string name="about_paypal_summary">Пожертвовать через PayPal</string>
     <string name="about_libera_summary">Стать спонсором на Liberapay</string>
-    <string name="about_gitlab_summary">Исходный код Aurora Store в Aurora OSS на GitLab.</string>
-    <string name="about_fdroid_summary">Скачать Aurora Store из репозитория F-Droid.</string>
+    <string name="about_gitlab_summary">Исходный код Metro Store в Metro OS на GitLab.</string>
+    <string name="about_fdroid_summary">Скачать Metro Store из репозитория F-Droid.</string>
     <string name="about_bitcoin_eth_summary">Пожертвовать через Ethereum (ETH)</string>
     <string name="about_bitcoin_btc_summary">Пожертвовать через Bitcoin (BTC)</string>
     <string name="about_bitcoin_bch_summary">Пожертвовать через Bitcoin Cash (BCH)</string>
@@ -177,7 +177,7 @@
     <string name="pref_install_delete_summary">Загруженные APK-файлы будут удаляться сразу после установки</string>
     <string name="pref_filter_fdroid_title">Фильтр приложений F-Droid</string>
     <string name="pref_filter_fdroid_summary">Не проверять обновления для приложений установленных из F-Droid</string>
-    <string name="onboarding_permission_installer_desc">Разрешить установку приложений из Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Разрешить установку приложений из Metro Store</string>
     <string name="onboarding_permission_installer">Разрешения установщика</string>
     <string name="onboarding_permission_esm">Менеджер внешнего хранилища</string>
     <string name="onboarding_permission_esa_desc">Для сохранения файлов с расширением APK (OBB) для больших приложений и игр.</string>
@@ -186,7 +186,7 @@
     <string name="onboarding_title_welcome">Добро пожаловать</string>
     <string name="onboarding_title_permissions">Разрешения</string>
     <string name="onboarding_title_installer">Установщик</string>
-    <string name="onboarding_permission_select">Aurora Store требует следующих разрешений</string>
+    <string name="onboarding_permission_select">Metro Store требует следующих разрешений</string>
     <string name="dialog_title_self_update">Доступно обновление</string>
     <string name="device_miui_extra">При желании вы можете выбрать системный установщик, но тогда вы не сможете устанавливать split APK, поэтому выбор за вами.</string>
     <string name="device_miui_description">Отключите оптимизацию MIUI, чтобы разрешить установку. В ином случае вы можете выбрать root-установщик или сервисы Aurora.</string>
@@ -279,7 +279,7 @@
     <string name="app_language">Язык приложения</string>
     <string name="failed_to_generate_session">Не удалось создать сессию</string>
     <string name="verifying_new_session">Проверка новой сессии</string>
-    <string name="app_links_desc">Разрешить Aurora Store открывать поддерживаемые ссылки</string>
+    <string name="app_links_desc">Разрешить Metro Store открывать поддерживаемые ссылки</string>
     <string name="app_links_title">Ссылки на приложения</string>
     <string name="google_play_store_desc">Google Play, также известный как Google Play Store, а ранее - Android Market.</string>
     <string name="android_market_desc">Android Market - магазин приложений для устройств под управлением ОС Android, закрытый в 2017 году.</string>
@@ -287,7 +287,7 @@
     <string name="pref_network_proxy_url">URL прокси</string>
     <string name="pref_updates_check_frequency_desc">Настроить интервал автоматических обновлений, в часах.</string>
     <string name="toast_proxy_invalid">Неверный URL прокси, проверьте формат!</string>
-    <string name="pref_aurora_only_desc">Не проверять обновления для приложений, установленных из других источников вне Aurora Store</string>
+    <string name="pref_aurora_only_desc">Не проверять обновления для приложений, установленных из других источников вне Metro Store</string>
     <string name="toast_proxy_success">Прокси успешно настроен</string>
     <string name="title_app_settings">Настройки приложения</string>
     <string name="pref_updates_check_frequency">Частота автоматических обновлений</string>
@@ -296,7 +296,7 @@
     <string name="pref_vending_version_device">По умолчанию (с конфигурации устройства)</string>
     <string name="pref_vending_version_title">Google Play версия</string>
     <string name="onboarding_permission_doze">Фоновые загрузки</string>
-    <string name="onboarding_permission_doze_desc">Разрешить Aurora Store загружать и обновлять приложения в фоне</string>
+    <string name="onboarding_permission_doze_desc">Разрешить Metro Store загружать и обновлять приложения в фоне</string>
     <string name="pref_updates_auto">Автоматические обновления</string>
     <string name="pref_updates_auto_notify">Проверять доступные обновления и уведомлять о них</string>
     <string name="pref_updates_auto_off">Не обновлять приложения автоматически</string>
@@ -323,21 +323,21 @@
     <string name="shizuku_installer_desc">Требуется Shizuku или Sui, нужно настроить и выдать разрешения</string>
     <string name="manual_download_hint">Введите код версии, которую необходимо загрузить</string>
     <string name="source_code_subtitle">Узнайте, что внутри</string>
-    <string name="privacy_policy_subtitle">Узнайте, как Aurora Store использует ваши данные</string>
+    <string name="privacy_policy_subtitle">Узнайте, как Metro Store использует ваши данные</string>
     <string name="native_installer_subtitle">Классический установщик, доступный на всех устройствах</string>
     <string name="am_installer_desc">Требуется App Manager, необходим adb/root режим, чтобы произвести установку при включенной MIUI оптимизации</string>
     <string name="shizuku_installer_subtitle">Использует API системы напрямую с adb/root привилегиями</string>
     <string name="title_more">Еще</string>
     <string name="manage_account">Управление профилем</string>
     <string name="pref_clear_device_owner_title">Удалить запись о владельце устройства</string>
-    <string name="pref_clear_device_owner_summary">Удаляет Aurora Store как приложение владельца устройства</string>
+    <string name="pref_clear_device_owner_summary">Удаляет Metro Store как приложение владельца устройства</string>
     <string name="pref_clear_device_owner_desc">Это удалит разрешение у session installer на автоматическую установку приложений. Продолжить?</string>
     <string name="about_wiki_title">Wiki</string>
     <string name="pref_dispenser_summary">Просмотр и управление распределителями токенов для анонимной авторизации</string>
     <string name="add">Добавить</string>
     <string name="session_login">Пожалуйста, войдите в свой профиль Google Play</string>
-    <string name="about_aurora_store_title">О Aurora Store</string>
-    <string name="about_aurora_store_subtitle">Узнайте больше о Aurora Store</string>
+    <string name="about_aurora_store_title">О Metro Store</string>
+    <string name="about_aurora_store_subtitle">Узнайте больше о Metro Store</string>
     <string name="remove">Удалить</string>
     <string name="pref_dispenser_title">Управление распределителями</string>
     <string name="no_dispensers_available">Нет доступных распределителей</string>
@@ -347,8 +347,8 @@
     <string name="remove_dispenser_title">Удалить распределитель</string>
     <string name="remove_dispenser_summary">Вы хотите удалить распределитель \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
     <string name="about_wiki_summary">Найдите ответы на часто задаваемые вопросы (ЧаВо), шаги по устранению неполадок и многое другое</string>
-    <string name="about_aurora_store_summary">Aurora Store позволяет искать и загружать приложения из официального магазина Google Play. Вы можете ознакомиться с описанием приложений, скриншотами, обновлениями, комментариями других пользователей и загрузить APK непосредственно из Google Play на свое устройство. Чтобы использовать Aurora Store, необходимо иметь профиль Google Play и войти в него при первом открытии и настройке Aurora Store. \n \nВ отличие от традиционного магазина приложений, Aurora Store не владеет, не лицензирует и не распространяет приложения. Все приложения, описания приложений, скриншоты и прочий контент в Aurora Store напрямую доступны, загружаются и/или отображаются из Google Play. Aurora Store работает точно так же, как дверь или браузер, позволяя вам войти в свой профиль Google Play и найти приложения из Google Play. \n \nОбратите внимание, что Aurora Store не имеет никакого соглашения, спонсорства или разрешения от Google, Google Play, любых приложений, загружаемых через Aurora Store, или разработчиков приложений; Aurora Store также не имеет с ними никакого родства, сотрудничества или связи.</string>
-    <string name="add_dispenser_summary">Добавьте распределитель токенов в Aurora Store. Распределители токенов обеспечивают Aurora Store профилями для анонимной авторизации.</string>
+    <string name="about_aurora_store_summary">Metro Store позволяет искать и загружать приложения из официального магазина Google Play. Вы можете ознакомиться с описанием приложений, скриншотами, обновлениями, комментариями других пользователей и загрузить APK непосредственно из Google Play на свое устройство. Чтобы использовать Metro Store, необходимо иметь профиль Google Play и войти в него при первом открытии и настройке Metro Store. \n \nВ отличие от традиционного магазина приложений, Metro Store не владеет, не лицензирует и не распространяет приложения. Все приложения, описания приложений, скриншоты и прочий контент в Metro Store напрямую доступны, загружаются и/или отображаются из Google Play. Metro Store работает точно так же, как дверь или браузер, позволяя вам войти в свой профиль Google Play и найти приложения из Google Play. \n \nОбратите внимание, что Metro Store не имеет никакого соглашения, спонсорства или разрешения от Google, Google Play, любых приложений, загружаемых через Metro Store, или разработчиков приложений; Metro Store также не имеет с ними никакого родства, сотрудничества или связи.</string>
+    <string name="add_dispenser_summary">Добавьте распределитель токенов в Metro Store. Распределители токенов обеспечивают Metro Store профилями для анонимной авторизации.</string>
     <string name="pref_network_proxy_url_message">Введите действительный URL прокси для передачи всех данных через него.</string>
     <string name="action_favourite">Избранное</string>
     <string name="details_no_favourites">Избранные приложения не найдены</string>
@@ -366,14 +366,14 @@
     <string name="check_updates">Проверить обновления</string>
     <string name="export_app_title">Экспортер файлов</string>
     <string name="export_app_summary">Подождите, экспортируем ваш файл</string>
-    <string name="force_restart_title">Перезапустить Aurora Store</string>
+    <string name="force_restart_title">Перезапустить Metro Store</string>
     <string name="onboarding_permission_installer_legacy_desc">Разрешать установку приложений из неизвестных источников</string>
     <string name="toast_permission_installer_required">Сначала вам необходимо предоставить разрешение установщику</string>
     <string name="item_required">Обязательно</string>
     <string name="item_optional">Не обязательно</string>
     <string name="details_data_safety_title">Безопасность данных</string>
     <string name="details_data_safety_subtitle">Практика конфиденциальности и безопасности данных, заявленная разработчиком</string>
-    <string name="force_restart_summary">Необходимо перезапустить Aurora Store для применения новых настроек</string>
+    <string name="force_restart_summary">Необходимо перезапустить Metro Store для применения новых настроек</string>
     <string name="made_with_love">Сделано с <xliff:g id="heart_emoji">%1$s</xliff:g> в Индии</string>
     <string name="notification_channel_account">Уведомление, связанное с профилем</string>
     <string name="status_downloading">Скачивание</string>

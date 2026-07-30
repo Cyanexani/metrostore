@@ -4,7 +4,7 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_libera">Liberapay</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_fdroid_summary">Iegūt Aurora Store no F-Droid.</string>
+    <string name="about_fdroid_summary">Iegūt Metro Store no F-Droid.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_btc_summary">Ziedot ar Bitcoin (BTC)</string>
     <string name="about_bitcoin_btc">Bitcoin</string>
@@ -44,7 +44,7 @@
     <string name="about_telegram_summary">Pievienoties Aurora atbalsta kopai apspriedēm un ieteikumiem.</string>
     <string name="about_paypal_summary">Ziedot ar PayPal</string>
     <string name="about_libera_summary">Kļūt par labvēli Liberapay</string>
-    <string name="about_gitlab_summary">Iegūt Aurora Store pirmkodu no Aurora OSS GitLab.</string>
+    <string name="about_gitlab_summary">Iegūt Metro Store pirmkodu no Metro OS GitLab.</string>
     <string name="details_dev_website">Tīmekļa vietne</string>
     <string name="about_bitcoin_eth_summary">Ziedot ar Ethereum (ETH)</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -157,7 +157,7 @@
     <string name="download_resume_all">Turpināt visas</string>
     <string name="menu_disclaimer">Brīdinājums</string>
     <string name="pref_common_extra">Papildu</string>
-    <string name="onboarding_permission_select">Aurora Store ir nepieciešamas šādas atļaujas</string>
+    <string name="onboarding_permission_select">Metro Store ir nepieciešamas šādas atļaujas</string>
     <string name="pref_ui_layout">Izkārtojums</string>
     <string name="pref_ui_title">Pielāgošana</string>
     <string name="purchase_no_file">Nevarēja iegūt datnes</string>
@@ -200,7 +200,7 @@
     <string name="toast_manual_unavailable">Pieprasītā versija nav pieejama.</string>
     <string name="toast_manual_available">Apsveicam! Pieprasītā versija ir pieejama, tā tagad tiek lejupielādēta.</string>
     <string name="installer_shizuku_unavailable">Shizuku nav uzstādīta vai pareizi iestatīta.</string>
-    <string name="about_xda_summary">Skatīt XDA forums Aurora Store tēmas diskusijas un ieteikumus.</string>
+    <string name="about_xda_summary">Skatīt XDA forums Metro Store tēmas diskusijas un ieteikumus.</string>
     <string name="about_bhim">BHIM - UPI</string>
     <string name="about_xda">XDA forums</string>
     <string name="device_miui_description">Lūgums atspējot MIUI uzlabojumus, lai ļautu uzstādīšanu, pretējā gadījumā var izvēlēties superlietotāja vai pakalpojumu uzstādītāju.</string>
@@ -213,7 +213,7 @@
     <string name="action_whitelist">Baltais saraksts</string>
     <string name="installer_service_unavailable">Jāuzstāda Aurora pakalpojumi 1.0.9 vai jaunāki vai jānomaina uzstādītājs.</string>
     <string name="onboarding_permission_installer">Uzstādītāja atļauja</string>
-    <string name="onboarding_permission_installer_desc">Atļaut lietotņu uzstādīšanu no Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Atļaut lietotņu uzstādīšanu no Metro Store</string>
     <string name="onboarding_permission_notifications_desc">Sūtīt paziņojumus par uzstādīšanas stāvokli</string>
     <string name="pref_install_delete_title">Izdzēst APK pēc uzstādīšanas</string>
     <string name="pref_install_mode_am">AM uzstādītājs</string>
@@ -278,7 +278,7 @@
     <string name="check_connectivity">Pārbaudīt interneta savienojumu</string>
     <string name="app_language">Lietotnes valoda</string>
     <string name="failed_to_generate_session">Neizdevās izveidot sesiju</string>
-    <string name="app_links_desc">Atļaut Aurora Store atvērt atbalstītās saites</string>
+    <string name="app_links_desc">Atļaut Metro Store atvērt atbalstītās saites</string>
     <string name="app_links_title">Lietotņu saites</string>
     <string name="google_play_store_desc">Google Play, zināms arī kā Google Play veikals un iepriekš arī kā Android Market.</string>
     <string name="verifying_new_session">Pārbauda jauno sesiju</string>
@@ -288,14 +288,14 @@
     <string name="pref_updates_check_frequency_desc">Norādīt starplaiku stundās starp automātiskajiem atjauninājumiem.</string>
     <string name="pref_aurora_only">Atsijāt lietotnes no citiem avotiem</string>
     <string name="toast_proxy_invalid">Nederīgs starpniekservera URL, pārbaudiet URL struktūras formātu!</string>
-    <string name="pref_aurora_only_desc">Nepārbaudīt atjauninājumus lietotnēm, kuras ir uzstādītas no avotiem ārpus Aurora Store</string>
+    <string name="pref_aurora_only_desc">Nepārbaudīt atjauninājumus lietotnēm, kuras ir uzstādītas no avotiem ārpus Metro Store</string>
     <string name="toast_proxy_success">Starpniekserveris sekmīgi iestatīts</string>
     <string name="title_app_settings">Lietotnes iestatījumi</string>
     <string name="pref_updates_check_frequency">Automātisko atjauninājumu biežums</string>
     <string name="toast_proxy_failed">Neizdevās iestatīt starpniekserveri</string>
     <string name="action_request_analysis">Pieprasīt jaunu izvērtējumu</string>
     <string name="onboarding_permission_doze">Fona lejupielādes</string>
-    <string name="onboarding_permission_doze_desc">Ļaut Aurora Store lejupielādēt un atjaunināt lietotnes fonā</string>
+    <string name="onboarding_permission_doze_desc">Ļaut Metro Store lejupielādēt un atjaunināt lietotnes fonā</string>
     <string name="pref_vending_version_title">Google Play versija</string>
     <string name="pref_updates_auto">Automātiski atjauninājumi</string>
     <string name="pref_updates_auto_off">Neatjaunināt lietotnes automātiski</string>
@@ -331,7 +331,7 @@
     <string name="manage_account">Pārvaldīt savu kontu</string>
     <string name="about_wiki_title">Viki vietne</string>
     <string name="about_wiki_summary">Atrast atbildes uz biežāk uzdotajiem jautājumiem (BUJ), sarežģījumu novēršanas soļiem un vēl</string>
-    <string name="pref_clear_device_owner_summary">Noņem Aurora Store kā ierīces īpašnieka lietotni</string>
+    <string name="pref_clear_device_owner_summary">Noņem Metro Store kā ierīces īpašnieka lietotni</string>
     <string name="pref_dispenser_title">Pārvaldīt izkliedētājus</string>
     <string name="pref_clear_device_owner_title">Notīrīt ierīces īpašnieku</string>
     <string name="remove_dispenser_summary">Vai tiešām noņemt izkliedētāju \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
@@ -339,14 +339,14 @@
     <string name="pref_dispenser_summary">Skatīt un pārvaldīt anonīmās pieteikšanās pilnvaru izkliedētājus</string>
     <string name="no_dispensers_available">Nav pieejamu izkliedētāju</string>
     <string name="add_dispenser_title">Pievienot izkliedētāju</string>
-    <string name="add_dispenser_summary">Pievienot pilnvaru izkliedētāju Aurora Store. Pilnvaru izkliedētāji nodrošina Aurora Store ar konta pieteikšanās informāciju, lai pieteiktos anonīmi.</string>
+    <string name="add_dispenser_summary">Pievienot pilnvaru izkliedētāju Metro Store. Pilnvaru izkliedētāji nodrošina Metro Store ar konta pieteikšanās informāciju, lai pieteiktos anonīmi.</string>
     <string name="add_dispenser_error">Nederīgs URL</string>
     <string name="add_dispenser_hint">Izkliedētāja URL</string>
     <string name="remove_dispenser_title">Noņemt izkliedētāju</string>
-    <string name="about_aurora_store_subtitle">Uzzināt vairāk par Aurora Store</string>
+    <string name="about_aurora_store_subtitle">Uzzināt vairāk par Metro Store</string>
     <string name="remove">Noņemt</string>
-    <string name="about_aurora_store_summary">Aurora Store ļauj meklēt un lejupielādēt lietotnes no Google Play veikala. Ir pieejams lietotņu apraksts, ekrānuzņēmumi, atjauninājumi, citu lietotāju piebildes, kā arī var lejupielādēt ierīcē APK tieši no Google Play. Lai izmantotu Aurora Store, ir nepieciešams Google Play konts, un tajā ir jāpiesakās, kad Aurora Store tiek pirmo reizi atvērta un konfigurēta. \n \nAtšķirībā no ierasta lietotņu veikala, Aurora Store nepieder, nelicencē un neizplata lietotnes. Visas lietotnes un to aprakstam, ekrānuzņēmumiem un citam Aurora Store pieejamajam saturam tiek tieši piekļūts, lejupielādēts un/vai attēlots no Google Play. Aurora Store darbojas kā durvis vai pārlūks, ļaujot pieteikties savā Google Play kontā un atrast Google Play lietotnes. \n \nLūgums ņemt vērā, ka Aurora Store nav nekādas piekrišanas, pabalstītājdarbības vai autorizācijas no Google, Google Play, jebkuras ar Aurora Store starpniecību lejupielādētas lietotnes vai lietotņu izstrādātājiem; tāpat Aurora Store nav nekādas piederības, sadarbības vai sasaistes ar tiem.</string>
-    <string name="about_aurora_store_title">Par Aurora Store</string>
+    <string name="about_aurora_store_summary">Metro Store ļauj meklēt un lejupielādēt lietotnes no Google Play veikala. Ir pieejams lietotņu apraksts, ekrānuzņēmumi, atjauninājumi, citu lietotāju piebildes, kā arī var lejupielādēt ierīcē APK tieši no Google Play. Lai izmantotu Metro Store, ir nepieciešams Google Play konts, un tajā ir jāpiesakās, kad Metro Store tiek pirmo reizi atvērta un konfigurēta. \n \nAtšķirībā no ierasta lietotņu veikala, Metro Store nepieder, nelicencē un neizplata lietotnes. Visas lietotnes un to aprakstam, ekrānuzņēmumiem un citam Metro Store pieejamajam saturam tiek tieši piekļūts, lejupielādēts un/vai attēlots no Google Play. Metro Store darbojas kā durvis vai pārlūks, ļaujot pieteikties savā Google Play kontā un atrast Google Play lietotnes. \n \nLūgums ņemt vērā, ka Metro Store nav nekādas piekrišanas, pabalstītājdarbības vai autorizācijas no Google, Google Play, jebkuras ar Metro Store starpniecību lejupielādētas lietotnes vai lietotņu izstrādātājiem; tāpat Metro Store nav nekādas piederības, sadarbības vai sasaistes ar tiem.</string>
+    <string name="about_aurora_store_title">Par Metro Store</string>
     <string name="pref_clear_device_owner_desc">Tas atsauks sesijas uzstādītāja atļauju nemanāmi uzstādīt lietotnes. Turpināt ar ierīces īpašumtiesību notīrīšanu?</string>
     <string name="add">Pievienot</string>
     <string name="toast_fav_export_failed">Neizdevās izgūt izlasi.</string>
@@ -355,7 +355,7 @@
     <string name="export_app_summary">Pacietību, izgūst datni</string>
     <string name="export_app_summary_fail">Neizdevās izgūt lietotnes kopumu</string>
     <string name="check_updates">Pārbaudīt atjauninājumus</string>
-    <string name="force_restart_title">Pārsāknēt Aurora Store</string>
+    <string name="force_restart_title">Pārsāknēt Metro Store</string>
     <string name="details_no_favourites">Nav izlasē pievienotu lietotņu</string>
     <string name="details_data_safety_title">Datu drošība</string>
     <string name="onboarding_permission_installer_legacy_desc">Atļaut lietotņu uzstādīšanu no nezināmiem avotiem</string>
@@ -370,7 +370,7 @@
     <string name="action_uninstall_success">Sekmīgi noņemta</string>
     <string name="title_favourites_manager">Lietotņu izlase</string>
     <string name="toast_fav_import_success">Izlase ievietota.</string>
-    <string name="force_restart_summary">Aurora Store ir jāpārsāknē, lai pielietotu tikko mainītos iestatījumus</string>
+    <string name="force_restart_summary">Metro Store ir jāpārsāknē, lai pielietotu tikko mainītos iestatījumus</string>
     <string name="action_favourite">Izlasē</string>
     <string name="details_data_safety_subtitle">Izstrādātāja noteikta datu privātuma un drošības prakse</string>
     <string name="pref_network_proxy_url_message">Jāievada derīgs starpniekservera URL, lai sūtītu visus datus caur to.</string>

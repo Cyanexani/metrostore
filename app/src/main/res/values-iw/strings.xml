@@ -7,7 +7,7 @@
     <string name="about_paypal">פייפאל</string>
     <string name="about_libera">‏Liberapay</string>
     <string name="about_gitlab">‏GitLab</string>
-    <string name="about_fdroid_summary">הורדת Aurora Store דרך F-Droid.</string>
+    <string name="about_fdroid_summary">הורדת Metro Store דרך F-Droid.</string>
     <string name="about_fdroid">‏F-Droid</string>
     <string name="about_bitcoin_btc_summary">תרומה דרך ביטקוין (BTC)</string>
     <string name="about_bitcoin_btc">ביטקוין</string>
@@ -61,7 +61,7 @@
     <string name="action_blacklist">רשימה שחורה</string>
     <string name="about_telegram_summary">הצטרף לקבוצת Aurora Support לדיונים או הצעות.</string>
     <string name="about_libera_summary">תמיכה ב-Liberapay</string>
-    <string name="about_gitlab_summary">השג את קוד המקור של Aurora Store מ-Aurora OSS ב-GitLab.</string>
+    <string name="about_gitlab_summary">השג את קוד המקור של Metro Store מ-Metro OS ב-GitLab.</string>
     <string name="about_bitcoin_eth_summary">תרומה דרך אתריום (ETH)</string>
     <string name="about_bitcoin_eth">אתריום</string>
     <string name="about_bitcoin_bch_summary">תרומה דרך ביטקוין קאש (BCH)</string>
@@ -285,7 +285,7 @@
     <string name="download_progress">מוריד • <xliff:g id="completed_downloads">%1$d</xliff:g> / <xliff:g id="all_downloads">%2$d</xliff:g> • <xliff:g id="speed">%3$s</xliff:g></string>
     <string name="onboarding_permission_notifications_desc">שלח התראות לגבי מצב ההתקנה</string>
     <string name="android_market_desc">החנות של אנדרואיד הייתה חנות אונליין שמציעה אפליקציות שעוצבו למכשירי אנדרואיד, עד 2017.</string>
-    <string name="about_xda_summary">הצג את העמוד של Aurora Store בפורום XDA לשוחח ולהציע הצעות.</string>
+    <string name="about_xda_summary">הצג את העמוד של Metro Store בפורום XDA לשוחח ולהציע הצעות.</string>
     <string name="about_bhim">BHIM - UPI</string>
     <string name="permissions_denied">ההרשאות הנדרשות נדחו. אנא אשר אותן בשביל המשך הפעולה</string>
     <string name="access_denied_using_vpn">גישה נדחתה! אתה משתמש ב-VPN או Tor?</string>
@@ -351,8 +351,8 @@
     <string name="manage_account">נהל את החשבון שלך</string>
     <string name="add_dispenser_error">כתובת אתר לא חוקית</string>
     <string name="export_app_summary">רגע, ייצא את הקובץ שלך</string>
-    <string name="force_restart_title">הפעל מחדש את Aurora Store</string>
-    <string name="force_restart_summary">יש להפעיל מחדש את Aurora Store כדי להחיל את ההגדרות החדשות שהשתנו</string>
+    <string name="force_restart_title">הפעל מחדש את Metro Store</string>
+    <string name="force_restart_summary">יש להפעיל מחדש את Metro Store כדי להחיל את ההגדרות החדשות שהשתנו</string>
     <string name="export_app_title">מייצא הקבצים</string>
     <string name="action_favourite">מועדף</string>
     <string name="toast_fav_export_success">המועדפים יוצאו!</string>

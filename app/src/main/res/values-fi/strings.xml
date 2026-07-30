@@ -27,8 +27,8 @@
     <string name="about_paypal_summary">Lahjoita PayPalilla</string>
     <string name="about_bitcoin_bch_summary">Lahjoita Bitcoin Cashia (BCH)</string>
     <string name="about_bitcoin_bch">Bitcoin-valuutta</string>
-    <string name="about_gitlab_summary">Hanki lähdekoodi Aurora OSS:ta tai GitLabista.</string>
-    <string name="about_fdroid_summary">Lataa Aurora Store F-Droidista.</string>
+    <string name="about_gitlab_summary">Hanki lähdekoodi Metro OS:ta tai GitLabista.</string>
+    <string name="about_fdroid_summary">Lataa Metro Store F-Droidista.</string>
     <string name="about_bitcoin_eth_summary">Lahjoita Ethereumia</string>
     <string name="about_bitcoin_btc_summary">Lahjoita Bitcoinia</string>
     <string name="about_bhim_summary">Lahjoita UPI:n kautta</string>
@@ -201,7 +201,7 @@
     <string name="pref_install_delete_title">Poista APK:t asennuksen jälkeen</string>
     <string name="pref_install_delete_summary">APK:t poistetaan oletuksena</string>
     <string name="pref_common_extra">Extrat</string>
-    <string name="onboarding_permission_installer_desc">Hyväksy sovellusten asentaminen Aurora Storen kautta</string>
+    <string name="onboarding_permission_installer_desc">Hyväksy sovellusten asentaminen Metro Storen kautta</string>
     <string name="onboarding_permission_installer">Asentajan käyttöoikeus</string>
     <string name="onboarding_permission_esm">Ulkoisen tallennustilan hallinta</string>
     <string name="onboarding_permission_esa_desc">Isojen sovellusten ja pelien APK-laajennuspakettien (OBB) tallentamiseen.</string>
@@ -209,7 +209,7 @@
     <string name="onboarding_welcome_select">Miten menee\?</string>
     <string name="onboarding_title_permissions">Käyttöoikeudet</string>
     <string name="onboarding_title_installer">Asentaja</string>
-    <string name="onboarding_permission_select">Aurora Store vaatii seuraavat käyttöoikeudet</string>
+    <string name="onboarding_permission_select">Metro Store vaatii seuraavat käyttöoikeudet</string>
     <string name="dialog_desc_native_split">Et voi asentaa niputettuja (split) sovelluksia natiiviasentajalla. Vaihda asentajaksi Services-, Root tai sessioasentaja.</string>
     <string name="device_miui_extra">Vaihtoehtoisesti voit valita natiiviasentajan, mutta sillä et voi asentaa niputettuja (split) APK-tiedostoja, joten valinta on sinun.</string>
     <string name="device_miui_description">Ota MIUI-optimoinnit pois käytöstä hyväksyäksesi asennukset tai valitse Root- tai Services-asentaja.</string>
@@ -222,7 +222,7 @@
     <string name="installer_service_available">Aurora Services on käytettävissä ja valmis asentamaan.</string>
     <string name="installer_root_unavailable">Ei root-käyttöoikeutta. Anna käyttöoikeus tai muuta asennustapaa.</string>
     <string name="action_filter_gsf_dependent_apps">GSF-riippuvuus</string>
-    <string name="about_xda_summary">Keskusteluja ja ehdotuksia löytyy Aurora Storen XDA-ketjusta.</string>
+    <string name="about_xda_summary">Keskusteluja ja ehdotuksia löytyy Metro Storen XDA-ketjusta.</string>
     <string name="about_xda">XDA-foorumit</string>
     <string name="about_libera_summary">Liity tukijaksi Liberapayssa</string>
     <string name="app_updater_service_notif_text">Mahdollistaa sovellusten lataamisen taustalla</string>
@@ -280,12 +280,12 @@
     <string name="failed_to_generate_session">Ei voi luoda istuntoa</string>
     <string name="app_links_title">Sovelluslinkit</string>
     <string name="verifying_new_session">Vahvistetaan uutta istuntoa</string>
-    <string name="app_links_desc">Salli Aurora Storen avata tuetut linkit</string>
+    <string name="app_links_desc">Salli Metro Storen avata tuetut linkit</string>
     <string name="google_play_store_desc">Google Play, joka tunnetaan myös nimellä Google Play Store ja entinen Android Market.</string>
     <string name="android_market_desc">Android Market oli vuonna 2017 toimintansa päättänyt verkkokauppa, joka tarjosi sovelluksia Android-laitteille.</string>
     <string name="details_ratings_title_hint">Arvostele sovellus</string>
     <string name="pref_aurora_only">Suodata sovellukset muista lähteistä</string>
-    <string name="onboarding_permission_doze_desc">Salli Aurora Storen ladata ja päivittää sovelluksia taustalla</string>
+    <string name="onboarding_permission_doze_desc">Salli Metro Storen ladata ja päivittää sovelluksia taustalla</string>
     <string name="pref_network_proxy_url">Välityspalvelimen URL-osoite</string>
     <string name="pref_vending_version_title">Google Play -versio</string>
     <string name="onboarding_permission_doze">Taustalla olevat lataukset</string>
@@ -313,7 +313,7 @@
     <string name="action_uninstall_success">Sovellus poistettu onnistuneesti</string>
     <string name="notification_channel_export">Sovelluksen vienti-ilmoitus</string>
     <string name="action_logout_confirmation_message">Oletko varma, että haluat kirjautua ulos?</string>
-    <string name="force_restart_summary">Aurora Store on käynnistettävä uudelleen juuri muutettujen asetusten käytöön ottamiseksi</string>
+    <string name="force_restart_summary">Metro Store on käynnistettävä uudelleen juuri muutettujen asetusten käytöön ottamiseksi</string>
     <string name="session_login">Kirjaudu Google Play -tilillesi</string>
     <string name="onboarding_permission_installer_legacy_desc">Salli sovellusten lataus tuntemattomista lähteistä</string>
     <string name="about_wiki_summary">Löydä vastauksia usein kysyttyihin kysymyksiin (U.K.K.), vianetsinnän vaiheisiin ja muihin asioihin</string>
@@ -350,7 +350,7 @@
     <string name="am_installer_desc">Vaatii App Manager -sovelluksen, tarvitsee adb/root -tilan asennukseen kun MIUI optimisaatio on päällä</string>
     <string name="shizuku_installer_subtitle">Järjestelmän API:a suoraan adb/root -oikeuksilla käyttäen</string>
     <string name="manual_download_hint">Syötä versiokoodi jonka haluat ladata</string>
-    <string name="pref_clear_device_owner_summary">Poistaa Aurora Storen laitteen omistajasovelluksena</string>
+    <string name="pref_clear_device_owner_summary">Poistaa Metro Storen laitteen omistajasovelluksena</string>
     <string name="no_dispensers_available">Ei jakelijoita saatavilla</string>
     <string name="add_dispenser_error">Epäkelpo URL</string>
     <string name="add_dispenser_hint">Jakelijan URL</string>
@@ -360,7 +360,7 @@
     <string name="export_app_summary">Hetki pieni, tiedostoasi viedään</string>
     <string name="export_app_summary_success">Sovellusnippu viety onnistuneesti</string>
     <string name="action_logout_confirmation_title">Kirjaudutaanko ulos?</string>
-    <string name="force_restart_title">Käynnistä Aurora Store uudelleen</string>
+    <string name="force_restart_title">Käynnistä Metro Store uudelleen</string>
     <string name="made_with_love">Luotu <xliff:g id="heart_emoji">%1$s</xliff:g> käyttäen Intiassa</string>
     <string name="status_verifying">Varmistetaan</string>
     <string name="toast_proxy_invalid">Epäkelpo välityspalvelimen URL-osoite, tarkista muotoilu!</string>
@@ -380,13 +380,13 @@
     <string name="authentication_required_unarchive">Kirjaudu sisään Google Play -tiliisi sovelluksen arkistoinnin poistamiseksi!</string>
     <string name="installed_apps_size"><xliff:g id="installed_apps_size">%1$d</xliff:g> sovellusta asennettu</string>
     <string name="pref_updates_incompatible">Näytä päivitykset jotka saattavat epäonnistua</string>
-    <string name="pref_aurora_only_desc">Älä tarkista päivityksiä Aurora Store:n ulkopuolelta asennetuille sovelluksille</string>
+    <string name="pref_aurora_only_desc">Älä tarkista päivityksiä Metro Store:n ulkopuolelta asennetuille sovelluksille</string>
     <string name="pref_clear_device_owner_title">Tyhjennä laitteen omistaja</string>
     <string name="session_installer_subtitle">Istuntopohjainen asentaja niputetuille/jaetuille APK-paketeille</string>
     <string name="disclaimer_subtitle">Vastuu ja velvollisuus</string>
-    <string name="privacy_policy_subtitle">Selvitä miten Aurora Store käyttää dataasi</string>
-    <string name="about_aurora_store_title">Tietoja Aurora Storesta</string>
-    <string name="about_aurora_store_subtitle">Opi lisää Aurora Storesta</string>
+    <string name="privacy_policy_subtitle">Selvitä miten Metro Store käyttää dataasi</string>
+    <string name="about_aurora_store_title">Tietoja Metro Storesta</string>
+    <string name="about_aurora_store_subtitle">Opi lisää Metro Storesta</string>
     <string name="manage_account">Hallitse tiliäsi</string>
     <string name="pref_dispenser_summary">Näytä ja hallitse istuntojakelijoita anonyymeille kirjautumisille</string>
     <string name="toast_fav_export_failed">Suosikkien vienti epäonnistui!</string>
@@ -403,7 +403,7 @@
     <string name="toast_fav_export_success">Suosikit viety!</string>
     <string name="pref_clear_device_owner_desc">Tämä poistaa istuntoasentajan oikeuden asentaa sovelluksia äänettömästi. Jatketaanko laitteen omistajuuden tyhjentämistä?</string>
     <string name="add_dispenser_title">Lisää jakelija</string>
-    <string name="add_dispenser_summary">Lisää istuntojakelija Aurora Storeen. Istuntojakelijat tarjoavat tilejä Aurora Storelle anonyymiin sisäänkirjautumiseen.</string>
+    <string name="add_dispenser_summary">Lisää istuntojakelija Metro Storeen. Istuntojakelijat tarjoavat tilejä Metro Storelle anonyymiin sisäänkirjautumiseen.</string>
     <string name="remove_dispenser_summary">Haluatko poistaa jakelijan \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
     <string name="details_compatibility_status_compatible">Yhteensopiva: Toimii ilman ongelmia</string>
     <string name="plexus_progress">Tarkistetaan yhteensopivuutta…</string>
@@ -413,7 +413,7 @@
     <string name="pref_network_proxy_url_message">Syötä välityspalvelimen URL-osoite välittääksesi kaiken datan sen kautta.</string>
     <string name="title_more">Lisää</string>
     <string name="remove_dispenser_title">Poista jakelija</string>
-    <string name="about_aurora_store_summary">Aurora Store mahdollistaa sovellusten etsimisen ja lataamisen virallisesta Google Play -kaupasta. Voit tutkia sovellusten kuvaksia, kuvankaappauksia, päivityksiä, muiden käyttäjien kommentteja ja ladata sovelluksia suoraan Google Play:stä laitteellesi. Käyttääksesi Aurora Store:a sinulla on oltava Google Play -tili sekä kirjauduttava sisään Google Play -tilillesi kun avaat ja asetat Aurora Store:n.\n\nToisin kuin perinteiset sovelluskaupat, Aurora Store ei omista, lisensoi tai jakele sovelluksia. Kaikki sovellukset, sovellusten kuvaukset, kuvankaappaukset ja muu sisältö Aurora Storessa ovat suoraan haettu, ladattu ja/tai näytetty Google Play -kaupasta. Aurora Store toimii kuten ovi tai selain, mahdollistaen sisäänkirjautumisen Google Play -tilillesi ja sovellusten hakemiseen Google Play -kaupasta.\n\nHuomaa, että Aurora Store ei ole Googlen tai Google Play:n hyväksymä, sponsoroima tai valtuuttama, eikä myöskään minkään Aurora Storen kautta ladatun sovelluksen tai sovelluksien kehittäjien hyväksymä; Aurora Store:lla ei myöskään ole mitään kytköstä, yhteistyötä tai yhteyttä niihin.</string>
+    <string name="about_aurora_store_summary">Metro Store mahdollistaa sovellusten etsimisen ja lataamisen virallisesta Google Play -kaupasta. Voit tutkia sovellusten kuvaksia, kuvankaappauksia, päivityksiä, muiden käyttäjien kommentteja ja ladata sovelluksia suoraan Google Play:stä laitteellesi. Käyttääksesi Metro Store:a sinulla on oltava Google Play -tili sekä kirjauduttava sisään Google Play -tilillesi kun avaat ja asetat Metro Store:n.\n\nToisin kuin perinteiset sovelluskaupat, Metro Store ei omista, lisensoi tai jakele sovelluksia. Kaikki sovellukset, sovellusten kuvaukset, kuvankaappaukset ja muu sisältö Metro Storessa ovat suoraan haettu, ladattu ja/tai näytetty Google Play -kaupasta. Metro Store toimii kuten ovi tai selain, mahdollistaen sisäänkirjautumisen Google Play -tilillesi ja sovellusten hakemiseen Google Play -kaupasta.\n\nHuomaa, että Metro Store ei ole Googlen tai Google Play:n hyväksymä, sponsoroima tai valtuuttama, eikä myöskään minkään Metro Storen kautta ladatun sovelluksen tai sovelluksien kehittäjien hyväksymä; Metro Store:lla ei myöskään ole mitään kytköstä, yhteistyötä tai yhteyttä niihin.</string>
     <string name="no_apps_available">Sovelluksia ei saatavilla</string>
     <string name="pref_network_microg_login_title">Käytä microG:tä tileihin sisäänkirjautumiseen</string>
     <string name="pref_network_microg_login_desc">Todenna käyttäen microG:tä Googlen palveluihin sisäänkirjauduttaessa prosessin yksinkertaistamiseksi</string>

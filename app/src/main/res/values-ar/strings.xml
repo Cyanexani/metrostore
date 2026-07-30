@@ -181,7 +181,7 @@
     <string name="account_logout">تسجيل الخروج من Aurora</string>
     <string name="account_login_using">تسجيل الدخول باستخدام</string>
     <string name="account_anonymous">حساب مجهول</string>
-    <string name="about_xda_summary">اطلع على موضوع Aurora Store على XDA للمناقشات أو الاقتراحات.</string>
+    <string name="about_xda_summary">اطلع على موضوع Metro Store على XDA للمناقشات أو الاقتراحات.</string>
     <string name="about_xda">منتديات XDA</string>
     <string name="about_telegram_summary">انضم إلى مجموعة دعم Aurora للمناقشات أو الاقتراحات.</string>
     <string name="about_telegram">تيليجرام</string>
@@ -189,7 +189,7 @@
     <string name="about_paypal">باي بال</string>
     <string name="about_libera_summary">كن داعما على Liberapay</string>
     <string name="about_libera">ليبراباي</string>
-    <string name="about_gitlab_summary">احصل على الشفرة المصدرية لمتجر Aurora من Aurora OSS على GitLab.</string>
+    <string name="about_gitlab_summary">احصل على الشفرة المصدرية لمتجر Aurora من Metro OS على GitLab.</string>
     <string name="about_gitlab">جيت لاب</string>
     <string name="about_fdroid_summary">احصل على متجر Aurora عبر F-Droid.</string>
     <string name="about_fdroid">اف-درويد</string>
@@ -296,7 +296,7 @@
     <string name="pref_vending_version_device">الافتراضي (من تكوين الجهاز)</string>
     <string name="pref_vending_version_title">نُسخة Google Play</string>
     <string name="onboarding_permission_doze">تنزيلات الخلفية</string>
-    <string name="onboarding_permission_doze_desc">السماح لـAurora Store بتنزيل التطبيقات وتحديثها في الخلفية</string>
+    <string name="onboarding_permission_doze_desc">السماح لـMetro Store بتنزيل التطبيقات وتحديثها في الخلفية</string>
     <string name="pref_updates_auto">التحديثات التلقائية</string>
     <string name="pref_updates_auto_notify">التحقق والإشعار بالتحديثات المتاحة</string>
     <string name="pref_updates_auto_off">لا تقم بتحديث التطبيقات تلقائيًا</string>
@@ -326,11 +326,11 @@
     <string name="source_code_title">الكود المصدري</string>
     <string name="source_code_subtitle">اكتشف ما بداخله</string>
     <string name="privacy_policy_title">سياسة الخصوصية</string>
-    <string name="privacy_policy_subtitle">تعرف على كيفية استخدام Aurora Store لبياناتك</string>
+    <string name="privacy_policy_subtitle">تعرف على كيفية استخدام Metro Store لبياناتك</string>
     <string name="title_more">المزيد</string>
     <string name="manage_account">إدارة حسابك</string>
     <string name="pref_clear_device_owner_title">مسح مالك الجهاز</string>
-    <string name="pref_clear_device_owner_summary">يزيل Aurora Store باعتباره تطبيق مالك الجهاز</string>
+    <string name="pref_clear_device_owner_summary">يزيل Metro Store باعتباره تطبيق مالك الجهاز</string>
     <string name="pref_clear_device_owner_desc">سيؤدي هذا إلى إلغاء إذن مثبت الجلسة لتثبيت التطبيق بصمت. هل ترغب في متابعة مسح ملكية الجهاز؟</string>
     <string name="about_wiki_title">ويكي</string>
     <string name="no_dispensers_available">لا توجد موزعات متاحة</string>
@@ -342,7 +342,7 @@
     <string name="pref_dispenser_title">إدارة الموزعات</string>
     <string name="remove_dispenser_summary">هل ترغب في إزالة الموزع \"<xliff:g id="url">%1$s</xliff:g>\"؟</string>
     <string name="pref_dispenser_summary">عرض وإدارة موزعات الرمز المميز لتسجيلات الدخول المجهولة</string>
-    <string name="add_dispenser_summary">أضف موزع العملات الرمزية إلى متجر Aurora. توفر موزعات الرمز المميز بيانات اعتماد الحساب إلى Aurora Store لتسجيل الدخول بشكل مجهول.</string>
+    <string name="add_dispenser_summary">أضف موزع العملات الرمزية إلى متجر Aurora. توفر موزعات الرمز المميز بيانات اعتماد الحساب إلى Metro Store لتسجيل الدخول بشكل مجهول.</string>
     <string name="add">إضافة</string>
     <string name="remove">إزالة</string>
     <string name="session_login">يُرجى تسجيل الدخول إلى حساب Google Play الخاص بك</string>

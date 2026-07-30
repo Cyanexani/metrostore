@@ -198,7 +198,7 @@
     <string name="account_login_using">Přihlaste se pomocí</string>
     <string name="account_google">Google</string>
     <string name="account_anonymous">Anonymní</string>
-    <string name="about_xda_summary">Diskuze a návrhy najdete na XDA stránce Aurora Store.</string>
+    <string name="about_xda_summary">Diskuze a návrhy najdete na XDA stránce Metro Store.</string>
     <string name="about_xda">XDA Forums</string>
     <string name="about_telegram_summary">Připojte se ke skupině Aurora Support, kde můžete diskutovat nebo podávat návrhy.</string>
     <string name="about_telegram">Telegram</string>
@@ -206,9 +206,9 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_libera_summary">Staňte se patronem na Liberapay</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_gitlab_summary">Získejte zdrojový kód Aurora Store z Aurora OSS na GitLabu.</string>
+    <string name="about_gitlab_summary">Získejte zdrojový kód Metro Store z Metro OS na GitLabu.</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_fdroid_summary">Získejte Aurora Store prostřednictvím F-Droid.</string>
+    <string name="about_fdroid_summary">Získejte Metro Store prostřednictvím F-Droid.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_eth_summary">Přispějte prostřednictvím Etherea (ETH)</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -277,7 +277,7 @@
     <string name="bad_request">Interní chyba! Zkuste to prosím znovu za chvíli</string>
     <string name="check_connectivity">Zkontrolujte připojení k internetu</string>
     <string name="app_language">Jazyk aplikace</string>
-    <string name="app_links_desc">Povolit aplikaci Aurora Store otevírat podporované odkazy</string>
+    <string name="app_links_desc">Povolit aplikaci Metro Store otevírat podporované odkazy</string>
     <string name="failed_to_generate_session">Nepodařilo se vygenerovat relaci</string>
     <string name="verifying_new_session">Ověřování nové relace</string>
     <string name="app_links_title">Odkazy aplikací</string>
@@ -286,7 +286,7 @@
     <string name="details_ratings_title_hint">Nadpis recenze</string>
     <string name="pref_updates_check_frequency_desc">Nastavit časové intervaly pro automatické aktualizace, v hodinách.</string>
     <string name="pref_aurora_only">Filtrovat aplikace z ostatních zdrojů</string>
-    <string name="pref_aurora_only_desc">Nekontrolovat aktualizace aplikací nainstalovaných z jiného zdroje, než je Aurora Store</string>
+    <string name="pref_aurora_only_desc">Nekontrolovat aktualizace aplikací nainstalovaných z jiného zdroje, než je Metro Store</string>
     <string name="title_app_settings">Nastavení aplikace</string>
     <string name="pref_updates_check_frequency">Frekvence automatických aktualizací</string>
     <string name="pref_network_proxy_url">Adresa URL proxy</string>
@@ -296,7 +296,7 @@
     <string name="pref_vending_version_device">Výchozí (z konfigurace zařízení)</string>
     <string name="pref_vending_version_title">Verze Google Play</string>
     <string name="onboarding_permission_doze">Stahování na pozadí</string>
-    <string name="onboarding_permission_doze_desc">Umožnit aplikaci Aurora Store stahovat a aktualizovat aplikace na pozadí</string>
+    <string name="onboarding_permission_doze_desc">Umožnit aplikaci Metro Store stahovat a aktualizovat aplikace na pozadí</string>
     <string name="pref_updates_auto">Automatické aktualizace</string>
     <string name="pref_updates_auto_notify">Kontrolovat a oznamovat dostupné aktualizace</string>
     <string name="pref_updates_auto_off">Neaktualizovat automaticky aplikace</string>
@@ -326,11 +326,11 @@
     <string name="manual_download_hint">Zadejte kód verze, kterou si přejete stáhnout</string>
     <string name="faqs_subtitle">Máte otázky? Máme odpovědi</string>
     <string name="source_code_subtitle">Mrkněte, co je uvnitř</string>
-    <string name="privacy_policy_subtitle">Podívejte se, jak aplikace Aurora Store používá vaše data</string>
+    <string name="privacy_policy_subtitle">Podívejte se, jak aplikace Metro Store používá vaše data</string>
     <string name="title_more">Více</string>
     <string name="manage_account">Správa účtu</string>
     <string name="pref_clear_device_owner_title">Odstranit majitele zařízení</string>
-    <string name="pref_clear_device_owner_summary">Odebere aplikaci Aurora Store ze seznamu majitelů zařízení</string>
+    <string name="pref_clear_device_owner_summary">Odebere aplikaci Metro Store ze seznamu majitelů zařízení</string>
     <string name="pref_clear_device_owner_desc">Tato akce zruší oprávnění instalátoru k instalaci aplikací na pozadí. Opravdu chcete pokračovat?</string>
     <string name="add_dispenser_error">Neplatná adresa URL</string>
     <string name="add_dispenser_hint">Adresa URL vydavače</string>
@@ -344,10 +344,10 @@
     <string name="pref_dispenser_summary">Zobrazit a spravovat vydavače tokenů pro anonymní přihlášení</string>
     <string name="no_dispensers_available">Nejsou dostupné žádné vydavače</string>
     <string name="add_dispenser_title">Přidat vydavač</string>
-    <string name="add_dispenser_summary">Přidat vydavač tokenů do Aurora Store. Vydavače tokenů poskytují údaje o účtech, které Aurora Store používá pro anonymní přihlašování.</string>
-    <string name="about_aurora_store_title">O aplikaci Aurora Store</string>
-    <string name="about_aurora_store_subtitle">Zjistěte více informací o aplikaci Aurora Store</string>
-    <string name="about_aurora_store_summary">Aplikace Aurora Store umožňuje vyhledávat a stahovat aplikace z oficiálního Obchodu Google Play. Můžete si prohlédnout popisy aplikací, snímky obrazovky, aktualizace, komentáře ostatních uživatelů a stáhnout APK přímo z Google Play do svého zařízení. Chcete-li aplikaci Aurora Store používat, musíte mít účet Google a při prvním otevření a konfiguraci aplikace Aurora Store se k němu přihlásit. \n \nNa rozdíl od tradičního obchodu s aplikacemi aplikace Aurora Store nevlastní, nelicencuje ani nedistribuuje žádné aplikace. Všechny aplikace, popisy aplikací, snímky obrazovky a další obsah v aplikaci Aurora Store jsou přímo přístupné, stažené a/nebo zobrazené z Obchodu Google Play. Aplikace Aurora Store funguje přesně jako dveře nebo prohlížeč, umožňuje přihlášení k účtu Google a vyhledávání aplikací z Obchodu Google Play. \n \nUpozornění: aplikace Aurora Store nemá žádné schválení, sponzoring ani autorizaci od společnosti Google, Google Play, aplikací stažených prostřednictvím aplikace Aurora Store ani od vývojářů aplikací; aplikace Aurora Store s nimi také nemá žádné spojení, spolupráci ani vazbu.</string>
+    <string name="add_dispenser_summary">Přidat vydavač tokenů do Metro Store. Vydavače tokenů poskytují údaje o účtech, které Metro Store používá pro anonymní přihlašování.</string>
+    <string name="about_aurora_store_title">O aplikaci Metro Store</string>
+    <string name="about_aurora_store_subtitle">Zjistěte více informací o aplikaci Metro Store</string>
+    <string name="about_aurora_store_summary">Aplikace Metro Store umožňuje vyhledávat a stahovat aplikace z oficiálního Obchodu Google Play. Můžete si prohlédnout popisy aplikací, snímky obrazovky, aktualizace, komentáře ostatních uživatelů a stáhnout APK přímo z Google Play do svého zařízení. Chcete-li aplikaci Metro Store používat, musíte mít účet Google a při prvním otevření a konfiguraci aplikace Metro Store se k němu přihlásit. \n \nNa rozdíl od tradičního obchodu s aplikacemi aplikace Metro Store nevlastní, nelicencuje ani nedistribuuje žádné aplikace. Všechny aplikace, popisy aplikací, snímky obrazovky a další obsah v aplikaci Metro Store jsou přímo přístupné, stažené a/nebo zobrazené z Obchodu Google Play. Aplikace Metro Store funguje přesně jako dveře nebo prohlížeč, umožňuje přihlášení k účtu Google a vyhledávání aplikací z Obchodu Google Play. \n \nUpozornění: aplikace Metro Store nemá žádné schválení, sponzoring ani autorizaci od společnosti Google, Google Play, aplikací stažených prostřednictvím aplikace Metro Store ani od vývojářů aplikací; aplikace Metro Store s nimi také nemá žádné spojení, spolupráci ani vazbu.</string>
     <string name="session_login">Přihlaste se prosím do vašeho účtu Google</string>
     <string name="toast_app_unavailable">Aplikace není dostupná pro vaše zařízení</string>
     <string name="details_no_favourites">Nenalezeny žádné oblíbené aplikace</string>
@@ -370,8 +370,8 @@
     <string name="item_optional">Volitelné</string>
     <string name="toast_permission_installer_required">Nejprve musíte udělit oprávnění instalátoru</string>
     <string name="details_data_safety_subtitle">Postupy ochrany soukromí a zabezpečení dat poskytnuté vývojářem</string>
-    <string name="force_restart_title">Restartovat Aurora Store</string>
-    <string name="force_restart_summary">Aplikace Aurora Store, potřebuje restartovat pro použití nového nastavení</string>
+    <string name="force_restart_title">Restartovat Metro Store</string>
+    <string name="force_restart_summary">Aplikace Metro Store, potřebuje restartovat pro použití nového nastavení</string>
     <string name="export_app_summary">Čekejte prosím, probíhá export vašeho souboru</string>
     <string name="export_app_title">Export souboru</string>
     <string name="notification_channel_export">Oznámení o exportu aplikace</string>

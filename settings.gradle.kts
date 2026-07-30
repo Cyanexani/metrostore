@@ -31,4 +31,4 @@ dependencyResolutionManagement {
     }
 }
 include(":app")
-rootProject.name = "AuroraStore4"
+rootProject.name = "MetroStore"

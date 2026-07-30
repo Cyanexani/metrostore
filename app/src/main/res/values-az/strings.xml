@@ -78,7 +78,7 @@
     <string name="device_miui_subtitle">Hesab qurucu MIUI Optimizasiyasına görə tətbiqləri quraşdıra bilmir.</string>
     <string name="onboarding_title_installer">Quraşdırıcı</string>
     <string name="onboarding_title_permissions">İcazələr</string>
-    <string name="onboarding_permission_installer_desc">Aurora Store-dan tətbiqləri quraşdırmağa icazə ver</string>
+    <string name="onboarding_permission_installer_desc">Metro Store-dan tətbiqləri quraşdırmağa icazə ver</string>
     <string name="pref_filter_fdroid_summary">F-Droid-dən quraşdırılan tətbiqlər üçün yeniləmələri yoxlama</string>
     <string name="about_bhim">BHIM - UPI</string>
     <string name="about_paypal">PayPal</string>
@@ -86,16 +86,16 @@
     <string name="about_bitcoin_bch">Bitcoin Cash</string>
     <string name="about_bitcoin_bch_summary">Bitcoin Cash (BCH) vasitəsilə ianə edin</string>
     <string name="about_bitcoin_btc">Bitcoin</string>
-    <string name="about_fdroid_summary">Aurora Store-u F-Droid-dən əldə et.</string>
+    <string name="about_fdroid_summary">Metro Store-u F-Droid-dən əldə et.</string>
     <string name="about_bitcoin_eth">Ethereum</string>
     <string name="about_bitcoin_eth_summary">Ethereum (ETH) vasitəsilə ianə edin</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_gitlab_summary">Aurora Store-un mənbə kodun GitLab-da Aurora OSS-dən əldə et.</string>
+    <string name="about_gitlab_summary">Metro Store-un mənbə kodun GitLab-da Metro OS-dən əldə et.</string>
     <string name="about_libera">Liberapay</string>
     <string name="about_libera_summary">Liberapay-da lider olun</string>
     <string name="about_xda">XDA Forumları</string>
-    <string name="about_xda_summary">Müzakirələr və ya təkliflər üçün Aurora Store XDA mövzusuna baxın.</string>
+    <string name="about_xda_summary">Müzakirələr və ya təkliflər üçün Metro Store XDA mövzusuna baxın.</string>
     <string name="account_anonymous">Gizli</string>
     <string name="account_google">Google</string>
     <string name="account_login_using">... ilə daxil olun</string>
@@ -156,7 +156,7 @@
     <string name="device_miui_description">Quraşdırmalara icazə vermək üçün MIUI optimallaşmasın bağla, əks halda Root və ya Xidmətlər quraşdırıcısın seçə bilərsiniz.</string>
     <string name="dialog_title_self_update">Yeni yeniləmə mövcuddur</string>
     <string name="dialog_desc_native_split">Yerli quraşdırıcı vasitəsilə birləşmiş (ayrı) tətbiqləri quraşdıra bilməzsiniz. Quraşdırıcınızı Hesab, Xidmətlər və ya Root-a dəyişdirin.</string>
-    <string name="onboarding_permission_select">Aurora Store aşağıdakı icazələri tələb edir</string>
+    <string name="onboarding_permission_select">Metro Store aşağıdakı icazələri tələb edir</string>
     <string name="onboarding_title_welcome">Xoş Gəldiniz</string>
     <string name="onboarding_welcome_select">Nə etmək istəyirsiz?</string>
     <string name="onboarding_permission_esa">Xarici yaddaş girişi</string>
@@ -243,7 +243,7 @@
     <string name="about_wiki_summary">Tez-tez verilən suallara (FAQ), problemlərin həlli addımlarına və s. cavablar tapın</string>
     <string name="pref_updates_incompatible">Uğursuz olan yeniləmələri göstər</string>
     <string name="pref_updates_incompatible_desc">Quraşdırma uğursuz ola biləcək uyuşmaz və ya qeyri-aktiv tətbiqlər üçün yeniləmələri göstər</string>
-    <string name="onboarding_permission_doze_desc">Tətbiqləri arxa planda endirmək və yeniləmək üçün Aurora Store-a icazə ver</string>
+    <string name="onboarding_permission_doze_desc">Tətbiqləri arxa planda endirmək və yeniləmək üçün Metro Store-a icazə ver</string>
     <string name="onboarding_permission_doze">Arxa plan yükləmələri</string>
     <string name="pref_vending_version_device">İlkin (cihaz quruluşundan)</string>
     <string name="pref_vending_version_title">Google Play versiyası</string>
@@ -265,7 +265,7 @@
     <string name="notification_channel_account">Hesabla əlaqəli bildiriş</string>
     <string name="session_scrapped">Son hesab ləğv edildi</string>
     <string name="session_good">Gözəl! Hər şey yaxşıdır.</string>
-    <string name="pref_aurora_only_desc">Aurora Store-dan xaric mənbələrdən quraşdırılan tətbiqlər üçün yeniləmələri yoxlamır</string>
+    <string name="pref_aurora_only_desc">Metro Store-dan xaric mənbələrdən quraşdırılan tətbiqlər üçün yeniləmələri yoxlamır</string>
     <string name="session_login">Xahiş olunur, Google Play hesabınıza daxil olun</string>
     <string name="session_login_failed_google">Google ilə daxil olmaq olmadı</string>
     <string name="notification_channel_export">Tətbiq ixracı bildirişi</string>
@@ -281,7 +281,7 @@
     <string name="pref_updates_auto_off">Tətbiqləri birbaşa yeniləmir</string>
     <string name="pref_updates_check_frequency_desc">Birbaşa yeniləmələr üçün vaxt intervalını saatla qur.</string>
     <string name="app_links_title">Tətbiq linkləri</string>
-    <string name="app_links_desc">Aurora Store-un dəstəklənən linkləri açmasına icazə ver</string>
+    <string name="app_links_desc">Metro Store-un dəstəklənən linkləri açmasına icazə ver</string>
     <string name="expand">Genişləndir</string>
     <string name="pref_updates_auto_desc">Birbaşa yenilənmə davranışın qur</string>
     <string name="android_market_desc">Android Market, Android cihazları üçün hazırlanan sistem tətbiqlərin təklif edən, 2017-ci ildə sıradan çıxmış onlayn mağaza idi.</string>
@@ -346,17 +346,17 @@
     <string name="source_code_title">Mənbə kodu</string>
     <string name="disclaimer_subtitle">Hesabat vermə və məsuliyyət</string>
     <string name="made_with_love">Hindistanda <xliff:g id="heart_emoji"> %1$s</xliff:g> ilə hazırlanıb</string>
-    <string name="force_restart_summary">Yeni dəyişdirilən tənzimləmələri tətbiq etmək üçün Aurora Store təkrar başladılmalıdır</string>
+    <string name="force_restart_summary">Yeni dəyişdirilən tənzimləmələri tətbiq etmək üçün Metro Store təkrar başladılmalıdır</string>
     <string name="add_dispenser_error">Yanlış URL</string>
     <string name="toast_fav_export_failed">Sevimliləri ixrac etmək alınmadı!</string>
     <string name="available_spoof">Mövcuddur</string>
     <string name="checking_updates">Yeniləmələr yoxlanılır</string>
     <string name="status_downloading">Endirilir</string>
-    <string name="force_restart_title">Aurora Store-u Yenidən Başlat</string>
+    <string name="force_restart_title">Metro Store-u Yenidən Başlat</string>
     <string name="status_cancelled">Ləğv edildi</string>
     <string name="status_unavailable">Əlçatan deyil</string>
     <string name="authentication_required_title">Təsdiqləmə tələb olundu</string>
-    <string name="pref_clear_device_owner_summary">Aurora Store cihaz imtiyaz tətbiqi kimi silinir</string>
+    <string name="pref_clear_device_owner_summary">Metro Store cihaz imtiyaz tətbiqi kimi silinir</string>
     <string name="am_installer_desc">App Manager tələb olunur, miui optimallaşması aktivdirsə quraşdırmaq üçün adb/root üsulu lazımdır</string>
     <string name="shizuku_installer_subtitle">Sistem API-lərin birbaşa adb/root icazələri ilə istifadə</string>
     <string name="faqs_subtitle">Suallarınız var? Cavabları öyrənin</string>
@@ -371,12 +371,12 @@
     <string name="native_installer_desc">Android 4.4-dən aşağı işləyən cihazlar üçün daha uyğundur</string>
     <string name="manual_download_hint">Yükləmək istədiyiniz versiya kodunu qoyun</string>
     <string name="privacy_policy_title">Məxfilik siyasəti</string>
-    <string name="privacy_policy_subtitle">Aurora Store məlumatlarınızı necə istifadə edir öyrənin</string>
-    <string name="about_aurora_store_subtitle">Aurora Store haqqında daha çox öyrənin</string>
+    <string name="privacy_policy_subtitle">Metro Store məlumatlarınızı necə istifadə edir öyrənin</string>
+    <string name="about_aurora_store_subtitle">Metro Store haqqında daha çox öyrənin</string>
     <string name="manage_account">Hesabınızı idarə edin</string>
     <string name="pref_clear_device_owner_title">Cihaz imtiyazın sil</string>
     <string name="pref_dispenser_title">Mütəxəssisləri idarə edin</string>
-    <string name="add_dispenser_summary">Aurora Store-a nişan yaradıcı əlavə edin. Nişan yaradıcılar gizli şəkildə daxil olmaq üçün Aurora Store-a hesab etimadnaməsini təqdim edir.</string>
+    <string name="add_dispenser_summary">Metro Store-a nişan yaradıcı əlavə edin. Nişan yaradıcılar gizli şəkildə daxil olmaq üçün Metro Store-a hesab etimadnaməsini təqdim edir.</string>
     <string name="add_dispenser_hint">Yaradıcı URL</string>
     <string name="remove_dispenser_title">Yaradıcını sil</string>
     <string name="remove_dispenser_summary">Yaradıcını çıxarmaq istəyirsiniz\"<xliff:g id="url"> %1$s</xliff:g> \"?</string>
@@ -396,10 +396,10 @@
     <string name="default_spoof">İlkin</string>
     <string name="action_unarchive">Arxivdən çıxar</string>
     <string name="unable_to_open">Tətbiqi açmaq olmur</string>
-    <string name="about_aurora_store_title">Aurora Store Haqqında</string>
+    <string name="about_aurora_store_title">Metro Store Haqqında</string>
     <string name="shizuku_installer_desc">Shizuku və ya Sui tələb olunur, quraşdırma və icazə tələb olunur</string>
     <string name="action_logout_confirmation_title">Çıxılsın?</string>
-    <string name="about_aurora_store_summary">Aurora Store sizə rəsmi Google Play Mağazasından tətbiqlər axtarmağa və yükləməyə imkan verir. Tətbiq açıqlamalarını, ekran görüntülərini, yeniləmələri, digər istifadəçilərin şərhlərini yoxlaya və APK-nı birbaşa Google Play-dən cihazınıza endirə bilərsiniz. Aurora Store istifadə etmək üçün Google Play hesabınız olmalıdır və Aurora Store\'u ilk dəfə açıb quranda Google Play hesabınıza daxil olmalısınız.\n\nƏnənəvi tətbiq mağazasından fərqli olaraq, Aurora Store hər hansı tətbiqə sahiblik etmir, lisenziya vermir və ya paylaşmır. Aurora Store-dakı bütün tətbiqlər, tətbiq açıqlamaları, ekran görüntüləri və qalan məzmun birbaşa Google Play-dən əldə edilir, endirilir və/və ya göstərilir. Aurora Store məhz elə qapı və ya brauzer kimi işləyir, Google Play hesabınıza daxil olmağa və Google Play-dən tətbiqləri tapmağa imkan verir. \n\nNəzərə alın ki, Aurora Store- un Google, Google Play, Aurora Store vasitəsilə endirilən tətbiqlər və ya hər hansı tətbiq tərtibatçılarından təsdiqi, sponsorluğu və ya icazəsi yoxdur; nə də Aurora Store-un onlarla bağlılığı, əməkdaşlığı və ya əlaqəsi yoxdur.</string>
+    <string name="about_aurora_store_summary">Metro Store sizə rəsmi Google Play Mağazasından tətbiqlər axtarmağa və yükləməyə imkan verir. Tətbiq açıqlamalarını, ekran görüntülərini, yeniləmələri, digər istifadəçilərin şərhlərini yoxlaya və APK-nı birbaşa Google Play-dən cihazınıza endirə bilərsiniz. Metro Store istifadə etmək üçün Google Play hesabınız olmalıdır və Metro Store\'u ilk dəfə açıb quranda Google Play hesabınıza daxil olmalısınız.\n\nƏnənəvi tətbiq mağazasından fərqli olaraq, Metro Store hər hansı tətbiqə sahiblik etmir, lisenziya vermir və ya paylaşmır. Metro Store-dakı bütün tətbiqlər, tətbiq açıqlamaları, ekran görüntüləri və qalan məzmun birbaşa Google Play-dən əldə edilir, endirilir və/və ya göstərilir. Metro Store məhz elə qapı və ya brauzer kimi işləyir, Google Play hesabınıza daxil olmağa və Google Play-dən tətbiqləri tapmağa imkan verir. \n\nNəzərə alın ki, Metro Store- un Google, Google Play, Metro Store vasitəsilə endirilən tətbiqlər və ya hər hansı tətbiq tərtibatçılarından təsdiqi, sponsorluğu və ya icazəsi yoxdur; nə də Metro Store-un onlarla bağlılığı, əməkdaşlığı və ya əlaqəsi yoxdur.</string>
     <string name="action_install_microG">microG Bundle Quraşdır</string>
     <string name="details_data_safety_collect">Bu tətbiqin toplaya biləcəyi məlumat</string>
     <string name="details_data_safety_collect_none">Tərtibatçı deyir ki, bu tətbiq istifadəçi məlumatını toplamır.</string>

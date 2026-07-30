@@ -130,7 +130,7 @@
     <string name="about_bhim_summary">UPI මගින් පරිත්‍යාග</string>
     <string name="about_bitcoin_bch">බිට්කොයින් මුදල්</string>
     <string name="about_fdroid_summary">එෆ්-ඩ්‍රොයිඩ් හරහා අවුරෝරා ස්ටෝර් ගන්න.</string>
-    <string name="about_gitlab_summary">ගිට්ලැබ් හි Aurora OSS වෙතින් අවුරෝරා ස්ටෝර් ප්‍රභව කේතය ගන්න.</string>
+    <string name="about_gitlab_summary">ගිට්ලැබ් හි Metro OS වෙතින් අවුරෝරා ස්ටෝර් ප්‍රභව කේතය ගන්න.</string>
     <string name="installer_root_unavailable">මූල ප්‍රවේශය නැත. එය පිරිනමන්න හෝ ස්ථාපකය වෙනස් කරන්න.</string>
     <string name="filter_review_positive">ධනාත්මක</string>
     <string name="tab_for_you">ඔබ සඳහා</string>

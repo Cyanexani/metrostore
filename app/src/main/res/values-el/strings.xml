@@ -42,9 +42,9 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_bitcoin_btc_summary">Δωρεά μέσω Bitcoin (BTC)</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_gitlab_summary">Αποκτήστε τον πηγαίο κώδικα του Aurora Store από το Aurora OSS στο GitLab.</string>
+    <string name="about_gitlab_summary">Αποκτήστε τον πηγαίο κώδικα του Metro Store από το Metro OS στο GitLab.</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_fdroid_summary">Αποκτήστε το Aurora Store μέσω του F-Droid.</string>
+    <string name="about_fdroid_summary">Αποκτήστε το Metro Store μέσω του F-Droid.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_eth_summary">Δωρεά μέσω Ethereum (ETH)</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -107,7 +107,7 @@
     <string name="action_resume">Συνέχεια</string>
     <string name="action_restart">Επανεκκίνηση</string>
     <string name="action_installing">Εγκαθίσταται</string>
-    <string name="about_xda_summary">Ανατρέξτε στο νήμα του Aurora Store στο XDA για συζητήσεις ή προτάσεις.</string>
+    <string name="about_xda_summary">Ανατρέξτε στο νήμα του Metro Store στο XDA για συζητήσεις ή προτάσεις.</string>
     <string name="about_libera_summary">Υποστηρίξτε μας στο Liberapay</string>
     <string name="exodus_substring">Γνωστός/-οι ιχνηλάτης/-ες βρέθηκαν στο</string>
     <string name="exodus_progress">Έλεγχος για ιχνηλάτες…</string>
@@ -134,7 +134,7 @@
     <string name="menu_disclaimer">Αποποίηση ευθυνών</string>
     <string name="device_miui_title">Εντοπίστηκε MIUI!</string>
     <string name="device_miui_subtitle">Το πρόγραμμα δεν μπορεί να εγκαταστήσει εφαρμογές λόγω βελτιστοποιήσεων της MIUI.</string>
-    <string name="onboarding_permission_select">Το Aurora Store απαιτεί τα ακόλουθα δικαιώματα</string>
+    <string name="onboarding_permission_select">Το Metro Store απαιτεί τα ακόλουθα δικαιώματα</string>
     <string name="installer_service_available">Οι Υπηρεσίες Aurora είναι διαθέσιμες και έτοιμες για εγκατάσταση.</string>
     <string name="menu_terms">Όροι χρήσης</string>
     <string name="dialog_title_self_update">Διατίθεται νέα ενημέρωση</string>
@@ -159,7 +159,7 @@
     <string name="purchase_no_file">Δεν ήταν δυνατή η λήψη αρχείων</string>
     <string name="onboarding_permission_esa">Πρόσβαση εξωτερικού χώρου αποθήκευσης</string>
     <string name="onboarding_permission_esm">Διαχειριστής εξωτερικής αποθήκευσης</string>
-    <string name="onboarding_permission_installer_desc">Επιτρέψτε την εγκατάσταση εφαρμογών από το Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Επιτρέψτε την εγκατάσταση εφαρμογών από το Metro Store</string>
     <string name="pref_install_mode_session">Εγκαταστάτης συνεδρίας</string>
     <string name="pref_filter_fdroid_summary">Να μην γίνεται έλεγχος για ενημερώσεις εφαρμογών που εγκαταστάθηκαν από το F-Droid</string>
     <string name="pref_ui_layout_tab">Επιλέξτε προεπιλεγμένη καρτέλα</string>
@@ -241,7 +241,7 @@
     <string name="download_eta_min">Απομένουν %1$dλ %2$dδλ</string>
     <string name="onboarding_permission_notifications_desc">Αποστολή ειδοποιήσεων ανεξάρτητα της κατάστασης εγκατάστασης</string>
     <string name="onboarding_permission_doze">Λήψεις παρασκηνίου</string>
-    <string name="onboarding_permission_doze_desc">Επιτρέψτε στο Aurora Store να κατεβάσει και να ενημερώσει εφαρμογές στο παρασκήνιο</string>
+    <string name="onboarding_permission_doze_desc">Επιτρέψτε στο Metro Store να κατεβάσει και να ενημερώσει εφαρμογές στο παρασκήνιο</string>
     <string name="pref_vending_version_title">Έκδοση Google Play</string>
     <string name="installer_shizuku_unavailable">Το Shizuku δεν έχει εγκατασταθεί ή ρυθμιστεί σωστά.</string>
     <string name="action_request_analysis">Αίτηση νέας ανάλυσης</string>
@@ -258,7 +258,7 @@
     <string name="session_scrapped">Η τελευταία συνεδρία πετάχτηκε</string>
     <string name="title_search_suggestion">Πρόταση αναζήτησης</string>
     <string name="title_search_results">Αποτελέσματα αναζήτησης</string>
-    <string name="pref_aurora_only_desc">Έλεγχος για ενημερώσεις μόνο για εφαρμογές εγκατεστημένες από το Aurora Store</string>
+    <string name="pref_aurora_only_desc">Έλεγχος για ενημερώσεις μόνο για εφαρμογές εγκατεστημένες από το Metro Store</string>
     <string name="session_init">Ετοιμάζοντας τα πράγματα…</string>
     <string name="toast_import_success">Ρύθμιση συσκευής εισήχθη</string>
     <string name="session_verifying_google">Επαλήθευση συνεδρίας Google</string>
@@ -302,12 +302,12 @@
     <string name="android_market_desc">Το Android Market ήταν ένα ηλεκτρονικό κατάστημα που προσέφερε εφαρμογές λογισμικού σχεδιασμένες για συσκευές Android, το οποίο αποσύρθηκε το 2017.</string>
     <string name="root_installer_desc">Απαιτεί δικαιώματα root/superuser, υποστηρίζει όλες τις εκδόσεις Android.</string>
     <string name="failed_to_generate_session">Δεν μπορεί να δημιουργηθεί συνεδρία</string>
-    <string name="app_links_desc">Επιτρέπεται το Aurora Store να ανοίγει συνδέσμους που υποστηρίζονται</string>
+    <string name="app_links_desc">Επιτρέπεται το Metro Store να ανοίγει συνδέσμους που υποστηρίζονται</string>
     <string name="failed_apk_export">Αποτυχία εξαγωγής APKs</string>
     <string name="faqs_subtitle">Έχετε ερωτήσεις; Βρείτε τις απαντήσεις</string>
     <string name="manual_download_hint">Εισάγετε τον κωδικό έκδοσης που θέλετε να κατεβάσετε</string>
     <string name="privacy_policy_title">Πολιτική απορρήτου</string>
-    <string name="privacy_policy_subtitle">Μάθετε πώς χρησιμοποιεί το Aurora Store τα δεδομένα σας</string>
+    <string name="privacy_policy_subtitle">Μάθετε πώς χρησιμοποιεί το Metro Store τα δεδομένα σας</string>
     <string name="native_installer_desc">Κατάλληλο για συσκευές που τρέχουν κάτω από Android 4.4</string>
     <string name="app_language">Γλώσσα εφαρμογής</string>
     <string name="failed_generating_session">Αποτυχία δημιουργίας συνεδρίας, κώδικας σφάλματος: <xliff:g id="status_code">%1$d</xliff:g></string>
@@ -329,7 +329,7 @@
     <string name="source_code_title">Πηγαίος κώδικας</string>
     <string name="source_code_subtitle">Μάθετε τι υπάρχει μέσα</string>
     <string name="am_installer_desc">Απαιτεί App Manager, χρειάζεται λειτουργία adb/root για την εγκατάσταση όταν η βελτιστοποίηση miui είναι ενεργοποιημένη</string>
-    <string name="pref_clear_device_owner_summary">Καταργεί το Aurora Store ως εφαρμογή κατόχου της συσκευής</string>
+    <string name="pref_clear_device_owner_summary">Καταργεί το Metro Store ως εφαρμογή κατόχου της συσκευής</string>
     <string name="pref_clear_device_owner_desc">Αυτό θα ανακαλέσει την άδεια του εγκαταστάτη συνεδρίας να εγκαταστήσει σιωπηρά την εφαρμογή. Να γίνει εκκαθάριση της ιδιοκτησίας της συσκευής;</string>
     <string name="pref_clear_device_owner_title">Εκκαθάριση ιδιοκτήτη συσκευής</string>
     <string name="about_wiki_summary">Βρείτε απαντήσεις σε συχνές ερωτήσεις (F.A.Q.), βήματα αντιμετώπισης προβλημάτων και πολλά άλλα</string>
@@ -350,10 +350,10 @@
     <string name="action_uninstall_success">Απεγκαταστάθηκε επιτυχώς</string>
     <string name="details_no_favourites">Δε βρέθηκαν αγαπημένες εφαρμογές</string>
     <string name="toast_app_unavailable">Η εφαρμογή δεν είναι διαθέσιμη για τη συσκευή σου</string>
-    <string name="about_aurora_store_summary">Το Aurora Store σού δίνει τη δυνατότητα να κάνεις αναζήτηση και λήψη εφαρμογών από το επίσημο κατάστημα Google Play. Μπορείς να ελέγξεις περιγραφές εφαρμογών, στιγμιότυπα οθόνης, ενημερώσεις, σχόλια άλλων χρηστών και να κάνεις λήψη του APK απευθείας από το Google Play στη συσκευή σου. Για να χρησιμοποιήσεις το Aurora Store, πρέπει να έχεις λογαριασμό Google Play και να συνδεθείς σε αυτόν όταν ανοίγεις και ρυθμίζεις για πρώτη φορά το Aurora Store. \n \nΣε αντίθεση με ένα παραδοσιακό κατάστημα εφαρμογών, το Aurora Store δεν κατέχει, δεν διαθέτει άδεια χρήσης ή δεν διανέμει κάποια εφαρμογή. Όλες οι εφαρμογές, οι περιγραφές εφαρμογών, τα στιγμιότυπα οθόνης και άλλο περιεχόμενο στο Aurora Store έχουν άμεση πρόσβαση, λήψη και/ή προβολή από το Google Play. Το Aurora Store λειτουργεί ακριβώς όπως μια πόρτα ή ένα πρόγραμμα περιήγησης, επιτρέποντάς σου να συνδεθείς στον λογαριασμό σου στο Google Play και να βρείτε τις εφαρμογές από το Google Play. \n \nΛάβε υπόψη ότι το Aurora Store δεν έχει καμία έγκριση, χορηγία ή εξουσιοδότηση από την Google, το Google Play, τυχόν εφαρμογές που έχουν ληφθεί μέσω του Aurora Store ή οποιονδήποτε προγραμματιστή εφαρμογών, ούτε το Aurora Store έχει καμία σχέση, συνεργασία ή σχέση μαζί τους.</string>
+    <string name="about_aurora_store_summary">Το Metro Store σού δίνει τη δυνατότητα να κάνεις αναζήτηση και λήψη εφαρμογών από το επίσημο κατάστημα Google Play. Μπορείς να ελέγξεις περιγραφές εφαρμογών, στιγμιότυπα οθόνης, ενημερώσεις, σχόλια άλλων χρηστών και να κάνεις λήψη του APK απευθείας από το Google Play στη συσκευή σου. Για να χρησιμοποιήσεις το Metro Store, πρέπει να έχεις λογαριασμό Google Play και να συνδεθείς σε αυτόν όταν ανοίγεις και ρυθμίζεις για πρώτη φορά το Metro Store. \n \nΣε αντίθεση με ένα παραδοσιακό κατάστημα εφαρμογών, το Metro Store δεν κατέχει, δεν διαθέτει άδεια χρήσης ή δεν διανέμει κάποια εφαρμογή. Όλες οι εφαρμογές, οι περιγραφές εφαρμογών, τα στιγμιότυπα οθόνης και άλλο περιεχόμενο στο Metro Store έχουν άμεση πρόσβαση, λήψη και/ή προβολή από το Google Play. Το Metro Store λειτουργεί ακριβώς όπως μια πόρτα ή ένα πρόγραμμα περιήγησης, επιτρέποντάς σου να συνδεθείς στον λογαριασμό σου στο Google Play και να βρείτε τις εφαρμογές από το Google Play. \n \nΛάβε υπόψη ότι το Metro Store δεν έχει καμία έγκριση, χορηγία ή εξουσιοδότηση από την Google, το Google Play, τυχόν εφαρμογές που έχουν ληφθεί μέσω του Metro Store ή οποιονδήποτε προγραμματιστή εφαρμογών, ούτε το Metro Store έχει καμία σχέση, συνεργασία ή σχέση μαζί τους.</string>
     <string name="pref_dispenser_summary">Δες και διαχειρίσου απορρίμματα διακριτικών από ανώνυμες συνδέσεις</string>
     <string name="pref_network_proxy_url_message">Εισήγαγε μια έγκυρη διεύθυνση URL διακομιστή μεσολάβησης για να περνάνε όλα τα δεδομένα μέσω αυτού.</string>
-    <string name="add_dispenser_summary">Προσθέστε ένα διανομέα διακριτικού στο Aurora Store. Οι διανομείς Διακριτικών παρέχουν διαπιστευτήρια λογαριασμού στο Aurora Store για την ανώνυμη καταγραφή.</string>
+    <string name="add_dispenser_summary">Προσθέστε ένα διανομέα διακριτικού στο Metro Store. Οι διανομείς Διακριτικών παρέχουν διαπιστευτήρια λογαριασμού στο Metro Store για την ανώνυμη καταγραφή.</string>
     <string name="add_dispenser_hint">Διανομέας URL</string>
     <string name="toast_fav_import_failed">Αποτυχία εισαγωγής αγαπημένων!</string>
     <string name="toast_fav_export_failed">Αποτυχία εξαγωγής αγαπημένων!</string>
@@ -370,8 +370,8 @@
     <string name="toast_permission_installer_required">Πρέπει να αποδεχτείτε την άδεια εγκατάστασης πρώτα</string>
     <string name="item_required">Απαιτείται</string>
     <string name="item_optional">Προαιρετικό</string>
-    <string name="force_restart_title">Επανεκκίνηση Aurora Store</string>
-    <string name="force_restart_summary">Το Aurora Store χρείαζεται να επανεκκινηθεί για να εφαρμοστούν οι πρόσφατες αλλαγές</string>
+    <string name="force_restart_title">Επανεκκίνηση Metro Store</string>
+    <string name="force_restart_summary">Το Metro Store χρείαζεται να επανεκκινηθεί για να εφαρμοστούν οι πρόσφατες αλλαγές</string>
     <string name="export_app_title">Εξαγωγέας αρχείου</string>
     <string name="export_app_summary">Περίμενε λίγο, εξάγουμε το αρχείο σου</string>
     <string name="made_with_love">Φτιαγμένο με <xliff:g id="heart_emoji">%1$s</xliff:g> στην Ινδία</string>

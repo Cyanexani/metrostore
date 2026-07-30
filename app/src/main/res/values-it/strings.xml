@@ -47,7 +47,7 @@
     <string name="purchase_invalid">Applicazione non acquistata</string>
     <string name="pref_filter_fdroid_title">Escludi le app provenienti da F-Droid</string>
     <string name="pref_filter_fdroid_summary">Non controllare gli aggiornamenti per le app installate da F-Droid</string>
-    <string name="onboarding_permission_installer_desc">Consenti l\'installazione di app da Aurora Store</string>
+    <string name="onboarding_permission_installer_desc">Consenti l\'installazione di app da Metro Store</string>
     <string name="installer_status_failure_incompatible">App incompatibile</string>
     <string name="details_think_this_app">Cosa ne pensi di questa app?</string>
     <string name="details_more_about_app">Altre informazioni sull\'app</string>
@@ -86,7 +86,7 @@
     <string name="action_share">Condividi</string>
     <string name="action_search">Cerca</string>
     <string name="action_resume">Riprendi</string>
-    <string name="about_xda_summary">Vedi la discussione su Aurora Store nel forum XDA per dibattiti o suggerimenti.</string>
+    <string name="about_xda_summary">Vedi la discussione su Metro Store nel forum XDA per dibattiti o suggerimenti.</string>
     <string name="about_xda">Forum XDA</string>
     <string name="about_telegram_summary">Unisciti al gruppo di supporto Aurora per discussioni o suggerimenti.</string>
     <string name="action_restart">Riavvia</string>
@@ -129,9 +129,9 @@
     <string name="about_paypal">PayPal</string>
     <string name="about_libera_summary">Diventa sostenitore su Liberapay</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_gitlab_summary">Ottieni il codice sorgente di Aurora Store da Aurora OSS su GitLab.</string>
+    <string name="about_gitlab_summary">Ottieni il codice sorgente di Metro Store da Metro OS su GitLab.</string>
     <string name="about_gitlab">GitLab</string>
-    <string name="about_fdroid_summary">Ottieni Aurora Store tramite F-Droid.</string>
+    <string name="about_fdroid_summary">Ottieni Metro Store tramite F-Droid.</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_eth_summary">Dona via Ethereum (ETH)</string>
     <string name="about_bitcoin_eth">Ethereum</string>
@@ -174,7 +174,7 @@
     <string name="onboarding_title_welcome">Benvenuti</string>
     <string name="onboarding_title_permissions">Autorizzazioni</string>
     <string name="onboarding_title_installer">Installatore</string>
-    <string name="onboarding_permission_select">Aurora Store richiede le autorizzazioni seguenti</string>
+    <string name="onboarding_permission_select">Metro Store richiede le autorizzazioni seguenti</string>
     <string name="dialog_title_self_update">Nuovo aggiornamento disponibile</string>
     <string name="device_miui_extra">Facoltativamente puoi scegliere l\'installatore nativo, ma in tal caso non sarà possibile installare APK in bundle (divisi).</string>
     <string name="device_miui_description">Si prega di disattivare le ottimizzazioni MIUI per consentire le installazioni, altrimenti è possibile scegliere installatore Root o Services.</string>
@@ -277,7 +277,7 @@
     <string name="failed_generating_session">Errore nella generazione della sessione, codice: <xliff:g id="status_code">%1$d</xliff:g></string>
     <string name="check_connectivity">Controlla la tua connessione ad internet</string>
     <string name="app_language">Lingua dell\'app</string>
-    <string name="app_links_desc">Consenti a Aurora Store di aprire i collegamenti supportati</string>
+    <string name="app_links_desc">Consenti a Metro Store di aprire i collegamenti supportati</string>
     <string name="failed_to_generate_session">Impossibile generare la sessione</string>
     <string name="verifying_new_session">Verifica della nuova sessione</string>
     <string name="app_links_title">Collegamenti app</string>
@@ -296,7 +296,7 @@
     <string name="onboarding_permission_doze">Scaricamenti in background</string>
     <string name="toast_proxy_invalid">URL proxy non valido, controlla il formato!</string>
     <string name="pref_aurora_only_desc">Non controllare gli aggiornamenti per app installate da altre fonti</string>
-    <string name="onboarding_permission_doze_desc">Consenti ad Aurora Store di scaricare e aggiornare le app in background</string>
+    <string name="onboarding_permission_doze_desc">Consenti ad Metro Store di scaricare e aggiornare le app in background</string>
     <string name="pref_updates_auto">Aggiornamenti automatici</string>
     <string name="pref_updates_auto_notify">Controlla e segnala gli aggiornamenti disponibili</string>
     <string name="pref_updates_auto_off">Non aggiornare le app automaticamente</string>
@@ -313,7 +313,7 @@
     <string name="source_code_title">Codice sorgente</string>
     <string name="source_code_subtitle">Scopri cosa c\'è dentro</string>
     <string name="privacy_policy_title">Informativa sulla privacy</string>
-    <string name="privacy_policy_subtitle">Scopri come Aurora Store utilizza i tuoi dati</string>
+    <string name="privacy_policy_subtitle">Scopri come Metro Store utilizza i tuoi dati</string>
     <string name="disclaimer_subtitle">Responsabilità</string>
     <string name="session_installer_desc">Consigliato, integrato e supporta tutte le versioni di Android</string>
     <string name="root_installer_subtitle">Installatore shell che usa i permessi di root</string>
@@ -337,16 +337,16 @@
     <string name="about_wiki_title">Wiki</string>
     <string name="about_wiki_summary">Trova le risposte alle domande più frequenti, i passaggi per la risoluzione dei problemi e altro ancora</string>
     <string name="pref_clear_device_owner_title">Cancella il proprietario del dispositivo</string>
-    <string name="pref_clear_device_owner_summary">Rimuove Aurora Store come app proprietaria del dispositivo</string>
+    <string name="pref_clear_device_owner_summary">Rimuove Metro Store come app proprietaria del dispositivo</string>
     <string name="add_dispenser_error">URL non valido</string>
     <string name="pref_clear_device_owner_desc">L\'autorizzazione dell\'installatore di sessione a installare silenziosamente l\'app verrà revocata. Procedere con la cancellazione della proprietà del dispositivo?</string>
     <string name="pref_dispenser_summary">Visualizza e gestisci i distributori di token per i login anonimi</string>
     <string name="no_dispensers_available">Nessun distributore disponibile</string>
-    <string name="add_dispenser_summary">Aggiungi un distributore di token ad Aurora Store. I distributori di token forniscono le credenziali dell\'account ad Aurora Store per l\'accesso anonimo.</string>
+    <string name="add_dispenser_summary">Aggiungi un distributore di token ad Metro Store. I distributori di token forniscono le credenziali dell\'account ad Metro Store per l\'accesso anonimo.</string>
     <string name="add_dispenser_hint">URL distributore</string>
     <string name="remove_dispenser_summary">Desideri rimuovere il distributore \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
-    <string name="about_aurora_store_subtitle">Ottieni maggiori informazioni su Aurora Store</string>
-    <string name="about_aurora_store_title">Informazioni su Aurora Store</string>
+    <string name="about_aurora_store_subtitle">Ottieni maggiori informazioni su Metro Store</string>
+    <string name="about_aurora_store_title">Informazioni su Metro Store</string>
     <string name="session_login">Accedi al tuo account Google Play</string>
     <string name="toast_app_unavailable">App non disponibile per il tuo dispositivo</string>
     <string name="export_app_summary">Attendi, esportazione del file in corso</string>
@@ -369,8 +369,8 @@
     <string name="action_logout_confirmation_message">Vuoi davvero disconnetterti?</string>
     <string name="export_app_title">Esportazione file</string>
     <string name="check_updates">Controlla gli aggiornamenti</string>
-    <string name="force_restart_title">Riavvia Aurora Store</string>
-    <string name="force_restart_summary">Aurora Store deve essere riavviato per applicare le nuove impostazioni</string>
+    <string name="force_restart_title">Riavvia Metro Store</string>
+    <string name="force_restart_summary">Metro Store deve essere riavviato per applicare le nuove impostazioni</string>
     <string name="export_app_summary_success">Bundle dell\'app esportato correttamente</string>
     <string name="export_app_summary_fail">Impossibile esportare il bundle dell\'app</string>
     <string name="notification_channel_export">Notifica di esportazione dell\'app</string>
@@ -385,7 +385,7 @@
     <string name="notification_channel_account">Notifica relativa all\'account</string>
     <string name="authentication_required_title">Autenticazione richiesta</string>
     <string name="authentication_required_unarchive">Accedi al tuo account Google Play per disarchiviare l\'applicazione!</string>
-    <string name="about_aurora_store_summary">Aurora Store consente di cercare e scaricare applicazioni da canali ufficiali di Google Play. È possibile controllare le descrizioni delle app, gli screenshot, gli aggiornamenti, i commenti degli altri utenti e scaricare l\'APK direttamente da Google Play sul proprio dispositivo. Per utilizzare Aurora Store, è necessario disporre di un account Google Play e accedere al proprio account Google Play quando si apre e si configura Aurora Store.\n\nA differenza di un app store tradizionale, Aurora Store non possiede, non concede in licenza e non distribuisce alcuna app. Tutte le app, le loro descrizioni, le schermate e gli altri contenuti di Aurora Store sono direttamente accessibili, scaricati e/o visualizzati da Google Play. Aurora Store funziona esattamente come un client o un browser, consentendo di accedere al proprio account Google Play e di trovare le app da Google Play.\n\nNota bene che Aurora Store non ha alcuna approvazione, sponsorizzazione o autorizzazione da parte di Google, di Google Play, delle app scaricate attraverso Aurora Store o degli sviluppatori di app; Aurora Store non ha alcuna affiliazione, collaborazione o collegamento con loro.</string>
+    <string name="about_aurora_store_summary">Metro Store consente di cercare e scaricare applicazioni da canali ufficiali di Google Play. È possibile controllare le descrizioni delle app, gli screenshot, gli aggiornamenti, i commenti degli altri utenti e scaricare l\'APK direttamente da Google Play sul proprio dispositivo. Per utilizzare Metro Store, è necessario disporre di un account Google Play e accedere al proprio account Google Play quando si apre e si configura Metro Store.\n\nA differenza di un app store tradizionale, Metro Store non possiede, non concede in licenza e non distribuisce alcuna app. Tutte le app, le loro descrizioni, le schermate e gli altri contenuti di Metro Store sono direttamente accessibili, scaricati e/o visualizzati da Google Play. Metro Store funziona esattamente come un client o un browser, consentendo di accedere al proprio account Google Play e di trovare le app da Google Play.\n\nNota bene che Metro Store non ha alcuna approvazione, sponsorizzazione o autorizzazione da parte di Google, di Google Play, delle app scaricate attraverso Metro Store o degli sviluppatori di app; Metro Store non ha alcuna affiliazione, collaborazione o collegamento con loro.</string>
     <string name="made_with_love">Fatto con <xliff:g id="heart_emoji">%1$s</xliff:g> in India</string>
     <string name="checking_updates">Controllo degli aggiornamenti in corso</string>
     <string name="available_spoof">Disponibile</string>

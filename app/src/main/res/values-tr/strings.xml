@@ -14,15 +14,15 @@
     <string name="account_login_using">Şununla giriş yap</string>
     <string name="account_google">Google</string>
     <string name="account_anonymous">Anonim</string>
-    <string name="about_xda_summary">Tartışmalar veya öneriler için Aurora Store XDA başlığına bakın.</string>
+    <string name="about_xda_summary">Tartışmalar veya öneriler için Metro Store XDA başlığına bakın.</string>
     <string name="about_telegram_summary">Tartışmalar veya öneriler için Aurora Destek grubuna katılın.</string>
     <string name="about_telegram">Telegram</string>
     <string name="about_paypal_summary">PayPal aracılığıyla bağış yapın</string>
     <string name="about_paypal">PayPal</string>
     <string name="about_libera_summary">Liberapay\'de patron olun</string>
     <string name="about_libera">Liberapay</string>
-    <string name="about_fdroid_summary">Aurora Store\'u F-Droid aracılığıyla edinin.</string>
-    <string name="about_gitlab_summary">Aurora Store kaynak kodunu GitLab\'daki Aurora OSS\'den edinin.</string>
+    <string name="about_fdroid_summary">Metro Store\'u F-Droid aracılığıyla edinin.</string>
+    <string name="about_gitlab_summary">Metro Store kaynak kodunu GitLab\'daki Metro OS\'den edinin.</string>
     <string name="about_gitlab">GitLab</string>
     <string name="about_fdroid">F-Droid</string>
     <string name="about_bitcoin_btc">Bitcoin</string>
@@ -96,7 +96,7 @@
     <string name="pref_filter_fdroid_title">F-Droid uygulamalarını süz</string>
     <string name="pref_filter_fdroid_summary">F-Droid\'den kurulan uygulamaların güncellemelerini denetleme</string>
     <string name="pref_common_extra">Ekler</string>
-    <string name="onboarding_permission_installer_desc">Aurora Store\'dan uygulama kurmaya izin ver</string>
+    <string name="onboarding_permission_installer_desc">Metro Store\'dan uygulama kurmaya izin ver</string>
     <string name="onboarding_permission_installer">Kurucu izni</string>
     <string name="onboarding_permission_esm">Dış depolama yöneticisi</string>
     <string name="onboarding_permission_esa_desc">Büyük uygulamalar ve oyunlar için APK genişletme dosyalarını (OBB\'ler) kaydetmek için.</string>
@@ -278,7 +278,7 @@
     <string name="app_language">Uygulama dili</string>
     <string name="check_connectivity">İnternet bağlantısını denetle</string>
     <string name="failed_to_generate_session">Oturum oluşturulamadı</string>
-    <string name="app_links_desc">Aurora Store\'un desteklenen bağlantıları açmasına izin ver</string>
+    <string name="app_links_desc">Metro Store\'un desteklenen bağlantıları açmasına izin ver</string>
     <string name="verifying_new_session">Yeni oturum doğrulanıyor</string>
     <string name="app_links_title">Uygulama bağlantıları</string>
     <string name="google_play_store_desc">Google Play, Google Play Store ve eski adıyla Android Market olarak da bilinir.</string>
@@ -286,7 +286,7 @@
     <string name="details_ratings_title_hint">İnceleme başlığı</string>
     <string name="pref_updates_check_frequency_desc">Kendiliğinden güncellemeler için saat türünde aralığı yapılandır.</string>
     <string name="pref_aurora_only">Diğer kaynaktan uygulamaları süz</string>
-    <string name="pref_aurora_only_desc">Aurora Store dışındaki kaynaklardan kurulan uygulamaların güncellemelerini denetleme</string>
+    <string name="pref_aurora_only_desc">Metro Store dışındaki kaynaklardan kurulan uygulamaların güncellemelerini denetleme</string>
     <string name="title_app_settings">Uygulama ayarları</string>
     <string name="pref_updates_check_frequency">Kendiliğinden güncelleme sıklığı</string>
     <string name="pref_network_proxy_url">Vekil URL\'si</string>
@@ -296,7 +296,7 @@
     <string name="pref_vending_version_device">Varsayılan (cihaz yapılandırmasından)</string>
     <string name="pref_vending_version_title">Google Play sürümü</string>
     <string name="onboarding_permission_doze">Arka plan indirmeleri</string>
-    <string name="onboarding_permission_doze_desc">Aurora Store\'un arka planda uygulamaları indirmesine ve güncellemesine izin ver</string>
+    <string name="onboarding_permission_doze_desc">Metro Store\'un arka planda uygulamaları indirmesine ve güncellemesine izin ver</string>
     <string name="pref_updates_auto">Otomatik güncellemeler</string>
     <string name="pref_updates_auto_notify">Kullanılabilir güncellemeleri denetle ve bildir</string>
     <string name="pref_updates_auto_off">Uygulamalar kendiliğinden güncellenmesin</string>
@@ -326,11 +326,11 @@
     <string name="disclaimer_subtitle">Hesap verebilirlik ve sorumluluk</string>
     <string name="manual_download_hint">İndirmek istediğiniz sürüm kodunu girin</string>
     <string name="privacy_policy_title">Gizlilik politikası</string>
-    <string name="privacy_policy_subtitle">Aurora Store\'un verilerinizi nasıl kullandığını öğrenin</string>
+    <string name="privacy_policy_subtitle">Metro Store\'un verilerinizi nasıl kullandığını öğrenin</string>
     <string name="title_more">Daha Çoğu</string>
     <string name="manage_account">Hesabınızı yönetin</string>
     <string name="pref_clear_device_owner_title">Aygıt sahibini temizle</string>
-    <string name="pref_clear_device_owner_summary">Aurora Store\'un aygıt sahibi uygulaması olmasını kaldırır</string>
+    <string name="pref_clear_device_owner_summary">Metro Store\'un aygıt sahibi uygulaması olmasını kaldırır</string>
     <string name="pref_clear_device_owner_desc">Bu, oturum kurucunun uygulamayı sessizce kurma iznini iptal edecektir. Aygıt sahipliğini temizlemeye devam edilsin mi?</string>
     <string name="pref_dispenser_title">Dağıtıcıları yönet</string>
     <string name="pref_dispenser_summary">Anonim oturum açmak için belirteç dağıtıcılarını görüntüleyin ve yönetin</string>
@@ -342,12 +342,12 @@
     <string name="remove_dispenser_summary">\"<xliff:g id="url">%1$s</xliff:g>\" dağıtıcısını kaldırmak istiyor musunuz?</string>
     <string name="add">Ekle</string>
     <string name="add_dispenser_title">Dağıtıcı ekle</string>
-    <string name="add_dispenser_summary">Aurora Store\'a bir belirteç dağıtıcı ekleyin. Belirteç dağıtıcıları, anonim olarak oturum açmak için Aurora Store\'a hesap kimlik bilgileri sağlar.</string>
+    <string name="add_dispenser_summary">Metro Store\'a bir belirteç dağıtıcı ekleyin. Belirteç dağıtıcıları, anonim olarak oturum açmak için Metro Store\'a hesap kimlik bilgileri sağlar.</string>
     <string name="add_dispenser_error">Geçersiz URL</string>
     <string name="add_dispenser_hint">Dağıtıcı URL\'si</string>
-    <string name="about_aurora_store_title">Aurora Store Hakkında</string>
-    <string name="about_aurora_store_subtitle">Aurora Store ile ilgili daha çok bilgi edinin</string>
-    <string name="about_aurora_store_summary">Aurora Store, resmi Google Play Mağazasından uygulama aramanızı ve indirmenizi sağlar. Uygulama açıklamalarını, ekran görüntülerini, güncellemeleri, diğer kullanıcıların yorumlarını görebilir ve APK\'yı doğrudan Google Play\'den aygıtınıza indirebilirsiniz. Aurora Store\'u kullanmak için bir Google Play hesabınızın olması ve Aurora Store\'u ilk açtığınızda ve yapılandırdığınızda Google Play hesabınızda oturum açmanız gerekir. \n \nGeleneksel bir uygulama mağazasının tersine, Aurora Store herhangi bir uygulamayı sahiplenmez, lisanslamaz veya dağıtmaz. Aurora Store\'daki tüm uygulamalara, uygulama açıklamalarına, ekran görüntülerine ve diğer içeriğe doğrudan Google Play\'den erişilir, indirilir ve/veya görüntülenir. Aurora Store, tıpkı bir kapı veya tarayıcı gibi çalışarak Google Play hesabınızda oturum açmanıza ve Google Play\'deki uygulamaları bulmanızı sağlar.\n \nAurora Store\'un Google, Google Play, Aurora Store üzerinden indirilen herhangi bir uygulama veya herhangi bir uygulama geliştiricisinden herhangi bir onay, sponsorluk veya yetkilendirme almadığını ve Aurora Store\'un bunlarla herhangi bir ilişkisi, işbirliği veya bağlantısı olmadığını lütfen unutmayın.</string>
+    <string name="about_aurora_store_title">Metro Store Hakkında</string>
+    <string name="about_aurora_store_subtitle">Metro Store ile ilgili daha çok bilgi edinin</string>
+    <string name="about_aurora_store_summary">Metro Store, resmi Google Play Mağazasından uygulama aramanızı ve indirmenizi sağlar. Uygulama açıklamalarını, ekran görüntülerini, güncellemeleri, diğer kullanıcıların yorumlarını görebilir ve APK\'yı doğrudan Google Play\'den aygıtınıza indirebilirsiniz. Metro Store\'u kullanmak için bir Google Play hesabınızın olması ve Metro Store\'u ilk açtığınızda ve yapılandırdığınızda Google Play hesabınızda oturum açmanız gerekir. \n \nGeleneksel bir uygulama mağazasının tersine, Metro Store herhangi bir uygulamayı sahiplenmez, lisanslamaz veya dağıtmaz. Metro Store\'daki tüm uygulamalara, uygulama açıklamalarına, ekran görüntülerine ve diğer içeriğe doğrudan Google Play\'den erişilir, indirilir ve/veya görüntülenir. Metro Store, tıpkı bir kapı veya tarayıcı gibi çalışarak Google Play hesabınızda oturum açmanıza ve Google Play\'deki uygulamaları bulmanızı sağlar.\n \nMetro Store\'un Google, Google Play, Metro Store üzerinden indirilen herhangi bir uygulama veya herhangi bir uygulama geliştiricisinden herhangi bir onay, sponsorluk veya yetkilendirme almadığını ve Metro Store\'un bunlarla herhangi bir ilişkisi, işbirliği veya bağlantısı olmadığını lütfen unutmayın.</string>
     <string name="session_login">Lütfen Google Play hesabınızda oturum açın</string>
     <string name="toast_app_unavailable">Uygulama aygıtınız için kullanılabilir değil</string>
     <string name="toast_fav_export_failed">Gözdeler dışa aktarılamadı!</string>
@@ -370,8 +370,8 @@
     <string name="toast_permission_installer_required">Önce kurucu izni vermeniz gerekir</string>
     <string name="item_required">Gerekli</string>
     <string name="item_optional">İsteğe bağlı</string>
-    <string name="force_restart_title">Aurora Store\'u yeniden başlat</string>
-    <string name="force_restart_summary">Aurora Store\'un yeni değiştirilen ayarları uygulamak için yeniden başlatılması gerekir</string>
+    <string name="force_restart_title">Metro Store\'u yeniden başlat</string>
+    <string name="force_restart_summary">Metro Store\'un yeni değiştirilen ayarları uygulamak için yeniden başlatılması gerekir</string>
     <string name="export_app_title">Dosya dışa aktarıcı</string>
     <string name="export_app_summary">Bekleyin, dosyanız dışa aktarılıyor</string>
     <string name="notification_channel_export">Uygulama dışa aktarma bildirimi</string>

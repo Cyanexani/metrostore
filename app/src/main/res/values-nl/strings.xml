@@ -17,8 +17,8 @@
     <string name="about_bitcoin_btc_summary">Doneer met Bitcoin (BTC)</string>
     <string name="about_bhim_summary">Doneer met UPI</string>
     <string name="installer_root_unavailable">Geen root-toegang. Sta toe of verander de installatiemethode.</string>
-    <string name="about_gitlab_summary">Verkrijg de Aurora Store broncode van Aurora OSS op GitLab.</string>
-    <string name="about_fdroid_summary">Haal de Aurora Store op F-Droid.</string>
+    <string name="about_gitlab_summary">Verkrijg de Metro Store broncode van Metro OS op GitLab.</string>
+    <string name="about_fdroid_summary">Haal de Metro Store op F-Droid.</string>
     <string name="tab_top_charts">Top hitlijsten</string>
     <string name="action_search">Zoek</string>
     <string name="action_filter_misc">Overig</string>
@@ -88,7 +88,7 @@
     <string name="pref_filter_fdroid_title">F-Droid-apps filteren</string>
     <string name="pref_filter_fdroid_summary">Niet op updates controleren voor apps geïnstalleerd van F-Droid</string>
     <string name="pref_common_extra">Extra\'s</string>
-    <string name="onboarding_permission_installer_desc">Sta installeren van apps met Aurora Store toe</string>
+    <string name="onboarding_permission_installer_desc">Sta installeren van apps met Metro Store toe</string>
     <string name="onboarding_permission_installer">Installatierecht</string>
     <string name="onboarding_permission_esm">Beheerder externe opslag</string>
     <string name="onboarding_permission_esa_desc">Voor het opslaan van APK-extensiebestanden (OBB\'s) voor grote apps en spellen</string>
@@ -97,7 +97,7 @@
     <string name="onboarding_title_welcome">Welkom</string>
     <string name="onboarding_title_permissions">Toestemmingen</string>
     <string name="onboarding_title_installer">Installatiemethode</string>
-    <string name="onboarding_permission_select">Aurora Store vereist de volgende toestemmingen</string>
+    <string name="onboarding_permission_select">Metro Store vereist de volgende toestemmingen</string>
     <string name="dialog_desc_native_split">Je kunt geen gebundelde (gesplitste) applicaties installeren met oorspronkelijke installatiemethode. Verander de installatiemethode naar Sessie, Service of Root.</string>
     <string name="dialog_title_self_update">Nieuwe update beschikbaar</string>
     <string name="device_miui_extra">Optioneel kun je kiezen voor de oorspronkelijke installatiemethode maar dan kun je geen gebundelde (gesplitste) APK\'s installeren.</string>
@@ -208,7 +208,7 @@
     <string name="account_login_using">Login met</string>
     <string name="account_google">Google</string>
     <string name="account_anonymous">Anoniem</string>
-    <string name="about_xda_summary">Bekijk de Aurora Store XDA pagina voor discussies of suggesties.</string>
+    <string name="about_xda_summary">Bekijk de Metro Store XDA pagina voor discussies of suggesties.</string>
     <string name="about_xda">Ontwikkelaarsforum</string>
     <string name="about_telegram_summary">Neem deel aan de Aurora Support groep voor discussies of suggesties.</string>
     <string name="about_telegram">Telegram</string>
@@ -269,7 +269,7 @@
     <string name="notification_updates_available_desc_2"><xliff:g id="app_one_name">%1$s</xliff:g> en <xliff:g id="app_two_name">%2$s</xliff:g></string>
     <string name="check_connectivity">Controleer internetconnectiviteit</string>
     <string name="app_language">App-taal</string>
-    <string name="app_links_desc">Aurora Store toestaan om ondersteunde links te openen</string>
+    <string name="app_links_desc">Metro Store toestaan om ondersteunde links te openen</string>
     <string name="title_search_suggestion">Zoeksuggestie</string>
     <string name="title_search_results">Zoekresultaten</string>
     <string name="failed_to_fetch_report">Mislukt bij het ophalen van privacyrapport</string>
@@ -284,7 +284,7 @@
     <string name="google_play_store_desc">Google Play, ook bekend als de Google Play Store en voorheen Android Market.</string>
     <string name="action_request_analysis">Nieuwe analyse aanvragen</string>
     <string name="onboarding_permission_doze">Achtergrondinstallaties</string>
-    <string name="onboarding_permission_doze_desc">Sta Aurora Store toe om apps te installeren en te updaten in de achtergrond</string>
+    <string name="onboarding_permission_doze_desc">Sta Metro Store toe om apps te installeren en te updaten in de achtergrond</string>
     <string name="action_home_screen">Toevoegen aan startpagina</string>
     <string name="details_ratings_title_hint">Titels beoordelen</string>
     <string name="download_clear_finished">Verwijder voltooid</string>
@@ -320,8 +320,8 @@
     <string name="services_installer_desc">Vereist Aurora Diensten om geïnstaleerd te worden als vertrouwelijke systeemapp</string>
     <string name="action_uninstall_success">Succesvol geïnstalleerd</string>
     <string name="details_no_favourites">Geen favoriete apps gevonden</string>
-    <string name="pref_aurora_only_desc">Niet op updates controleren voor de apps geïnstalleerd van bronnen buiten Aurora Store</string>
-    <string name="privacy_policy_subtitle">Leer hoe Aurora Store je gegevens gebruikt</string>
+    <string name="pref_aurora_only_desc">Niet op updates controleren voor de apps geïnstalleerd van bronnen buiten Metro Store</string>
+    <string name="privacy_policy_subtitle">Leer hoe Metro Store je gegevens gebruikt</string>
     <string name="session_installer_desc">Aanbevolen, ingebouwd en ondersteund alle Androidversies</string>
     <string name="am_installer_desc">Vereist App Manager, gebruikt adb/root modus om te installeren als miui-optimalisatie aan staat</string>
     <string name="notification_channel_install">Installatiemelding</string>
@@ -343,12 +343,12 @@
     <string name="pref_aurora_only">Apps van andere bronnen filteren</string>
     <string name="failed_apk_export">APK\'s exporteren mislukt</string>
     <string name="source_code_title">Broncode</string>
-    <string name="about_aurora_store_title">Over Aurora Store</string>
+    <string name="about_aurora_store_title">Over Metro Store</string>
     <string name="no_dispensers_available">Geen distributeurs beschikbaar</string>
     <string name="source_code_subtitle">Ondek wat erin zit</string>
     <string name="item_optional">Optioneel</string>
     <string name="no_apps_available">Geen apps beschikbaar</string>
-    <string name="about_aurora_store_subtitle">Leer meer over Aurora Store</string>
+    <string name="about_aurora_store_subtitle">Leer meer over Metro Store</string>
     <string name="add_dispenser_title">Distributeur toevoegen</string>
     <string name="pref_updates_auto_notify">Controleer &amp; stuur melding voor beschikbare updates</string>
     <string name="pref_updates_check_frequency_desc">Stel het tijdsinterval voor automatische updates in, in uren</string>
@@ -366,7 +366,7 @@
     <string name="pref_dispenser_title">Distributeurs beheren</string>
     <string name="privacy_policy_title">Privacybeleid</string>
     <string name="disclaimer_subtitle">Verantwoording</string>
-    <string name="pref_clear_device_owner_summary">Verwijderd Aurora Store als de appparaateigenaar-app</string>
+    <string name="pref_clear_device_owner_summary">Verwijderd Metro Store als de appparaateigenaar-app</string>
     <string name="add_dispenser_hint">Distributeur-URL</string>
     <string name="remove_dispenser_title">Distributeur verwijderen</string>
     <string name="add_dispenser_error">Ongeldige URL</string>
@@ -377,8 +377,8 @@
     <string name="toast_black_export_success">Zwarte lijst geëxporteerd!</string>
     <string name="export_app_title">Bestands-exporteerder</string>
     <string name="export_app_summary_success">Appbundel succesvol geëxporteerd</string>
-    <string name="force_restart_title">Aurora Store opnieuw opstarten</string>
-    <string name="force_restart_summary">Aurora Store moet opnieuw worden opgestart om de instellingen toe te passen</string>
+    <string name="force_restart_title">Metro Store opnieuw opstarten</string>
+    <string name="force_restart_summary">Metro Store moet opnieuw worden opgestart om de instellingen toe te passen</string>
     <string name="authentication_required_title">Authenticatie vereist</string>
     <string name="remove">Verwijderen</string>
     <string name="toast_fav_export_failed">Favorieten exporteren mislukt!</string>
@@ -415,7 +415,7 @@
     <string name="pref_network_microg_login_desc">Authenticeer met microG tijdens het aanmelden van Google-accounts voor een vloeiendere inlogervaring</string>
     <string name="export_app_summary_fail">Appbundel exporteren mislukt</string>
     <string name="add">Toevoegen</string>
-    <string name="add_dispenser_summary">Voeg een distributeur toe aan Aurora Store. Distributeurs bieden accountgegevens aan om anoniem aan te melden.</string>
+    <string name="add_dispenser_summary">Voeg een distributeur toe aan Metro Store. Distributeurs bieden accountgegevens aan om anoniem aan te melden.</string>
     <string name="toast_proxy_disabled">Proxy succesvol uitgeschakeld</string>
     <string name="pref_updates_restrictions_title">Beperkingen automatische updates</string>
     <string name="set">Instellen</string>
@@ -426,7 +426,7 @@
     <string name="pref_updates_restrictions_idle">Als het apparaat inactief is</string>
     <string name="pref_updates_restrictions_battery">Als de batterij niet laag is</string>
     <string name="verification_failed">Gedownloade bestanden verifiëren mislukt</string>
-    <string name="about_aurora_store_summary">Met Aurora Store kunt u apps zoeken en downloaden uit de officiële Google Play Store. U kunt app-beschrijvingen, screenshots, updates en reacties van andere gebruikers bekijken en de APK rechtstreeks vanuit Google Play naar uw apparaat downloaden. Om Aurora Store te gebruiken moet u een Google Play-account hebben en inloggen op uw Google Play-account wanneer u Aurora Store voor het eerst opent en configureert.\n\nIn tegenstelling tot een traditionele app store bezit, licentieert of distribueert Aurora Store geen apps. Alle apps, app-beschrijvingen, screenshots en andere content in Aurora Store worden rechtstreeks geopend, gedownload en/of weergegeven via Google Play. Aurora Store werkt precies zoals een deur of een browser, waarmee u kunt inloggen op uw Google Play-account en de apps vanuit Google Play kunt vinden.\n\nHoud er rekening mee dat Aurora Store geen goedkeuring, sponsoring of autorisatie heeft van Google, Google Play, apps die via Aurora Store zijn gedownload of app-ontwikkelaars; Aurora Store heeft ook geen enkele band, samenwerking of connectie met hen.</string>
+    <string name="about_aurora_store_summary">Met Metro Store kunt u apps zoeken en downloaden uit de officiële Google Play Store. U kunt app-beschrijvingen, screenshots, updates en reacties van andere gebruikers bekijken en de APK rechtstreeks vanuit Google Play naar uw apparaat downloaden. Om Metro Store te gebruiken moet u een Google Play-account hebben en inloggen op uw Google Play-account wanneer u Metro Store voor het eerst opent en configureert.\n\nIn tegenstelling tot een traditionele app store bezit, licentieert of distribueert Metro Store geen apps. Alle apps, app-beschrijvingen, screenshots en andere content in Metro Store worden rechtstreeks geopend, gedownload en/of weergegeven via Google Play. Metro Store werkt precies zoals een deur of een browser, waarmee u kunt inloggen op uw Google Play-account en de apps vanuit Google Play kunt vinden.\n\nHoud er rekening mee dat Metro Store geen goedkeuring, sponsoring of autorisatie heeft van Google, Google Play, apps die via Metro Store zijn gedownload of app-ontwikkelaars; Metro Store heeft ook geen enkele band, samenwerking of connectie met hen.</string>
     <string name="pref_common_advanced">Geavanceerd</string>
     <string name="pref_updates_app_source">App-bron</string>
     <string name="app_info_downloads">Downloads</string>
