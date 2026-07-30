@@ -7,7 +7,7 @@
 variables:
   PACKAGE_VERSION: "continuous"
   DEBUG_BINARY: "com.aurora.store.vanilla.debug_${CI_COMMIT_SHORT_SHA}.apk"
-  DEBUG_BINARY_PATH: "app/build/outputs/apk/vanilla/debug/app-vanilla-debug.apk"
+  DEBUG_BINARY_PATH: "app/build/outputs/apk/vanilla/debug/app-vanilla-universal-debug.apk"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/debug/${PACKAGE_VERSION}"
 
 stages:
