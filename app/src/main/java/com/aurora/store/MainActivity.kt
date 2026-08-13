@@ -30,6 +30,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type.displayCutout
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.FloatingWindow
 import androidx.navigation.fragment.NavHostFragment
