@@ -61,7 +61,7 @@ abstract class BaseFlavouredOnboardingFragment : BaseFragment<FragmentOnboarding
         ViewCompat.setOnApplyWindowInsetsListener(binding.layoutBottom) { layout, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
             layout.setPadding(0, 0, 0, insets.bottom)
-            WindowInsetsCompat.CONSUMED
+            windowInsets
         }
 
         val isDefaultPrefLoaded = Preferences.getBoolean(requireContext(), PREFERENCE_DEFAULT)

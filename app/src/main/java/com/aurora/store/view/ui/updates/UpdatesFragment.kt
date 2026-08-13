@@ -66,7 +66,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             binding.searchFab.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = insets.bottom + resources.getDimensionPixelSize(R.dimen.margin_large)
             }
-            WindowInsetsCompat.CONSUMED
+            windowInsets
         }
 
         // Toolbar
