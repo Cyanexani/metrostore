@@ -101,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metrostore-arm64-v8a-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-arm64-v8a-debug.apk
+          path: app/build/outputs/apk/vanilla/release/app-vanilla-arm64-v8a-release*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -109,7 +109,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metrostore-armeabi-v7a-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-armeabi-v7a-debug.apk
+          path: app/build/outputs/apk/vanilla/release/app-vanilla-armeabi-v7a-release*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -117,7 +117,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metrostore-x86_64-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-x86_64-debug.apk
+          path: app/build/outputs/apk/vanilla/release/app-vanilla-x86_64-release*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -125,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metrostore-x86-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-x86-debug.apk
+          path: app/build/outputs/apk/vanilla/release/app-vanilla-x86-release*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -133,7 +133,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metrostore-universal-${{ github.sha }}
-          path: app/build/outputs/apk/vanilla/debug/app-vanilla-universal-debug.apk
+          path: app/build/outputs/apk/vanilla/release/app-vanilla-universal-release*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -142,11 +142,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            app/build/outputs/apk/vanilla/debug/app-vanilla-arm64-v8a-debug.apk
-            app/build/outputs/apk/vanilla/debug/app-vanilla-armeabi-v7a-debug.apk
-            app/build/outputs/apk/vanilla/debug/app-vanilla-x86_64-debug.apk
-            app/build/outputs/apk/vanilla/debug/app-vanilla-x86-debug.apk
-            app/build/outputs/apk/vanilla/debug/app-vanilla-universal-debug.apk
+            app/build/outputs/apk/vanilla/release/app-vanilla-arm64-v8a-release*.apk
+            app/build/outputs/apk/vanilla/release/app-vanilla-armeabi-v7a-release*.apk
+            app/build/outputs/apk/vanilla/release/app-vanilla-x86_64-release*.apk
+            app/build/outputs/apk/vanilla/release/app-vanilla-x86-release*.apk
+            app/build/outputs/apk/vanilla/release/app-vanilla-universal-release*.apk
           body_path: release-notes.md
           draft: false
           prerelease: false
