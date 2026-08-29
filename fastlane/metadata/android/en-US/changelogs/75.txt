@@ -1,0 +1,1 @@
+Bottom bar sits flush at the screen bottom now — no more dark gap under the icons

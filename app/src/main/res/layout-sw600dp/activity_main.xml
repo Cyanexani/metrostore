@@ -14,23 +14,32 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/nav_view"
+        app:layout_constraintStart_toEndOf="@+id/nav_container"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
-    <com.google.android.material.navigationrail.NavigationRailView
-        android:id="@+id/nav_view"
+    <!-- Same container id as the phone layout so view binding matches; the rail
+         keeps its background via the container while insets become padding. -->
+    <FrameLayout
+        android:id="@+id/nav_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/metro_command_bar"
-        app:headerLayout="@layout/layout_nav_header"
-        app:itemActiveIndicatorStyle="@style/Widget.Metro.Navigation.Indicator"
-        app:itemIconTint="@color/metro_nav_icon"
-        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_bottom_nav"
-        app:menuGravity="center"
-        tools:viewBindingType="com.google.android.material.navigation.NavigationBarView" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.navigationrail.NavigationRailView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/metro_command_bar"
+            app:headerLayout="@layout/layout_nav_header"
+            app:itemActiveIndicatorStyle="@style/Widget.Metro.Navigation.Indicator"
+            app:itemIconTint="@color/metro_nav_icon"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu_bottom_nav"
+            app:menuGravity="center"
+            tools:viewBindingType="com.google.android.material.navigation.NavigationBarView" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
