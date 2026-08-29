@@ -1,0 +1,4 @@
+• Bottom navigation now shows text labels under the icons
+• Launcher name now shows the version (e.g. "Metro Store 0.8.2") so leftover debug installs can't be mistaken for the real app
+• Debug and nightly builds now appear as "Metro Debug" and "Metro Nightly" in the launcher
+• Carries the bottom bar fix for 2-button and 3-button navigation

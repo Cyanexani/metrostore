@@ -54,8 +54,12 @@ android {
         minSdk = 23
         targetSdk = 36
 
-        versionCode = 73
-        versionName = "0.8.1-beta"
+        versionCode = 74
+        versionName = "0.8.2-beta"
+
+        // Show the installed version in the launcher name so sideloaded builds
+        // can never be confused with leftover debug installs on the device.
+        manifestPlaceholders["appLabel"] = "Metro Store ${versionName?.removeSuffix("-beta")}"
 
         testInstrumentationRunner = "com.aurora.store.HiltInstrumentationTestRunner"
         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
@@ -109,11 +113,13 @@ android {
             initWith(getByName("release"))
             applicationIdSuffix = ".nightly"
             versionNameSuffix = "-${lastCommitHash.get()}"
+            manifestPlaceholders["appLabel"] = "Metro Nightly"
         }
 
         debug {
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs.getByName("aosp")
+            manifestPlaceholders["appLabel"] = "Metro Debug"
         }
     }
 

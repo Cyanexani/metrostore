@@ -1,3 +1,9 @@
+Changelog : v0.8.2-beta (74)
+• Bottom navigation now shows text labels under the icons (Apps, Games, Updates)
+• Launcher name now shows the installed version (e.g. "Metro Store 0.8.2") so leftover debug installs can't be mistaken for the real app
+• Debug and nightly builds now appear as "Metro Debug" and "Metro Nightly" in the launcher
+• Carries the bottom bar fix for 2-button and 3-button navigation from 0.8.1
+
 Changelog : v0.8.1-beta (73)
 • Fixed bottom bar glitch with 2-button and 3-button navigation (icons no longer squashed)
 • Fixed search button floating too high above the bottom bar
