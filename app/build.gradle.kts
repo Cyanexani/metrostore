@@ -54,8 +54,8 @@ android {
         minSdk = 23
         targetSdk = 36
 
-        versionCode = 72
-        versionName = "0.8.0-beta"
+        versionCode = 73
+        versionName = "0.8.1-beta"
 
         testInstrumentationRunner = "com.aurora.store.HiltInstrumentationTestRunner"
         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
@@ -96,8 +96,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            if (File("signing.properties").exists()) {
-                signingConfig = signingConfigs.getByName("release")
+            // Fall back to the public AOSP test key when no real signing
+            // properties are configured (e.g. CI), so release APKs stay installable.
+            signingConfig = if (File("signing.properties").exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("aosp")
             }
         }
 

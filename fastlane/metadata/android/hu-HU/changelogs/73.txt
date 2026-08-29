@@ -1,0 +1,3 @@
+• Fixed bottom bar glitch with 2-button and 3-button navigation (icons no longer squashed)
+• Fixed search button floating too high above the bottom bar
+• Fixed release CI packaging so signed, installable APKs are published again

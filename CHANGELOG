@@ -1,3 +1,9 @@
+Changelog : v0.8.1-beta (73)
+• Fixed bottom bar glitch with 2-button and 3-button navigation (icons no longer squashed)
+• Fixed search button floating too high above the bottom bar
+• Fixed release CI packaging so signed, installable APKs are published again
+• Merged build artifact path fixes
+
 [UNRELEASED] Changelog: v4.8.0 (72)
 • Minimum supported Android version is now Android 6.0
 • Switched to Material3 Expressive theme
