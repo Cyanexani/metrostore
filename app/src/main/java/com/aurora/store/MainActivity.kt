@@ -22,6 +22,7 @@ package com.aurora.store
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -30,6 +31,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type.displayCutout
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.FloatingWindow
 import androidx.navigation.fragment.NavHostFragment
@@ -72,11 +74,16 @@ class MainActivity : AppCompatActivity() {
         B = ActivityMainBinding.inflate(layoutInflater)
         setContentView(B.root)
 
-        // Adjust root view's paddings for edgeToEdge display
+        // Adjust root view's paddings for edgeToEdge display.
+        // The bottom inset is NOT applied to the root; instead the BottomNavigationView
+        // is lifted above the navigation bar via a bottom margin, so its icons are
+        // never squeezed by the fixed 64dp height (fixes 2-/3-button nav glitch).
         ViewCompat.setOnApplyWindowInsetsListener(B.root) { root, windowInsets ->
             val insets = windowInsets.getInsets(systemBars() or displayCutout() or ime())
-            root.setPadding(insets.left, insets.top, insets.right, insets.bottom)
-            B.navView.updatePadding(bottom = insets.bottom)
+            root.setPadding(insets.left, insets.top, insets.right, 0)
+            B.navView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = insets.bottom
+            }
             windowInsets
         }
 
