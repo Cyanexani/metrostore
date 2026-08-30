@@ -54,8 +54,8 @@ android {
         minSdk = 23
         targetSdk = 36
 
-        versionCode = 75
-        versionName = "0.8.3-beta"
+        versionCode = 76
+        versionName = "0.8.4-beta"
 
         // Show the installed version in the launcher name so sideloaded builds
         // can never be confused with leftover debug installs on the device.
