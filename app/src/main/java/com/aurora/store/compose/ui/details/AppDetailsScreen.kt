@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -340,7 +342,12 @@ private fun ScreenContentApp(
             },
             bottomBar = {
                 Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-                    Box(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
                         SetupActions()
                     }
                 }
