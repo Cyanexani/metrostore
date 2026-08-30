@@ -2,6 +2,7 @@ Changelog : v0.8.4-beta (76)
 • Reverted the edge-to-edge bottom-bar rework from 0.8.1–0.8.3 — it never stopped the navigation icons and labels being clipped on 2-/3-button navigation
 • The bottom bar is back to the standard layout: wrap_content height so the system-bar inset grows the bar instead of squeezing its contents, and it still paints down to the screen edge
 • Onboarding "Back"/"Next" buttons are no longer cut off at the bottom of the screen (the button bar was a fixed-height box that the same inset crushed)
+• New shopping-tote launcher icon, replacing the carried-over mark (Android 8+; older Android still shows the previous icon)
 
 Changelog : v0.8.3-beta (75)
 • Bottom bar no longer floats above the screen bottom — the bar color now reaches the very bottom edge and the icons sit right above the gesture/button strip
