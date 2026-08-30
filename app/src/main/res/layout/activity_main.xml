@@ -30,36 +30,31 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/nav_container"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
-    <!-- The container shares the bar's background so the bar color reaches the
-         very bottom edge of the screen; the system gesture/button strip is
-         absorbed as bottom padding instead of lifting the whole bar up. -->
-    <FrameLayout
-        android:id="@+id/nav_container"
+    <!-- height=wrap_content is deliberate. BottomNavigationView adds the
+         navigation-bar inset to its own bottom padding for edge-to-edge; a
+         fixed height would leave that inset eating into the icons/labels and
+         clip them on 2-/3-button navigation. wrap_content lets the bar grow by
+         the inset and keeps painting its background down to the screen edge. -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/metro_command_bar"
+        app:itemActiveIndicatorStyle="@style/Widget.Metro.Navigation.Indicator"
+        app:itemIconSize="28dp"
+        app:itemIconTint="@color/metro_nav_icon"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="@color/metro_nav_icon"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/metro_command_bar"
-            app:itemActiveIndicatorStyle="@style/Widget.Metro.Navigation.Indicator"
-            app:itemIconSize="28dp"
-            app:itemIconTint="@color/metro_nav_icon"
-            app:itemTextColor="@color/metro_nav_icon"
-            app:itemRippleColor="@android:color/transparent"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/menu_bottom_nav"
-            tools:viewBindingType="com.google.android.material.navigation.NavigationBarView" />
-    </FrameLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_nav"
+        tools:viewBindingType="com.google.android.material.navigation.NavigationBarView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

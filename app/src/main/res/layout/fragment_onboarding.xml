@@ -49,10 +49,14 @@
             android:layout_above="@id/layout_bottom"
             android:layout_below="@id/tab_layout" />
 
+        <!-- height=wrap_content so the navigation-bar inset that
+             BaseFlavouredOnboardingFragment applies as bottom padding grows
+             this bar instead of being crushed into a fixed 64dp box that
+             clips the 48dp buttons on 2-/3-button navigation. -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_bottom"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
             <com.google.android.material.button.MaterialButton
@@ -63,9 +67,9 @@
                 android:layout_margin="@dimen/margin_xsmall"
                 android:text="@string/action_next"
                 android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btn_backward"
-                app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
@@ -76,9 +80,9 @@
                 android:layout_margin="@dimen/margin_xsmall"
                 android:text="@string/action_back"
                 android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_forward"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

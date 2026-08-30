@@ -1,0 +1,1 @@
+Reverted the edge-to-edge bottom-bar rework — the nav icons/labels no longer clip on 2-/3-button navigation, and the onboarding Back/Next buttons are no longer cut off
