@@ -1,0 +1,1 @@
+More edge-to-edge fixes: the app-details action button, the dispenser add button and the microG setup buttons no longer clip against the navigation bar.

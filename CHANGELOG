@@ -1,3 +1,8 @@
+Changelog : v0.8.5-beta (77)
+• App details: the Install / Open / Update button no longer sits under the system navigation bar on 2-/3-button navigation
+• Token dispenser: the add button no longer clips against the navigation bar
+• microG setup: the bottom buttons use the real navigation-bar inset instead of a fixed 48dp guess (correct on gesture navigation and tablets too)
+
 Changelog : v0.8.4-beta (76)
 • Reverted the edge-to-edge bottom-bar rework from 0.8.1–0.8.3 — it never stopped the navigation icons and labels being clipped on 2-/3-button navigation
 • The bottom bar is back to the standard layout: wrap_content height so the system-bar inset grows the bar instead of squeezing its contents, and it still paints down to the screen edge

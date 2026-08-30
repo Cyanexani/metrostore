@@ -21,6 +21,9 @@ package com.aurora.store.view.ui.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -50,6 +53,15 @@ class DetailsMicroGFragment : BaseFragment<FragmentDetailsMicrogBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Lift the bottom button bar clear of the navigation bar using the real
+        // inset instead of the fixed 48dp guess the layout used to hard-code.
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomLayout) { v, windowInsets ->
+            v.updatePadding(
+                bottom = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            )
+            windowInsets
+        }
 
         // Toolbar
         binding.toolbar.apply {
