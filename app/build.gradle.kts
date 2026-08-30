@@ -46,22 +46,22 @@ kotlin {
 }
 
 android {
-    namespace = "com.aurora.store"
+    namespace = "com.metro.store"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.aurora.store"
+        applicationId = "com.metro.store"
         minSdk = 23
         targetSdk = 36
 
-        versionCode = 77
-        versionName = "0.8.5-beta"
+        versionCode = 78
+        versionName = "0.8.6-beta"
 
         // Show the installed version in the launcher name so sideloaded builds
         // can never be confused with leftover debug installs on the device.
         manifestPlaceholders["appLabel"] = "Metro Store ${versionName?.removeSuffix("-beta")}"
 
-        testInstrumentationRunner = "com.aurora.store.HiltInstrumentationTestRunner"
+        testInstrumentationRunner = "com.metro.store.HiltInstrumentationTestRunner"
         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
 
         buildConfigField("String", "EXODUS_API_KEY", "\"bbe6ebae4ad45a9cbacb17d69739799b8df2c7ae\"")

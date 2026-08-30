@@ -20,7 +20,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.aurora.store.view.custom.preference.AuroraListPreference
+    <com.metro.store.view.custom.preference.AuroraListPreference
         app:defaultValue="2"
         app:entries="@array/pref_updates_auto"
         app:entryValues="@array/pref_updates_auto_values"

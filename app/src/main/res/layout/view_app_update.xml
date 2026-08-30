@@ -117,7 +117,7 @@
         app:iconTint="?colorControlNormal"
         app:icon="@drawable/ic_arrow_down" />
 
-    <com.aurora.store.view.custom.layouts.button.UpdateButton
+    <com.metro.store.view.custom.layouts.button.UpdateButton
         android:id="@+id/btn_action"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/height_button"

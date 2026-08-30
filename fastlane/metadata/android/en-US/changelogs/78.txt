@@ -1,0 +1,1 @@
+Package name is now com.metro.store. This installs as a new app next to any earlier Metro Store — uninstall the old one after moving over. Internal rename only, no functional changes.

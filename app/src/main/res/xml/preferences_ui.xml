@@ -29,7 +29,7 @@
         app:singleLineTitle="false"
         app:title="@string/pref_ui_layout" />
 
-    <com.aurora.store.view.custom.preference.AuroraListPreference
+    <com.metro.store.view.custom.preference.AuroraListPreference
         app:defaultValue="0"
         app:entries="@array/pref_default_tab"
         app:entryValues="@array/pref_default_tab_values"
