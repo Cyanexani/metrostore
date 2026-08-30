@@ -102,14 +102,14 @@
             android:layout_marginBottom="@dimen/margin_normal"
             android:text="@string/account_login_using" />
 
-        <com.aurora.store.view.custom.layouts.button.StateButton
+        <com.metro.store.view.custom.layouts.button.StateButton
             android:id="@+id/btn_google"
             android:layout_width="@dimen/width_button"
             android:layout_height="wrap_content"
             app:btnStateIcon="@drawable/ic_google"
             app:btnStateText="@string/account_google" />
 
-        <com.aurora.store.view.custom.layouts.button.StateButton
+        <com.metro.store.view.custom.layouts.button.StateButton
             android:id="@+id/btn_anonymous"
             android:layout_width="@dimen/width_button"
             android:layout_height="wrap_content"

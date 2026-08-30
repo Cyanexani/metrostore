@@ -1,0 +1,41 @@
+package com.metro.store.data.model
+
+import android.graphics.Bitmap
+import android.os.Parcelable
+import com.aurora.gplayapi.data.models.App
+import com.metro.store.data.room.update.Update
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class MinimalApp(
+    val packageName: String,
+    val versionName: String,
+    val versionCode: Long,
+    val displayName: String,
+    @IgnoredOnParcel
+    val icon: Bitmap? = null
+) : Parcelable {
+
+    companion object {
+
+        fun fromApp(app: App): MinimalApp {
+            return MinimalApp(
+                app.packageName,
+                app.versionName,
+                app.versionCode,
+                app.displayName
+            )
+        }
+
+        fun fromUpdate(update: Update): MinimalApp {
+            return MinimalApp(
+                update.packageName,
+                update.versionName,
+                update.versionCode,
+                update.displayName
+            )
+        }
+
+    }
+}

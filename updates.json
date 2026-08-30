@@ -1,9 +1,9 @@
 {
-  "version_name": "0.8.0-beta",
-  "version_code": 72,
-  "aurora_build": "https://github.com/Cyanexani/metrostore/releases/tag/v0.8.0-beta",
+  "version_name": "0.8.6-beta",
+  "version_code": 78,
+  "aurora_build": "https://github.com/Cyanexani/metrostore/releases/tag/v0.8.6-beta",
   "fdroid_build": "",
-  "changelog": "MetroStore v0.8.0-beta Release",
-  "size": 24853376,
-  "updated_on": "Jul 30, 2026"
+  "changelog": "Metro Store v0.8.6-beta — package name is now com.metro.store. This installs as a new app; uninstall the old Metro Store after switching.",
+  "size": 8850000,
+  "updated_on": "Aug 30, 2026"
 }

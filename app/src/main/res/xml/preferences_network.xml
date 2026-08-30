@@ -46,7 +46,7 @@
         app:summary="@string/pref_network_microg_login_desc"
         app:title="@string/pref_network_microg_login_title" />
 
-    <com.aurora.store.view.custom.preference.AuroraListPreference
+    <com.metro.store.view.custom.preference.AuroraListPreference
         app:defaultValue="0"
         app:entries="@array/pref_vending_version"
         app:entryValues="@array/pref_vending_version_values"

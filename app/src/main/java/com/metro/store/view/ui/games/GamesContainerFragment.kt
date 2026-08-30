@@ -1,0 +1,139 @@
+/*
+ * Aurora Store
+ *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
+ *
+ *  Aurora Store is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Aurora Store is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package com.metro.store.view.ui.games
+
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.metro.extensions.navigate
+import com.metro.store.MobileNavigationDirections
+import com.metro.store.R
+import com.metro.store.compose.navigation.Screen
+import com.metro.store.databinding.FragmentAppsGamesBinding
+import com.metro.store.util.Preferences
+import com.metro.store.view.ui.commons.BaseFragment
+import com.metro.store.view.ui.commons.CategoryFragment
+import com.metro.store.view.ui.commons.ForYouFragment
+import com.metro.store.view.ui.commons.TopChartContainerFragment
+import com.metro.store.viewmodel.games.GamesContainerViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class GamesContainerFragment : BaseFragment<FragmentAppsGamesBinding>() {
+
+    private val viewModel: GamesContainerViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Toolbar
+        binding.toolbar.apply {
+            title = getString(R.string.title_games)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_download_manager -> {
+                        requireContext().navigate(Screen.Downloads)
+                    }
+
+                    R.id.menu_more -> {
+                        findNavController().navigate(
+                            MobileNavigationDirections.actionGlobalMoreDialogFragment()
+                        )
+                    }
+                }
+                true
+            }
+        }
+
+        // ViewPager
+        val isForYouEnabled = Preferences.getBoolean(
+            requireContext(),
+            Preferences.PREFERENCE_FOR_YOU
+        )
+
+        binding.pager.adapter = ViewPagerAdapter(
+            childFragmentManager,
+            viewLifecycleOwner.lifecycle,
+            !viewModel.authProvider.isAnonymous,
+            isForYouEnabled
+        )
+
+        // Keep the Windows Phone panorama interaction from the reference UI.
+        binding.pager.isUserInputEnabled = true
+
+        val tabTitles: MutableList<String> = mutableListOf<String>().apply {
+            if (isForYouEnabled) {
+                add(getString(R.string.tab_for_you))
+            }
+
+            add(getString(R.string.tab_top_charts))
+            add(getString(R.string.tab_categories))
+        }
+
+        TabLayoutMediator(
+            binding.tabLayout,
+            binding.pager,
+            true
+        ) { tab: TabLayout.Tab, position: Int ->
+            tab.text = tabTitles[position]
+        }.attach()
+
+        binding.searchFab.setOnClickListener {
+            requireContext().navigate(Screen.Search)
+        }
+    }
+
+    override fun onDestroyView() {
+        binding.pager.adapter = null
+        super.onDestroyView()
+    }
+
+    internal class ViewPagerAdapter(
+        fragment: FragmentManager,
+        lifecycle: Lifecycle,
+        private val isGoogleAccount: Boolean,
+        private val isForYouEnabled: Boolean
+    ) :
+        FragmentStateAdapter(fragment, lifecycle) {
+        private val tabFragments: MutableList<Fragment> = mutableListOf<Fragment>().apply {
+            if (isForYouEnabled) {
+                add(ForYouFragment.newInstance(1))
+            }
+
+            add(TopChartContainerFragment.newInstance(1))
+            add(CategoryFragment.newInstance(1))
+        }
+
+        override fun createFragment(position: Int): Fragment {
+            return tabFragments[position]
+        }
+
+        override fun getItemCount(): Int {
+            return tabFragments.size
+        }
+    }
+}

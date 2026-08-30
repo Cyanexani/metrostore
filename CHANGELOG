@@ -1,3 +1,7 @@
+Changelog : v0.8.6-beta (78)
+• Package name changed from com.aurora.store to com.metro.store — this build installs alongside any earlier Metro Store instead of updating it, so uninstall the old one after switching
+• Internal rename only (com.aurora.* → com.metro.*); no functional changes. The privileged-installer contract (com.aurora.services) and the Google Play API library (com.aurora.gplayapi) are unchanged
+
 Changelog : v0.8.5-beta (77)
 • App details: the Install / Open / Update button no longer sits under the system navigation bar on 2-/3-button navigation
 • Token dispenser: the add button no longer clips against the navigation bar

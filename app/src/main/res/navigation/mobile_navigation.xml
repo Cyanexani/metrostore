@@ -43,32 +43,32 @@
         app:destination="@id/moreDialogFragment" />
     <fragment
         android:id="@+id/appsContainerFragment"
-        android:name="com.aurora.store.view.ui.apps.AppsContainerFragment"
+        android:name="com.metro.store.view.ui.apps.AppsContainerFragment"
         android:label="@string/title_apps"
         tools:layout="@layout/fragment_apps_games" />
     <fragment
         android:id="@+id/gamesContainerFragment"
-        android:name="com.aurora.store.view.ui.games.GamesContainerFragment"
+        android:name="com.metro.store.view.ui.games.GamesContainerFragment"
         android:label="@string/title_games"
         tools:layout="@layout/fragment_apps_games" />
     <fragment
         android:id="@+id/updatesFragment"
-        android:name="com.aurora.store.view.ui.updates.UpdatesFragment"
+        android:name="com.metro.store.view.ui.updates.UpdatesFragment"
         android:label="@string/title_updates"
         tools:layout="@layout/fragment_updates" />
     <fragment
         android:id="@+id/appsGamesFragment"
-        android:name="com.aurora.store.view.ui.all.AppsGamesFragment"
+        android:name="com.metro.store.view.ui.all.AppsGamesFragment"
         android:label="@string/title_apps_games"
         tools:layout="@layout/fragment_generic_with_search" />
     <fragment
         android:id="@+id/spoofFragment"
-        android:name="com.aurora.store.view.ui.spoof.SpoofFragment"
+        android:name="com.metro.store.view.ui.spoof.SpoofFragment"
         android:label="@string/title_spoof_manager"
         tools:layout="@layout/fragment_spoof" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.aurora.store.view.ui.preferences.SettingsFragment"
+        android:name="com.metro.store.view.ui.preferences.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_setting">
         <action
@@ -77,27 +77,27 @@
     </fragment>
     <fragment
         android:id="@+id/installationPreference"
-        android:name="com.aurora.store.view.ui.preferences.installation.InstallationPreference"
+        android:name="com.metro.store.view.ui.preferences.installation.InstallationPreference"
         android:label="InstallationPreference"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/networkPreference"
-        android:name="com.aurora.store.view.ui.preferences.network.NetworkPreference"
+        android:name="com.metro.store.view.ui.preferences.network.NetworkPreference"
         android:label="NetworkPreference"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/UIPreference"
-        android:name="com.aurora.store.view.ui.preferences.UIPreference"
+        android:name="com.metro.store.view.ui.preferences.UIPreference"
         android:label="UIPreference"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/updatesPreference"
-        android:name="com.aurora.store.view.ui.preferences.updates.UpdatesPreference"
+        android:name="com.metro.store.view.ui.preferences.updates.UpdatesPreference"
         android:label="UpdatesPreference"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/categoryBrowseFragment"
-        android:name="com.aurora.store.view.ui.commons.CategoryBrowseFragment"
+        android:name="com.metro.store.view.ui.commons.CategoryBrowseFragment"
         tools:layout="@layout/fragment_generic_with_toolbar">
         <argument
             android:name="title"
@@ -108,7 +108,7 @@
     </fragment>
     <fragment
         android:id="@+id/expandedStreamBrowseFragment"
-        android:name="com.aurora.store.view.ui.commons.ExpandedStreamBrowseFragment"
+        android:name="com.metro.store.view.ui.commons.ExpandedStreamBrowseFragment"
         tools:layout="@layout/fragment_generic_with_toolbar">
         <argument
             android:name="title"
@@ -119,7 +119,7 @@
     </fragment>
     <fragment
         android:id="@+id/devProfileFragment"
-        android:name="com.aurora.store.view.ui.details.DevProfileFragment"
+        android:name="com.metro.store.view.ui.details.DevProfileFragment"
         android:label="fragment_dev_profile"
         tools:layout="@layout/fragment_dev_profile">
         <argument
@@ -136,7 +136,7 @@
     </fragment>
     <fragment
         android:id="@+id/streamBrowseFragment"
-        android:name="com.aurora.store.view.ui.commons.StreamBrowseFragment"
+        android:name="com.metro.store.view.ui.commons.StreamBrowseFragment"
         tools:layout="@layout/fragment_generic_with_toolbar">
         <argument
             android:name="cluster"
@@ -144,7 +144,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.aurora.store.view.ui.splash.SplashFragment"
+        android:name="com.metro.store.view.ui.splash.SplashFragment"
         tools:layout="@layout/fragment_splash">
         <argument
             android:name="packageName"
@@ -191,7 +191,7 @@
     </fragment>
     <fragment
         android:id="@+id/googleFragment"
-        android:name="com.aurora.store.view.ui.account.GoogleFragment"
+        android:name="com.metro.store.view.ui.account.GoogleFragment"
         tools:layout="@layout/fragment_google">
         <action
             android:id="@+id/action_googleFragment_to_splashFragment"
@@ -201,7 +201,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
-        android:name="com.aurora.store.view.ui.onboarding.OnboardingFragment"
+        android:name="com.metro.store.view.ui.onboarding.OnboardingFragment"
         tools:layout="@layout/fragment_onboarding">
         <action
             android:id="@+id/action_onboardingFragment_to_splashFragment"
@@ -212,12 +212,12 @@
     </fragment>
     <fragment
         android:id="@+id/installerFragment"
-        android:name="com.aurora.store.view.ui.preferences.installation.InstallerFragment"
+        android:name="com.metro.store.view.ui.preferences.installation.InstallerFragment"
         android:label="InstallerFragment"
         tools:layout="@layout/fragment_installer" />
     <fragment
         android:id="@+id/dispenserFragment"
-        android:name="com.aurora.store.view.ui.dispenser.DispenserFragment"
+        android:name="com.metro.store.view.ui.dispenser.DispenserFragment"
         android:label="DispenserFragment"
         tools:layout="@layout/fragment_dispenser">
         <action
@@ -226,7 +226,7 @@
     </fragment>
     <fragment
         android:id="@+id/permissionsFragment"
-        android:name="com.aurora.store.view.ui.onboarding.PermissionsFragment"
+        android:name="com.metro.store.view.ui.onboarding.PermissionsFragment"
         android:label="PermissionsFragment"
         tools:layout="@layout/fragment_onboarding_permissions">
         <argument
@@ -236,26 +236,26 @@
     </fragment>
     <fragment
         android:id="@+id/detailsMicroGFragment"
-        android:name="com.aurora.store.view.ui.details.DetailsMicroGFragment"
+        android:name="com.metro.store.view.ui.details.DetailsMicroGFragment"
         android:label="MicroGFragment"
         tools:layout="@layout/fragment_details_microg" />
     <dialog
         android:id="@+id/appMenuSheet"
-        android:name="com.aurora.store.view.ui.sheets.AppMenuSheet"
+        android:name="com.metro.store.view.ui.sheets.AppMenuSheet"
         android:label="AppMenuSheet"
         tools:layout="@layout/sheet_app_menu">
         <argument
             android:name="app"
-            app:argType="com.aurora.store.data.model.MinimalApp" />
+            app:argType="com.metro.store.data.model.MinimalApp" />
     </dialog>
     <dialog
         android:id="@+id/deviceMiuiSheet"
-        android:name="com.aurora.store.view.ui.sheets.DeviceMiuiSheet"
+        android:name="com.metro.store.view.ui.sheets.DeviceMiuiSheet"
         android:label="DeviceMiuiSheet"
         tools:layout="@layout/sheet_device_miui" />
     <dialog
         android:id="@+id/installErrorDialogSheet"
-        android:name="com.aurora.store.view.ui.sheets.InstallErrorDialogSheet"
+        android:name="com.metro.store.view.ui.sheets.InstallErrorDialogSheet"
         android:label="InstallErrorDialogSheet"
         tools:layout="@layout/sheet_install_error">
         <argument
@@ -273,15 +273,15 @@
     </dialog>
     <dialog
         android:id="@+id/moreDialogFragment"
-        android:name="com.aurora.store.view.ui.commons.MoreDialogFragment"
+        android:name="com.metro.store.view.ui.commons.MoreDialogFragment"
         android:label="MoreDialogFragment" />
     <dialog
         android:id="@+id/inputDispenserDialog"
-        android:name="com.aurora.store.view.ui.dispenser.InputDispenserDialog"
+        android:name="com.metro.store.view.ui.dispenser.InputDispenserDialog"
         android:label="@string/add_dispenser_title" />
     <dialog
         android:id="@+id/removeDispenserDialog"
-        android:name="com.aurora.store.view.ui.dispenser.RemoveDispenserDialog"
+        android:name="com.metro.store.view.ui.dispenser.RemoveDispenserDialog"
         android:label="@string/remove_dispenser_title">
         <argument
             android:name="url"
@@ -289,18 +289,18 @@
     </dialog>
     <dialog
         android:id="@+id/aboutDialog"
-        android:name="com.aurora.store.view.ui.about.AboutDialog"
+        android:name="com.metro.store.view.ui.about.AboutDialog"
         android:label="@string/title_about" />
     <dialog
         android:id="@+id/proxyURLDialog"
-        android:name="com.aurora.store.view.ui.preferences.network.ProxyURLDialog"
+        android:name="com.metro.store.view.ui.preferences.network.ProxyURLDialog"
         android:label="@string/pref_network_proxy_url" />
     <dialog
         android:id="@+id/forceRestartDialog"
-        android:name="com.aurora.store.view.ui.commons.ForceRestartDialog"
+        android:name="com.metro.store.view.ui.commons.ForceRestartDialog"
         android:label="@string/force_restart_title" />
     <dialog
         android:id="@+id/updatesRestrictionsDialog"
-        android:name="com.aurora.store.view.ui.preferences.updates.UpdatesRestrictionsDialog"
+        android:name="com.metro.store.view.ui.preferences.updates.UpdatesRestrictionsDialog"
         android:label="@string/pref_updates_restrictions_title" />
 </navigation>
