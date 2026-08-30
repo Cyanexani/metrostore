@@ -3,6 +3,11 @@ package com.aurora.store.view.ui.dispenser
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import com.aurora.extensions.copyToClipBoard
 import com.aurora.store.R
@@ -27,6 +32,20 @@ class DispenserFragment : BaseFragment<FragmentDispenserBinding>(),
 
         sharedPreferences = Preferences.getPrefs(view.context)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        // The activity only pads left/top/right; lift the FAB and the list's
+        // bottom padding clear of the navigation bar for edge-to-edge display.
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, windowInsets ->
+            val navBarInset = windowInsets
+                .getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            binding.addFab.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = navBarInset + resources.getDimensionPixelSize(R.dimen.margin_large)
+            }
+            binding.epoxyRecycler.updatePadding(
+                bottom = navBarInset + resources.getDimensionPixelSize(R.dimen.padding_normal)
+            )
+            windowInsets
+        }
 
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         binding.addFab.setOnClickListener {
