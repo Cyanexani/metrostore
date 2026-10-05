@@ -1,1 +1,1 @@
-Rebased on Aurora Store 4.8.4 (Compose rewrite, multiple accounts, reviews, app lock and many fixes). The Windows Phone Store look is back: the Store panorama, pivots, square tiles, the application bar and Windows Phone casing.
+Rebuilt on Aurora Store 4.8.4 with the Windows Phone Store look redone: the Store panorama, pivots, square tiles, the application bar and Windows Phone controls. New: multiple accounts, reviews, app lock, tracker warnings on updates and many download and install fixes.
