@@ -156,7 +156,9 @@ configure<ApplicationExtension> {
 
     splits {
         abi {
-            isEnable = true
+            // Per-ABI APKs are only needed for releases; debug builds package a single APK,
+            // which is much faster to build while iterating.
+            isEnable = gradle.startParameter.taskNames.none { it.contains("Debug") }
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
             isUniversalApk = true
