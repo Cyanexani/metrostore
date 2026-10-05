@@ -49,8 +49,8 @@ jobs:
 
       - name: Install Android SDK components
         run: |
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-37" "build-tools;36.0.0"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-37" "build-tools;36.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
