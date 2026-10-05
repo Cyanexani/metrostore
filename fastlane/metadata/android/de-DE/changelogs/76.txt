@@ -1,0 +1,9 @@
+Design mit modernem Jetpack Compose neu aufgebaut
+Unterstützung für mehrere Google-Konten
+Nutzerbewertungen auf der App-Detailseite
+Optionale App-Sperre per Biometrie oder Gerätesperre
+Ein-Klick-Installation für Favoriten und Kaufprozess
+Überarbeitete Benachrichtigungen mit Einstellungen
+Updates-Seite neu; Eigen-Updates nun in der Liste
+Stabilere Downloads und microG-Installer-Support
+Fehlerbehebungen und Update der Übersetzungen

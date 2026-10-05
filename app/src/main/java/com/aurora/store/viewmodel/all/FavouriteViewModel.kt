@@ -13,33 +13,81 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.aurora.extensions.TAG
+import com.aurora.gplayapi.helpers.AppDetailsHelper
+import com.aurora.store.AuroraApp
+import com.aurora.store.data.event.InstallerEvent
+import com.aurora.store.data.helper.DownloadHelper
+import com.aurora.store.data.model.StorageRequirement
 import com.aurora.store.data.paging.GenericPagingSource.Companion.pager
+import com.aurora.store.data.providers.AuthProvider
 import com.aurora.store.data.room.favourite.Favourite
 import com.aurora.store.data.room.favourite.FavouriteDao
 import com.aurora.store.data.room.favourite.ImportExport
+import com.aurora.store.util.PackageUtil
+import com.aurora.store.util.StorageUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val favouriteDao: FavouriteDao,
     private val json: Json,
+    private val appDetailsHelper: AppDetailsHelper,
+    private val downloadHelper: DownloadHelper,
+    private val authProvider: AuthProvider,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-    private val TAG = FavouriteViewModel::class.java.simpleName
 
     private val _favourites = MutableStateFlow<PagingData<Favourite>>(PagingData.empty())
     val favourites = _favourites.asStateFlow()
+
+    val downloadsList get() = downloadHelper.downloadsList
+
+    private val _isEnqueuing = MutableStateFlow(false)
+    val isEnqueuing = _isEnqueuing.asStateFlow()
+
+    // Emits the number of favourites actually enqueued for install (0 when nothing was
+    // applicable, -1 when fetching details failed) so the screen can show accurate feedback.
+    private val _enqueueResult = MutableSharedFlow<Int>()
+    val enqueueResult = _enqueueResult.asSharedFlow()
+
+    private val _storageWarning = MutableSharedFlow<StorageRequirement>()
+    val storageWarning = _storageWarning.asSharedFlow()
+
+    // Whether at least one favourite is still not installed, recomputed whenever the favourites
+    // list changes or any app is installed/removed. Drives visibility of the "Install all"
+    // action so it hides once every favourite is already installed. Defaults to true to avoid
+    // briefly hiding the action before the first check completes.
+    val hasInstallableFavourites = combine(
+        favouriteDao.favourites(),
+        AuroraApp.events.installerEvent
+            .filter { it is InstallerEvent.Installed || it is InstallerEvent.Uninstalled }
+            .map { }
+            .onStart { emit(Unit) }
+    ) { favourites, _ ->
+        favourites.any { !PackageUtil.isInstalled(context, it.packageName) }
+    }.flowOn(Dispatchers.IO)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     init {
         getPagedFavourites()
@@ -83,6 +131,45 @@ class FavouriteViewModel @Inject constructor(
     fun removeFavourite(packageName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             favouriteDao.delete(packageName)
+        }
+    }
+
+    /**
+     * Fetches details for all favourites and enqueues the installable ones for download &
+     * install. Already installed (and up-to-date) apps are skipped, as are paid apps that an
+     * anonymous account can't acquire. The actual count enqueued is emitted via [enqueueResult],
+     * or, if they don't fit on disk, nothing is enqueued and [storageWarning] is emitted.
+     */
+    fun installAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isEnqueuing.value = true
+            try {
+                val packageNames = favouriteDao.favourites().first().map { it.packageName }
+                val installable = appDetailsHelper.getAppByPackageName(packageNames).filter { app ->
+                    val needsInstall = !PackageUtil.isInstalled(context, app.packageName) ||
+                        PackageUtil.isUpdatable(context, app.packageName, app.versionCode)
+                    val acquirable = app.isFree || !authProvider.isAnonymous
+                    needsInstall && acquirable
+                }
+
+                val pendingSizes = installable
+                    .filter { downloadHelper.needsDownload(it.packageName, it.versionCode) }
+                    .map { it.size }
+
+                val requirement = StorageUtil.check(context, pendingSizes)
+                if (!requirement.isSufficient) {
+                    _storageWarning.emit(requirement)
+                    return@launch
+                }
+
+                installable.forEach { downloadHelper.enqueueApp(it) }
+                _enqueueResult.emit(installable.size)
+            } catch (exception: Exception) {
+                Log.e(TAG, "Failed to enqueue favourites for install", exception)
+                _enqueueResult.emit(-1)
+            } finally {
+                _isEnqueuing.value = false
+            }
         }
     }
 

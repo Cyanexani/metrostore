@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.util
 
 import android.content.Context
@@ -11,10 +16,9 @@ object ShortcutManagerUtil {
 
     private const val TAG = "ShortcutManagerUtil"
 
-    fun canPinShortcut(context: Context, packageName: String): Boolean {
-        return ShortcutManagerCompat.isRequestPinShortcutSupported(context) &&
-                context.packageManager.getLaunchIntentForPackage(packageName) != null
-    }
+    fun canPinShortcut(context: Context, packageName: String): Boolean =
+        ShortcutManagerCompat.isRequestPinShortcutSupported(context) &&
+            context.packageManager.getLaunchIntentForPackage(packageName) != null
 
     fun requestPinShortcut(context: Context, packageName: String) {
         val packageManager = context.packageManager

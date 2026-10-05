@@ -1,36 +1,19 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.util
 
 import com.aurora.store.data.network.HttpClient
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.Locale
 import javax.inject.Inject
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class AC2DMTask @Inject constructor(private val httpClient: HttpClient) {
 
     @Throws(Exception::class)
-    fun getAC2DMResponse(email: String?, oAuthToken: String?): Map<String, String> {
-        if (email == null || oAuthToken == null)
-            return mapOf()
-
+    fun getAC2DMResponse(email: String, oAuthToken: String): Map<String, String> {
         val params: MutableMap<String, Any> = hashMapOf()
         params["lang"] = Locale.getDefault().toString().replace("_", "-")
         params["google_play_services_version"] = PLAY_SERVICES_VERSION_CODE
@@ -44,6 +27,7 @@ class AC2DMTask @Inject constructor(private val httpClient: HttpClient) {
         params["add_account"] = 1
         params["Token"] = oAuthToken
         params["callerSig"] = "38918a453d07199354f8b19af05ec6562ced5788"
+        params["droidguard_results"] = "null"
 
         val body = params.map { "${it.key}=${it.value}" }.joinToString(separator = "&")
 
@@ -58,7 +42,7 @@ class AC2DMTask @Inject constructor(private val httpClient: HttpClient) {
         return if (response.isSuccessful) {
             AC2DMUtil.parseResponse(String(response.responseBytes))
         } else {
-            mapOf()
+            emptyMap()
         }
     }
 

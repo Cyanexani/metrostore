@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -6,28 +7,23 @@
 package com.aurora.store.compose.ui.details
 
 import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AdaptStrategy
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
@@ -37,10 +33,12 @@ import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.NavigableSupportingPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -50,63 +48,83 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
-import coil3.compose.LocalAsyncImagePreviewHandler
-import com.aurora.Constants.SHARE_URL
+import com.aurora.Constants
 import com.aurora.extensions.appInfo
-import com.aurora.extensions.browse
 import com.aurora.extensions.requiresGMS
 import com.aurora.extensions.requiresObbDir
 import com.aurora.extensions.share
 import com.aurora.extensions.toast
 import com.aurora.gplayapi.data.models.App
 import com.aurora.gplayapi.data.models.Review
+import com.aurora.gplayapi.data.models.StreamBundle
+import com.aurora.gplayapi.data.models.StreamCluster
+import com.aurora.gplayapi.data.models.datasafety.Report as DataSafetyReport
+import com.aurora.store.ComposeActivity
 import com.aurora.store.R
-import com.aurora.store.compose.composables.ErrorComposable
-import com.aurora.store.compose.composables.HeaderComposable
-import com.aurora.store.compose.composables.ProgressComposable
-import com.aurora.store.compose.composables.TopAppBarComposable
-import com.aurora.store.compose.composables.app.AppListComposable
+import com.aurora.store.compose.composable.ClusterRow
+import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.InsufficientStorageDialog
+import com.aurora.store.compose.composable.Placeholder
+import com.aurora.store.compose.composable.ScrollHint
+import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.ShimmerCarouselSection
+import com.aurora.store.compose.composable.StreamCarousel
+import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.TrackerUpdateWarningDialog
+import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.navigation.Screen
 import com.aurora.store.compose.preview.AppPreviewProvider
-import com.aurora.store.compose.preview.coilPreviewProvider
+import com.aurora.store.compose.preview.ThemePreviewProvider
+import com.aurora.store.compose.ui.commons.ForceRestartDialog
 import com.aurora.store.compose.ui.commons.PermissionRationaleScreen
-import com.aurora.store.compose.ui.details.components.Actions
-import com.aurora.store.compose.ui.details.components.Changelog
-import com.aurora.store.compose.ui.details.components.Compatibility
-import com.aurora.store.compose.ui.details.components.DataSafety
-import com.aurora.store.compose.ui.details.components.Details
-import com.aurora.store.compose.ui.details.components.DeveloperDetails
-import com.aurora.store.compose.ui.details.components.Privacy
-import com.aurora.store.compose.ui.details.components.RatingAndReviews
-import com.aurora.store.compose.ui.details.components.Screenshots
-import com.aurora.store.compose.ui.details.components.Tags
-import com.aurora.store.compose.ui.details.components.Testing
+import com.aurora.store.compose.ui.details.composable.Actions
+import com.aurora.store.compose.ui.details.composable.Changelog
+import com.aurora.store.compose.ui.details.composable.Compatibility
+import com.aurora.store.compose.ui.details.composable.DataSafety
+import com.aurora.store.compose.ui.details.composable.Details
+import com.aurora.store.compose.ui.details.composable.DeveloperDetails
+import com.aurora.store.compose.ui.details.composable.Privacy
+import com.aurora.store.compose.ui.details.composable.RatingAndReviews
+import com.aurora.store.compose.ui.details.composable.Screenshots
+import com.aurora.store.compose.ui.details.composable.Tags
+import com.aurora.store.compose.ui.details.composable.Testing
+import com.aurora.store.compose.ui.details.composable.UserReview
 import com.aurora.store.compose.ui.details.menu.AppDetailsMenu
 import com.aurora.store.compose.ui.details.menu.MenuItem
 import com.aurora.store.compose.ui.details.navigation.ExtraScreen
 import com.aurora.store.compose.ui.dev.DevProfileScreen
+import com.aurora.store.compose.ui.sheets.AccountPickerSheet
+import com.aurora.store.compose.ui.sheets.InstallErrorSheet
 import com.aurora.store.data.installer.AppInstaller
 import com.aurora.store.data.model.AppState
+import com.aurora.store.data.model.ExodusTracker
 import com.aurora.store.data.model.PermissionType
 import com.aurora.store.data.model.Report
 import com.aurora.store.data.model.Scores
+import com.aurora.store.data.model.StorageRequirement
+import com.aurora.store.data.providers.PermissionProvider.Companion.isGranted
 import com.aurora.store.data.providers.PermissionProvider.Companion.isPermittedToInstall
+import com.aurora.store.data.room.account.Account
+import com.aurora.store.util.FlavouredUtil
 import com.aurora.store.util.PackageUtil
+import com.aurora.store.util.Preferences
+import com.aurora.store.util.Preferences.PREFERENCE_UPDATES_WARN_TRACKERS
 import com.aurora.store.util.ShortcutManagerUtil
+import com.aurora.store.util.StorageUtil
 import com.aurora.store.viewmodel.details.AppDetailsViewModel
+import com.jakewharton.processphoenix.ProcessPhoenix
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.random.Random
-import com.aurora.gplayapi.data.models.datasafety.Report as DataSafetyReport
 
 @Composable
 fun AppDetailsScreen(
     packageName: String,
-    onNavigateUp: () -> Unit,
-    onNavigateToAppDetails: (packageName: String) -> Unit,
+    onNavigateTo: (Destination) -> Unit,
     viewModel: AppDetailsViewModel = hiltViewModel(key = packageName),
     forceSinglePane: Boolean = false
 ) {
@@ -115,67 +133,149 @@ fun AppDetailsScreen(
     val app by viewModel.app.collectAsStateWithLifecycle()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val featuredReviews by viewModel.featuredReviews.collectAsStateWithLifecycle()
+    val userReview by viewModel.userReview.collectAsStateWithLifecycle()
     val favorite by viewModel.favourite.collectAsStateWithLifecycle()
     val exodusReport by viewModel.exodusReport.collectAsStateWithLifecycle()
     val dataSafetyReport by viewModel.dataSafetyReport.collectAsStateWithLifecycle()
     val plexusScores by viewModel.plexusScores.collectAsStateWithLifecycle()
-    val suggestions by viewModel.suggestions.collectAsStateWithLifecycle()
+    val installError by viewModel.installError.collectAsStateWithLifecycle()
+    val suggestionsBundle by viewModel.suggestionsBundle.collectAsStateWithLifecycle()
+    val accounts by viewModel.accounts.collectAsStateWithLifecycle()
+    var storageWarning by remember { mutableStateOf<StorageRequirement?>(null) }
 
     LaunchedEffect(key1 = packageName) { viewModel.fetchAppDetails(packageName) }
 
-    when (state) {
-        is AppState.Loading -> ScreenContentLoading(onNavigateUp = onNavigateUp)
-        is AppState.Error -> {
-            ScreenContentError(
-                onNavigateUp = onNavigateUp,
-                message = (state as AppState.Error).message
-            )
-        }
+    LaunchedEffect(Unit) {
+        viewModel.storageWarning.collect { storageWarning = it }
+    }
 
-        else -> {
-            ScreenContentApp(
-                app = app!!,
-                featuredReviews = featuredReviews,
-                suggestions = suggestions,
-                isFavorite = favorite,
-                isAnonymous = viewModel.authProvider.isAnonymous,
-                state = state,
-                plexusScores = plexusScores,
-                dataSafetyReport = dataSafetyReport,
-                exodusReport = exodusReport,
-                onNavigateUp = onNavigateUp,
-                onNavigateToAppDetails = onNavigateToAppDetails,
-                onDownload = { viewModel.purchase(app!!) },
-                onFavorite = { viewModel.toggleFavourite(app!!) },
-                onCancelDownload = { viewModel.cancelDownload(app!!) },
-                onUninstall = { AppInstaller.uninstall(context, packageName) },
-                onOpen = {
-                    try {
-                        context.startActivity(
-                            PackageUtil.getLaunchIntent(context, packageName)
-                        )
-                    } catch (_: ActivityNotFoundException) {
-                        context.toast(context.getString(R.string.unable_to_open))
-                    }
-                },
-                onTestingSubscriptionChange = { subscribe ->
-                    viewModel.updateTestingProgramStatus(packageName, subscribe)
-                },
-                forceSinglePane = forceSinglePane
+    LaunchedEffect(Unit) {
+        viewModel.reviewPosted.collect { success ->
+            context.toast(
+                if (success) R.string.toast_rated_success else R.string.toast_rated_failed
             )
         }
     }
+
+    app?.let { loadedApp ->
+        installError?.let { err ->
+            InstallErrorSheet(
+                app = loadedApp,
+                error = err.error,
+                extra = err.extra,
+                isAnonymous = viewModel.authProvider.isAnonymous,
+                onBuy = { openPlayStore(context, loadedApp.packageName) },
+                onDismiss = viewModel::dismissInstallError
+            )
+        }
+    }
+
+    AnimatedContent(
+        targetState = state,
+        contentKey = { stateKey(it, app) },
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
+        label = "AppDetailsState"
+    ) { currentState ->
+        when {
+            currentState is AppState.Error ->
+                ScreenContentError(
+                    message = currentState.message,
+                    onRetry = { viewModel.fetchAppDetails(packageName) }
+                )
+
+            currentState is AppState.Loading || app == null ->
+                ScreenContentLoading()
+
+            else -> {
+                val loadedApp = app!!
+                ScreenContentApp(
+                    app = loadedApp,
+                    featuredReviews = featuredReviews,
+                    userReview = userReview,
+                    suggestionsBundle = suggestionsBundle,
+                    isFavorite = favorite,
+                    isAnonymous = viewModel.authProvider.isAnonymous,
+                    state = currentState,
+                    plexusScores = plexusScores,
+                    dataSafetyReport = dataSafetyReport,
+                    exodusReport = exodusReport,
+                    onNavigateTo = onNavigateTo,
+                    onLoadMoreCluster = { cluster -> viewModel.loadMoreCluster(cluster) },
+                    accounts = accounts,
+                    storageWarning = storageWarning,
+                    onDismissStorageWarning = { storageWarning = null },
+                    onDownload = { requestedApp -> viewModel.enqueueDownload(requestedApp) },
+                    onDownloadWith = { requestedApp, accountId ->
+                        viewModel.enqueueDownloadWith(requestedApp, accountId)
+                    },
+                    onFavorite = { viewModel.toggleFavourite(loadedApp) },
+                    onCancelDownload = { viewModel.cancelDownload(loadedApp) },
+                    onUninstall = { AppInstaller.uninstall(context, packageName) },
+                    onOpen = {
+                        try {
+                            context.startActivity(
+                                PackageUtil.getLaunchIntent(context, packageName)
+                            )
+                        } catch (_: ActivityNotFoundException) {
+                            context.toast(R.string.unable_to_open)
+                        }
+                    },
+                    onTestingSubscriptionChange = { subscribe ->
+                        viewModel.updateTestingProgramStatus(packageName, subscribe)
+                    },
+                    onSubmitReview = { rating, title, comment ->
+                        viewModel.postAppReview(
+                            loadedApp.packageName,
+                            Review(title = title, comment = comment, rating = rating),
+                            loadedApp.testingProgram?.isSubscribed ?: false
+                        )
+                    },
+                    onDeleteReview = { viewModel.deleteAppReview(loadedApp) },
+                    forceSinglePane = forceSinglePane,
+                    onCheckNewTrackers = { pkg, installedVc ->
+                        viewModel.getNewTrackers(pkg, installedVc)
+                    },
+                    onForceRestart = {
+                        val intent = Intent(context, ComposeActivity::class.java)
+                            .putExtra("packageName", packageName)
+                        ProcessPhoenix.triggerRebirth(context, intent)
+                    }
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Opens the given app's Play Store listing, preferring the Play Store app when available and
+ * falling back to whichever activity can handle the web listing (e.g. a browser).
+ */
+private fun openPlayStore(context: Context, packageName: String) {
+    val uri = "${Constants.SHARE_URL}$packageName".toUri()
+    val intent = Intent(Intent.ACTION_VIEW).apply { data = uri }
+
+    if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent.apply { setPackage(Constants.PACKAGE_NAME_PLAY_STORE) })
+    } else {
+        context.startActivity(intent)
+    }
+}
+
+private fun stateKey(state: AppState, app: App?): String = when {
+    state is AppState.Error -> "error"
+    state is AppState.Loading || app == null -> "loading"
+    else -> "content"
 }
 
 /**
  * Composable to show progress while fetching app details
  */
 @Composable
-private fun ScreenContentLoading(onNavigateUp: () -> Unit = {}) {
+private fun ScreenContentLoading() {
     Scaffold(
-        topBar = { TopAppBarComposable(onNavigateUp = onNavigateUp) }
+        topBar = { TopAppBar() }
     ) { paddingValues ->
-        ProgressComposable(modifier = Modifier.padding(paddingValues))
+        ContainedLoadingIndicator(modifier = Modifier.padding(paddingValues))
     }
 }
 
@@ -183,14 +283,16 @@ private fun ScreenContentLoading(onNavigateUp: () -> Unit = {}) {
  * Composable to display errors related to fetching app details
  */
 @Composable
-private fun ScreenContentError(onNavigateUp: () -> Unit = {}, message: String? = null) {
+private fun ScreenContentError(message: String? = null, onRetry: (() -> Unit)? = null) {
     Scaffold(
-        topBar = { TopAppBarComposable(onNavigateUp = onNavigateUp) }
+        topBar = { TopAppBar() }
     ) { paddingValues ->
-        ErrorComposable(
+        Placeholder(
             modifier = Modifier.padding(paddingValues),
-            icon = painterResource(R.drawable.ic_apps_outage),
-            message = message ?: stringResource(R.string.toast_app_unavailable)
+            painter = painterResource(R.drawable.ic_refresh),
+            message = message ?: stringResource(R.string.toast_app_unavailable),
+            actionLabel = onRetry?.let { stringResource(R.string.action_retry) },
+            onAction = onRetry
         )
     }
 }
@@ -198,29 +300,48 @@ private fun ScreenContentError(onNavigateUp: () -> Unit = {}, message: String? =
 /**
  * Composable to display app details and suggestions
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScreenContentApp(
     app: App,
     featuredReviews: List<Review> = emptyList(),
-    suggestions: List<App> = emptyList(),
+    userReview: Review? = null,
+    suggestionsBundle: StreamBundle? = StreamBundle.EMPTY,
     isFavorite: Boolean = false,
     isAnonymous: Boolean = true,
     state: AppState = AppState.Unavailable,
     plexusScores: Scores? = null,
     dataSafetyReport: DataSafetyReport? = null,
     exodusReport: Report? = null,
-    onNavigateUp: () -> Unit = {},
-    onNavigateToAppDetails: (packageName: String) -> Unit = {},
-    onDownload: () -> Unit = {},
+    onNavigateTo: (Destination) -> Unit = {},
+    onLoadMoreCluster: (cluster: StreamCluster) -> Unit = {},
+    accounts: List<Account> = emptyList(),
+    storageWarning: StorageRequirement? = null,
+    onDismissStorageWarning: () -> Unit = {},
+    onDownload: (requestedApp: App) -> Unit = {},
+    onDownloadWith: (requestedApp: App, accountId: String) -> Unit = { _, _ -> },
     onFavorite: () -> Unit = {},
     onCancelDownload: () -> Unit = {},
     onUninstall: () -> Unit = {},
     onOpen: () -> Unit = {},
     onTestingSubscriptionChange: (subscribe: Boolean) -> Unit = {},
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    forceSinglePane: Boolean = false
+    onSubmitReview: (rating: Int, title: String, comment: String) -> Unit = { _, _, _ -> },
+    onDeleteReview: () -> Unit = {},
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2(),
+    forceSinglePane: Boolean = false,
+    onCheckNewTrackers: suspend (
+        packageName: String,
+        installedVersionCode: Long
+    ) -> List<ExodusTracker> =
+        { _, _ -> emptyList() },
+    onForceRestart: () -> Unit = {}
 ) {
     val context = LocalContext.current
+
+    // Anonymous accounts can't purchase, so a paid app can neither be installed nor manually
+    // downloaded (any version) by them. Free apps are always acquirable.
+    val canAcquire = app.isFree || !isAnonymous
+
     var scaffoldDirective = calculatePaneScaffoldDirective(windowAdaptiveInfo)
 
     if (forceSinglePane) {
@@ -236,6 +357,29 @@ private fun ScreenContentApp(
     val coroutineScope = rememberCoroutineScope()
     val shouldShowMenuOnMainPane = scaffoldNavigator
         .scaffoldValue[SupportingPaneScaffoldRole.Supporting] == PaneAdaptedValue.Hidden
+    var showRestartDialog by remember { mutableStateOf(false) }
+    var showAccountPicker by remember { mutableStateOf(false) }
+    val warnTrackers = remember {
+        Preferences.getBoolean(context, PREFERENCE_UPDATES_WARN_TRACKERS, false)
+    }
+    var trackerWarning by remember { mutableStateOf<List<ExodusTracker>?>(null) }
+    var isChecking by remember { mutableStateOf(false) }
+    var checkJob by remember { mutableStateOf<Job?>(null) }
+
+    // Keep the "checking" actions until the app leaves Updatable (i.e. the download it started has
+    // taken over the state), so the button doesn't flash back to "Update" between the two.
+    LaunchedEffect(state) {
+        if (state !is AppState.Updatable) isChecking = false
+    }
+
+    // A blocked download leaves the app Updatable, so the effect above never fires.
+    LaunchedEffect(storageWarning) {
+        if (storageWarning != null) isChecking = false
+    }
+
+    if (showRestartDialog) {
+        ForceRestartDialog(onConfirm = onForceRestart)
+    }
 
     fun onNavigateBack() {
         coroutineScope.launch {
@@ -249,11 +393,28 @@ private fun ScreenContentApp(
         }
     }
 
-    fun onInstall() {
+    fun onInstall(
+        requestedApp: App = app,
+        ignoreMicroG: Boolean = false,
+        accountId: String? = null
+    ) {
         if (isPermittedToInstall(context, app)) {
-            onDownload()
-            onNavigateBack()
+            val shouldPromptMicroGInstall = app.requiresGMS() &&
+                FlavouredUtil.promptMicroGInstall(context)
+
+            if (shouldPromptMicroGInstall && !ignoreMicroG) {
+                isChecking = false
+                showExtraPane(ExtraScreen.MicroG)
+            } else {
+                if (accountId != null) {
+                    onDownloadWith(requestedApp, accountId)
+                } else {
+                    onDownload(requestedApp)
+                }
+                onNavigateBack()
+            }
         } else {
+            isChecking = false
             val requiredPermissions = setOfNotNull(
                 PermissionType.INSTALL_UNKNOWN_APPS,
                 if (app.fileList.requiresObbDir()) PermissionType.STORAGE_MANAGER else null,
@@ -263,69 +424,177 @@ private fun ScreenContentApp(
         }
     }
 
+    fun onCancelCheck() {
+        checkJob?.cancel()
+        checkJob = null
+        isChecking = false
+    }
+
+    fun onUpdateClicked() {
+        if (!warnTrackers) {
+            onInstall()
+            return
+        }
+        isChecking = true
+        checkJob = coroutineScope.launch {
+            val installedVc =
+                PackageUtil.getInstalledVersionCode(context, app.packageName)
+            val trackers = onCheckNewTrackers(app.packageName, installedVc)
+            if (trackers.isEmpty()) {
+                onInstall()
+            } else {
+                trackerWarning = trackers
+            }
+        }
+    }
+
+    trackerWarning?.let { trackers ->
+        TrackerUpdateWarningDialog(
+            trackers = trackers,
+            onConfirm = {
+                trackerWarning = null
+                onInstall()
+            },
+            onDismiss = {
+                trackerWarning = null
+                isChecking = false
+            }
+        )
+    }
+
+    storageWarning?.let { requirement ->
+        InsufficientStorageDialog(
+            requirement = requirement,
+            onFreeUpSpace = {
+                onDismissStorageWarning()
+                StorageUtil.openFreeUpSpace(context)
+            },
+            onDismiss = onDismissStorageWarning
+        )
+    }
+
+    if (showAccountPicker) {
+        AccountPickerSheet(
+            accounts = accounts,
+            onSelect = { account ->
+                showAccountPicker = false
+                onInstall(accountId = account.id)
+            },
+            onDismiss = { showAccountPicker = false }
+        )
+    }
+
     @Composable
     fun SetupMenu() {
-        AppDetailsMenu(isInstalled = app.isInstalled, isFavorite = isFavorite) { menuItem ->
+        AppDetailsMenu(
+            isFavorite = isFavorite,
+            state = state,
+            canManualDownload = canAcquire,
+            canUseOtherAccount = accounts.size > 1
+        ) { menuItem ->
             when (menuItem) {
                 MenuItem.FAVORITE -> onFavorite()
+
                 MenuItem.MANUAL_DOWNLOAD -> {
                     showExtraPane(ExtraScreen.ManualDownload)
                 }
+
+                MenuItem.INSTALL_OTHER_ACCOUNT -> {
+                    showAccountPicker = true
+                }
+
                 MenuItem.SHARE -> context.share(app.displayName, app.packageName)
+
                 MenuItem.APP_INFO -> context.appInfo(app.packageName)
-                MenuItem.PLAY_STORE -> context.browse("$SHARE_URL${app.packageName}")
+
                 MenuItem.ADD_TO_HOME -> {
                     ShortcutManagerUtil.requestPinShortcut(context, app.packageName)
                 }
+
+                MenuItem.PLAY_STORE -> openPlayStore(context, app.packageName)
             }
         }
     }
 
     @Composable
     fun SetupActions() {
-        when (state) {
-            is AppState.Purchasing,
-            is AppState.Downloading -> {
-                Actions(
-                    primaryActionDisplayName = stringResource(R.string.action_open),
-                    secondaryActionDisplayName = stringResource(R.string.action_cancel),
-                    isPrimaryActionEnabled = false,
-                    onSecondaryAction = onCancelDownload,
-                    isSecondaryActionEnabled = state !is AppState.Purchasing
-                )
-            }
-
-            is AppState.Updatable -> {
-                Actions(
-                    primaryActionDisplayName = stringResource(R.string.action_update),
-                    secondaryActionDisplayName = stringResource(R.string.action_share),
-                    onPrimaryAction = ::onInstall,
-                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
-                )
-            }
-
-            is AppState.Installed -> {
-                Actions(
-                    primaryActionDisplayName = stringResource(R.string.action_open),
-                    secondaryActionDisplayName = stringResource(R.string.action_share),
-                    onPrimaryAction = onOpen,
-                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
-                )
-            }
-
-            else -> {
-                val primaryActionName = if (state is AppState.Archived) {
-                    stringResource(R.string.action_unarchive)
-                } else {
-                    if (app.isFree) stringResource(R.string.action_install) else app.price
+        if (isChecking) {
+            Actions(
+                primaryActionDisplayName = stringResource(R.string.action_open),
+                secondaryActionDisplayName = stringResource(R.string.action_cancel),
+                isPrimaryActionEnabled = false,
+                onSecondaryAction = ::onCancelCheck
+            )
+            return
+        }
+        AnimatedContent(
+            targetState = state,
+            contentKey = { it::class },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            label = "Actions"
+        ) { currentState ->
+            when (currentState) {
+                is AppState.Queued,
+                is AppState.Purchasing,
+                is AppState.Downloading -> {
+                    Actions(
+                        primaryActionDisplayName = stringResource(R.string.action_open),
+                        secondaryActionDisplayName = stringResource(R.string.action_cancel),
+                        isPrimaryActionEnabled = false,
+                        onSecondaryAction = onCancelDownload
+                    )
                 }
 
-                Actions(
-                    primaryActionDisplayName = primaryActionName,
-                    secondaryActionDisplayName = stringResource(R.string.action_share),
-                    onPrimaryAction = ::onInstall,
-                    onSecondaryAction = { context.share(app.displayName, app.packageName) }
-                )
+                is AppState.Verifying,
+                is AppState.Installing -> {
+                    Actions(
+                        primaryActionDisplayName = stringResource(R.string.action_open),
+                        secondaryActionDisplayName = stringResource(R.string.action_cancel),
+                        isPrimaryActionEnabled = false,
+                        isSecondaryActionEnabled = false
+                    )
+                }
+
+                is AppState.Updatable -> {
+                    Actions(
+                        primaryActionDisplayName = stringResource(R.string.action_update),
+                        secondaryActionDisplayName = stringResource(R.string.action_uninstall),
+                        onPrimaryAction = ::onUpdateClicked,
+                        onSecondaryAction = onUninstall
+                    )
+                }
+
+                is AppState.Installed -> {
+                    val canOpen = remember(app.packageName) {
+                        PackageUtil.getLaunchIntent(context, app.packageName) != null
+                    }
+                    Actions(
+                        primaryActionDisplayName = stringResource(R.string.action_open),
+                        secondaryActionDisplayName = stringResource(R.string.action_uninstall),
+                        onPrimaryAction = onOpen,
+                        onSecondaryAction = onUninstall,
+                        isPrimaryActionEnabled = canOpen
+                    )
+                }
+
+                else -> {
+                    val primaryActionName = if (currentState is AppState.Archived) {
+                        stringResource(R.string.action_unarchive)
+                    } else {
+                        if (app.isFree) stringResource(R.string.action_install) else app.price
+                    }
+
+                    Actions(
+                        primaryActionDisplayName = primaryActionName,
+                        secondaryActionDisplayName = stringResource(
+                            R.string.title_manual_download
+                        ),
+                        isPrimaryActionEnabled = canAcquire,
+                        isSecondaryActionEnabled = canAcquire,
+                        onPrimaryAction = ::onInstall,
+                        onSecondaryAction = { showExtraPane(ExtraScreen.ManualDownload) }
+                    )
+                }
             }
         }
     }
@@ -334,147 +603,150 @@ private fun ScreenContentApp(
     fun MainPane() {
         Scaffold(
             topBar = {
-                TopAppBarComposable(
-                    title = app.displayName,
-                    onNavigateUp = onNavigateUp,
+                TopAppBar(
                     actions = { if (shouldShowMenuOnMainPane) SetupMenu() }
                 )
-            },
-            bottomBar = {
-                Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .navigationBarsPadding()
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    ) {
-                        SetupActions()
-                    }
-                }
             }
         ) { paddingValues ->
-            val pagerState = rememberPagerState(pageCount = { 4 })
-            HorizontalPager(
-                state = pagerState,
+            val listState = rememberLazyListState()
+            Box(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
-                    .fillMaxSize(),
-                contentPadding = PaddingValues(end = 36.dp),
-                pageSpacing = 12.dp
-            ) { page ->
-                Column(
+            ) {
+                LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(dimensionResource(R.dimen.padding_medium)),
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(R.dimen.margin_medium)
-                    )
+                        dimensionResource(R.dimen.spacing_medium)
+                    ),
+                    state = listState
                 ) {
-                    Text(
-                        text = stringResource(
-                            when (page) {
-                                1 -> R.string.metro_reviews
-                                2 -> R.string.metro_details
-                                3 -> R.string.metro_related
-                                else -> R.string.metro_overview
-                            }
-                        ),
-                        style = MaterialTheme.typography.displayMedium,
-                        maxLines = 1
-                    )
+                    item {
+                        Details(
+                            app = app,
+                            state = state,
+                            onNavigateToDetailsDevProfile = { showExtraPane(Screen.DevProfile(it)) }
+                        )
+                    }
 
-                    when (page) {
-                        0 -> {
-                            Details(
-                                app = app,
-                                state = state,
-                                onNavigateToDetailsDevProfile = {
-                                    showExtraPane(Screen.DevProfile(it))
-                                }
-                            )
-                            Tags(app = app)
-                            Changelog(changelog = app.changes)
-                            HeaderComposable(
-                                title = stringResource(R.string.details_more_about_app),
-                                subtitle = app.shortDescription,
-                                onClick = { showExtraPane(ExtraScreen.More) }
-                            )
-                            Screenshots(
-                                screenshots = app.screenshots,
-                                onNavigateToScreenshot = {
-                                    showExtraPane(ExtraScreen.Screenshot(it))
-                                }
-                            )
-                        }
+                    item {
+                        SetupActions()
+                    }
 
-                        1 -> RatingAndReviews(
+                    item {
+                        Tags(app = app)
+                    }
+
+                    item {
+                        Changelog(changelog = app.changes)
+                    }
+
+                    item {
+                        SectionHeader(
+                            title = stringResource(R.string.details_more_about_app),
+                            subtitle = app.shortDescription,
+                            onClick = { showExtraPane(ExtraScreen.More) }
+                        )
+                    }
+
+                    item {
+                        Screenshots(
+                            screenshots = app.screenshots,
+                            onNavigateToScreenshot = { showExtraPane(ExtraScreen.Screenshot(it)) }
+                        )
+                    }
+
+                    item {
+                        RatingAndReviews(
                             rating = app.rating,
                             featuredReviews = featuredReviews,
-                            onNavigateToDetailsReview = {
-                                showExtraPane(ExtraScreen.Review)
-                            }
+                            onNavigateToDetailsReview = { showExtraPane(ExtraScreen.Review) }
                         )
+                    }
 
-                        2 -> {
-                            if (!isAnonymous && app.testingProgram?.isAvailable == true) {
-                                Testing(
-                                    isSubscribed = app.testingProgram!!.isSubscribed,
-                                    onTestingSubscriptionChange = onTestingSubscriptionChange
-                                )
-                            }
-                            Compatibility(
-                                needsGms = app.requiresGMS(),
-                                plexusScores = plexusScores
-                            )
-                            HeaderComposable(
-                                title = stringResource(R.string.details_permission),
-                                subtitle = if (app.permissions.isNotEmpty()) {
-                                    stringResource(
-                                        R.string.permissions_requested,
-                                        app.permissions.size
-                                    )
-                                } else {
-                                    stringResource(R.string.details_no_permission)
-                                },
-                                onClick = if (app.permissions.isNotEmpty()) {
-                                    { showExtraPane(ExtraScreen.Permission) }
-                                } else {
-                                    null
-                                }
-                            )
-                            if (dataSafetyReport != null) {
-                                DataSafety(
-                                    report = dataSafetyReport,
-                                    privacyPolicyUrl = app.privacyPolicyUrl
-                                )
-                            }
-                            Privacy(
-                                report = exodusReport,
-                                onNavigateToDetailsExodus =
-                                if (!exodusReport?.trackers.isNullOrEmpty()) {
-                                    { showExtraPane(ExtraScreen.Exodus) }
-                                } else {
-                                    null
-                                }
-                            )
-                            DeveloperDetails(
-                                address = app.developerAddress,
-                                website = app.developerWebsite,
-                                email = app.developerEmail
-                            )
-                        }
-
-                        else -> suggestions.forEach { suggestion ->
-                            AppListComposable(
-                                app = suggestion,
-                                onClick = {
-                                    onNavigateToAppDetails(suggestion.packageName)
-                                }
+                    item {
+                        // Reviews can only be submitted by personal accounts for installed apps.
+                        if (!isAnonymous && app.isInstalled) {
+                            UserReview(
+                                review = userReview,
+                                onSubmit = onSubmitReview,
+                                onDelete = onDeleteReview
                             )
                         }
                     }
+
+                    item {
+                        if (!isAnonymous && app.testingProgram?.isAvailable == true) {
+                            Testing(
+                                isSubscribed = app.testingProgram!!.isSubscribed,
+                                onTestingSubscriptionChange = onTestingSubscriptionChange
+                            )
+                        }
+                    }
+
+                    item {
+                        Compatibility(needsGms = app.requiresGMS(), plexusScores = plexusScores)
+                    }
+
+                    item {
+                        SectionHeader(
+                            title = stringResource(R.string.details_permission),
+                            subtitle = if (app.permissions.isNotEmpty()) {
+                                stringResource(R.string.permissions_requested, app.permissions.size)
+                            } else {
+                                stringResource(R.string.details_no_permission)
+                            },
+                            onClick = if (app.permissions.isNotEmpty()) {
+                                { showExtraPane(ExtraScreen.Permission) }
+                            } else {
+                                null
+                            }
+                        )
+                    }
+
+                    item {
+                        if (dataSafetyReport != null) {
+                            DataSafety(
+                                report = dataSafetyReport,
+                                privacyPolicyUrl = app.privacyPolicyUrl
+                            )
+                        }
+                    }
+
+                    item {
+                        Privacy(
+                            report = exodusReport,
+                            onNavigateToDetailsExodus = if (exodusReport != null &&
+                                exodusReport.id != -1
+                            ) {
+                                { showExtraPane(ExtraScreen.Exodus) }
+                            } else {
+                                null
+                            }
+                        )
+                    }
+
+                    item {
+                        DeveloperDetails(
+                            address = app.developerAddress,
+                            website = app.developerWebsite,
+                            email = app.developerEmail
+                        )
+                    }
+
+                    if (shouldShowMenuOnMainPane) {
+                        suggestionClusterItems(
+                            suggestionsBundle = suggestionsBundle,
+                            onAppClick = { onNavigateTo(Destination.AppDetails(it.packageName)) },
+                            onClusterScrolled = onLoadMoreCluster
+                        )
+                    }
                 }
+                ScrollHint(
+                    listState = listState,
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
             }
         }
     }
@@ -483,89 +755,79 @@ private fun ScreenContentApp(
     fun SupportingPane() {
         Scaffold(
             topBar = {
-                TopAppBarComposable(actions = { if (!shouldShowMenuOnMainPane) SetupMenu() })
+                TopAppBar(
+                    showNavigationIcon = false,
+                    actions = { if (!shouldShowMenuOnMainPane) SetupMenu() }
+                )
             }
         ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Row(
-                    modifier = Modifier.padding(dimensionResource(R.dimen.margin_medium)),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_suggestions),
-                        contentDescription = null
-                    )
-                    HeaderComposable(title = stringResource(R.string.pref_ui_similar_apps))
-                }
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(vertical = dimensionResource(R.dimen.padding_medium))
-                ) {
-                    items(items = suggestions, key = { item -> item.id }) { app ->
-                        AppListComposable(
-                            app = app,
-                            onClick = { onNavigateToAppDetails(app.packageName) }
-                        )
-                    }
-                }
+            val hasContent = suggestionsBundle == null ||
+                suggestionsBundle.streamClusters.isNotEmpty()
+            if (hasContent) {
+                StreamCarousel(
+                    modifier = Modifier.padding(paddingValues),
+                    streamBundle = suggestionsBundle,
+                    filterSingleAppClusters = false,
+                    onAppClick = { onNavigateTo(Destination.AppDetails(it.packageName)) },
+                    onClusterScrolled = onLoadMoreCluster
+                )
             }
         }
     }
 
     @Composable
-    fun ExtraPane(screen: NavKey) {
-        return when (screen) {
-            is ExtraScreen.Review -> ReviewScreen(
-                packageName = app.packageName,
-                onNavigateUp = ::onNavigateBack
-            )
+    fun ExtraPane(screen: NavKey) = when (screen) {
+        is ExtraScreen.Review -> ReviewScreen(
+            packageName = app.packageName
+        )
 
-            is ExtraScreen.Exodus -> ExodusScreen(
-                packageName = app.packageName,
-                onNavigateUp = ::onNavigateBack
-            )
+        is ExtraScreen.Exodus -> ExodusScreen(
+            packageName = app.packageName
+        )
 
-            is ExtraScreen.More -> MoreScreen(
-                packageName = app.packageName,
-                onNavigateUp = ::onNavigateBack,
-                onNavigateToAppDetails = onNavigateToAppDetails
-            )
+        is ExtraScreen.More -> MoreScreen(
+            packageName = app.packageName,
+            onNavigateTo = onNavigateTo
+        )
 
-            is ExtraScreen.Permission -> PermissionScreen(
-                packageName = app.packageName,
-                onNavigateUp = ::onNavigateBack
-            )
+        is ExtraScreen.Permission -> PermissionScreen(
+            packageName = app.packageName
+        )
 
-            is ExtraScreen.Screenshot -> ScreenshotScreen(
-                packageName = app.packageName,
-                index = screen.index,
-                onNavigateUp = ::onNavigateBack
-            )
+        is ExtraScreen.Screenshot -> ScreenshotScreen(
+            packageName = app.packageName,
+            index = screen.index
+        )
 
-            is ExtraScreen.ManualDownload -> ManualDownloadScreen(
-                packageName = app.packageName,
-                onNavigateUp = ::onNavigateBack
-            )
+        is ExtraScreen.ManualDownload -> ManualDownloadScreen(
+            packageName = app.packageName,
+            onRequestInstall = { requestedApp -> onInstall(requestedApp) }
+        )
 
-            is Screen.DevProfile -> DevProfileScreen(
-                publisherId = app.developerName,
-                onNavigateUp = ::onNavigateBack,
-                onNavigateToAppDetails = { onNavigateToAppDetails(it) }
-            )
+        is ExtraScreen.MicroG -> MicroGScreen(
+            packageName = app.packageName,
+            onProceed = { onInstall(ignoreMicroG = true) }
+        )
 
-            is Screen.PermissionRationale -> PermissionRationaleScreen(
-                onNavigateUp = ::onNavigateBack,
-                requiredPermissions = screen.requiredPermissions,
-                onPermissionCallback = { onInstall() }
-            )
+        is Screen.DevProfile -> DevProfileScreen(
+            publisherId = app.developerName,
+            onNavigateTo = onNavigateTo
+        )
 
-            else -> {}
-        }
+        is Screen.PermissionRationale -> PermissionRationaleScreen(
+            requiredPermissions = screen.requiredPermissions,
+            onPermissionCallback = { type ->
+                val isStoragePermission = type == PermissionType.EXTERNAL_STORAGE ||
+                    type == PermissionType.STORAGE_MANAGER
+                if (isStoragePermission && isGranted(context, type)) {
+                    showRestartDialog = true
+                } else {
+                    onInstall()
+                }
+            }
+        )
+
+        else -> {}
     }
 
     NavigableSupportingPaneScaffold(
@@ -580,24 +842,71 @@ private fun ScreenContentApp(
     )
 }
 
-@PreviewScreenSizes
-@Composable
-private fun AppDetailsScreenPreview(@PreviewParameter(AppPreviewProvider::class) app: App) {
-    CompositionLocalProvider(LocalAsyncImagePreviewHandler provides coilPreviewProvider) {
-        ScreenContentApp(
-            app = app,
-            isAnonymous = false,
-            suggestions = List(10) { app.copy(id = Random.nextInt()) }
-        )
+/**
+ * Renders the suggestion stream as cluster rows inside the parent [LazyColumn].
+ * Shows a shimmer placeholder while the bundle is still loading (`null`).
+ */
+private fun LazyListScope.suggestionClusterItems(
+    suggestionsBundle: StreamBundle?,
+    onAppClick: (App) -> Unit,
+    onClusterScrolled: (StreamCluster) -> Unit
+) {
+    if (suggestionsBundle == null) {
+        item(key = "suggestions-shimmer") { ShimmerCarouselSection() }
+        return
+    }
+
+    val clusters = suggestionsBundle.streamClusters.values.filter {
+        it.clusterTitle.isNotBlank() && it.clusterAppList.isNotEmpty()
+    }
+
+    clusters.forEach { cluster ->
+        item(key = "cluster-header-${cluster.id}") {
+            SectionHeader(title = cluster.clusterTitle)
+        }
+        item(key = "cluster-row-${cluster.id}") {
+            ClusterRow(
+                cluster = cluster,
+                onAppClick = onAppClick,
+                onClusterScrolled = onClusterScrolled
+            )
+        }
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
+@PreviewScreenSizes
+@Composable
+private fun AppDetailsScreenPreview(@PreviewParameter(AppPreviewProvider::class) app: App) {
+    ScreenContentApp(
+        app = app,
+        isAnonymous = false,
+        suggestionsBundle = StreamBundle(
+            id = 1,
+            streamClusters = mapOf(
+                1 to StreamCluster(
+                    id = 1,
+                    clusterTitle = "Similar apps",
+                    clusterAppList = List(8) { app.copy(id = it) }
+                ),
+                2 to StreamCluster(
+                    id = 2,
+                    clusterTitle = "More by ${app.developerName}",
+                    clusterAppList = List(5) { app.copy(id = 100 + it) }
+                )
+            )
+        )
+    )
+}
+
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AppDetailsScreenPreviewLoading() {
     ScreenContentLoading()
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AppDetailsScreenPreviewError() {

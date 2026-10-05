@@ -1,56 +1,64 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.compose.ui.details
 
+import android.text.format.Formatter
+import android.util.Base64
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.LocalAsyncImagePreviewHandler
 import com.aurora.extensions.adaptiveNavigationIcon
+import com.aurora.extensions.copyToClipBoard
 import com.aurora.extensions.isWindowCompact
+import com.aurora.extensions.toast
 import com.aurora.gplayapi.data.models.App
+import com.aurora.gplayapi.data.models.PlayFile
 import com.aurora.store.R
-import com.aurora.store.compose.composables.HeaderComposable
-import com.aurora.store.compose.composables.InfoComposable
-import com.aurora.store.compose.composables.TopAppBarComposable
-import com.aurora.store.compose.composables.app.AppComposable
+import com.aurora.store.compose.composable.Info
+import com.aurora.store.compose.composable.ScrollHint
+import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.app.AppListItem
+import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.AppPreviewProvider
-import com.aurora.store.compose.preview.coilPreviewProvider
+import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.viewmodel.details.AppDetailsViewModel
 import com.aurora.store.viewmodel.details.MoreViewModel
-import java.util.Locale
 
 @Composable
 fun MoreScreen(
     packageName: String,
-    onNavigateUp: () -> Unit,
-    onNavigateToAppDetails: (packageName: String) -> Unit,
+    onNavigateTo: (Destination) -> Unit,
     appDetailsViewModel: AppDetailsViewModel = hiltViewModel(key = packageName),
     moreViewModel: MoreViewModel = hiltViewModel(
         key = "$packageName/more",
@@ -65,8 +73,7 @@ fun MoreScreen(
     ScreenContent(
         app = app!!,
         dependencies = dependencies,
-        onNavigateUp = onNavigateUp,
-        onNavigateToAppDetails = onNavigateToAppDetails
+        onNavigateTo = onNavigateTo
     )
 }
 
@@ -74,9 +81,8 @@ fun MoreScreen(
 private fun ScreenContent(
     app: App,
     dependencies: List<App>? = null,
-    onNavigateUp: () -> Unit = {},
-    onNavigateToAppDetails: (packageName: String) -> Unit = {},
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    onNavigateTo: (Destination) -> Unit = {},
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
 ) {
     val topAppBarTitle = when {
         windowAdaptiveInfo.isWindowCompact -> app.displayName
@@ -85,37 +91,64 @@ private fun ScreenContent(
 
     Scaffold(
         topBar = {
-            TopAppBarComposable(
+            TopAppBar(
                 title = topAppBarTitle,
-                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon,
-                onNavigateUp = onNavigateUp
+                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon
             )
         }
     ) { paddingValues ->
-        Column(
+        val listState = rememberLazyListState()
+        Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
+                .padding(paddingValues)
         ) {
-            HeaderComposable(title = stringResource(R.string.details_description))
-            Text(
-                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_medium)),
-                text = AnnotatedString.fromHtml(
-                    htmlString = app.description
-                ),
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            if (dependencies != null) {
-                AppDependencies(
-                    dependencies = dependencies,
-                    onNavigateToAppDetails = onNavigateToAppDetails
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = listState,
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_medium)
                 )
-            }
+            ) {
+                item {
+                    SectionHeader(title = stringResource(R.string.details_description))
+                }
 
-            AppInfoMore(app = app)
+                item {
+                    Text(
+                        modifier = Modifier.padding(
+                            horizontal = dimensionResource(R.dimen.spacing_medium)
+                        ),
+                        text = AnnotatedString.fromHtml(
+                            htmlString = app.description
+                        ),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+
+                item {
+                    if (dependencies != null) {
+                        AppDependencies(
+                            dependencies = dependencies,
+                            onNavigateTo = onNavigateTo
+                        )
+                    }
+                }
+
+                if (app.fileList.isNotEmpty()) {
+                    item {
+                        AppFiles(files = app.fileList)
+                    }
+                }
+
+                item {
+                    AppInfoMore(app = app)
+                }
+            }
+            ScrollHint(
+                listState = listState,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
     }
 }
@@ -124,62 +157,98 @@ private fun ScreenContent(
  * Composable to show dependencies of an app
  */
 @Composable
-private fun AppDependencies(
-    dependencies: List<App>,
-    onNavigateToAppDetails: (packageName: String) -> Unit
-) {
-    HeaderComposable(title = stringResource(R.string.details_dependencies))
+private fun AppDependencies(dependencies: List<App>, onNavigateTo: (Destination) -> Unit) {
+    SectionHeader(title = stringResource(R.string.details_dependencies))
     if (dependencies.isEmpty()) {
-        InfoComposable(
+        Info(
             title = AnnotatedString(text = stringResource(R.string.details_no_dependencies))
         )
     } else {
         LazyRow(modifier = Modifier.fillMaxWidth()) {
             items(items = dependencies, key = { item -> item.id }) { app ->
-                AppComposable(
+                AppListItem(
                     app = app,
-                    onClick = { onNavigateToAppDetails(app.packageName) }
+                    onClick = { onNavigateTo(Destination.AppDetails(app.packageName)) }
                 )
             }
         }
     }
 }
 
+@Composable
+private fun AppFiles(files: List<PlayFile>) {
+    val context = LocalContext.current
+    SectionHeader(title = stringResource(R.string.details_more_files))
+    files.forEach { file ->
+        Info(
+            title = AnnotatedString(text = file.name),
+            description = AnnotatedString(
+                text = Formatter.formatShortFileSize(context, file.size)
+            )
+        )
+    }
+}
+
+@OptIn(ExperimentalStdlibApi::class)
+private fun decodeBase64UrlToHex(base64Url: String) =
+    Base64.decode(base64Url, Base64.URL_SAFE).toHexString()
+
 /**
  * Composable to show more information about the app that maybe advanced
  */
 @Composable
 private fun AppInfoMore(app: App) {
-    HeaderComposable(title = stringResource(R.string.details_more_info))
-    InfoComposable(
+    SectionHeader(title = stringResource(R.string.details_more_info))
+    Info(
         title = AnnotatedString(
             text = stringResource(R.string.details_more_package_name)
         ),
         description = AnnotatedString(text = app.packageName)
     )
 
-    InfoComposable(
+    Info(
         title = AnnotatedString(
             text = stringResource(R.string.details_more_target_api)
         ),
         description = AnnotatedString(text = "API ${app.targetSdk}")
     )
 
-    InfoComposable(
+    Info(
         title = AnnotatedString(
             text = stringResource(R.string.details_more_content_rating)
         ),
         description = AnnotatedString(text = app.contentRating.title)
     )
 
+    val certHashes = app.certificateSetList.mapNotNull { it.sha256.takeIf { s -> s.isNotBlank() } }
+        .map { decodeBase64UrlToHex(it) }
+    if (certHashes.isNotEmpty()) {
+        val context = LocalContext.current
+        certHashes.forEachIndexed { index, certHash ->
+            val title = if (certHashes.size == 1) {
+                stringResource(R.string.details_more_certificate_hash)
+            } else {
+                "${stringResource(R.string.details_more_certificate_hash)} ${index + 1}"
+            }
+            Info(
+                title = AnnotatedString(text = title),
+                description = AnnotatedString(text = certHash),
+                onClick = {
+                    context.copyToClipBoard(certHash)
+                    context.toast(R.string.toast_clipboard_copied)
+                }
+            )
+        }
+    }
+
     app.appInfo.appInfoMap.forEach { (title, subtitle) ->
-        InfoComposable(
+        Info(
             title = AnnotatedString(
                 text = title.replace("_", " ")
-                    .lowercase(Locale.getDefault())
+                    .lowercase(LocalLocale.current.platformLocale)
                     .replaceFirstChar {
                         if (it.isLowerCase()) {
-                            it.titlecase(Locale.getDefault())
+                            it.titlecase(LocalLocale.current.platformLocale)
                         } else {
                             it.toString()
                         }
@@ -190,10 +259,9 @@ private fun AppInfoMore(app: App) {
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun MoreScreenPreview(@PreviewParameter(AppPreviewProvider::class) app: App) {
-    CompositionLocalProvider(LocalAsyncImagePreviewHandler provides coilPreviewProvider) {
-        ScreenContent(app = app)
-    }
+    ScreenContent(app = app)
 }

@@ -1,104 +1,128 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.compose.ui.blacklist
 
-import android.content.pm.PackageInfo
 import android.net.Uri
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.AppBarWithSearch
+import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.SearchBarValue
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.pm.PackageInfoCompat
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.Constants
 import com.aurora.extensions.toast
 import com.aurora.store.R
-import com.aurora.store.compose.composables.BlackListComposable
+import com.aurora.store.compose.composable.BlackListItem
+import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.ScrollHint
+import com.aurora.store.compose.composable.TextDividerComposable
+import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.blacklist.menu.BlacklistMenu
 import com.aurora.store.compose.ui.blacklist.menu.MenuItem
-import com.aurora.store.util.PackageUtil
+import com.aurora.store.compose.ui.commons.SortFilterSheet
+import com.aurora.store.compose.ui.commons.SortFilterState
+import com.aurora.store.data.model.BlacklistAppItem
 import com.aurora.store.viewmodel.blacklist.BlacklistViewModel
+import java.util.Calendar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 @Composable
-fun BlacklistScreen(onNavigateUp: () -> Unit, viewModel: BlacklistViewModel = hiltViewModel()) {
+fun BlacklistScreen(viewModel: BlacklistViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val packages by viewModel.filteredPackages.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val installers by viewModel.installers.collectAsStateWithLifecycle()
 
     ScreenContent(
         packages = packages,
-        onNavigateUp = onNavigateUp,
+        sortFilterState = state,
+        installers = installers,
         isPackageBlacklisted = { pkgName -> pkgName in viewModel.blacklist },
-        isPackageFiltered = { pkgInfo -> viewModel.isFiltered(pkgInfo) },
         onBlacklistImport = { uri ->
-            viewModel.importBlacklist(context, uri)
+            viewModel.importBlacklist(uri)
             context.toast(R.string.toast_black_import_success)
         },
         onBlacklistExport = { uri ->
-            viewModel.exportBlacklist(context, uri)
+            viewModel.exportBlacklist(uri)
             context.toast(R.string.toast_black_export_success)
         },
         onBlacklist = { packageName -> viewModel.blacklist(packageName) },
         onBlacklistAll = { viewModel.blacklistAll() },
         onWhitelist = { packageName -> viewModel.whitelist(packageName) },
         onWhitelistAll = { viewModel.whitelistAll() },
-        onSearch = { query -> viewModel.search(query) }
+        onSearch = { query -> viewModel.search(query) },
+        onSortFilterStateChange = viewModel::updateState
     )
 }
 
 @Composable
 private fun ScreenContent(
-    packages: List<PackageInfo>? = null,
-    onNavigateUp: () -> Unit = {},
+    packages: List<BlacklistAppItem>? = null,
+    sortFilterState: SortFilterState = SortFilterState(),
+    installers: Map<String, String> = emptyMap(),
     isPackageBlacklisted: (packageName: String) -> Boolean = { false },
-    isPackageFiltered: (packageInfo: PackageInfo) -> Boolean = { false },
     onBlacklistImport: (uri: Uri) -> Unit = {},
     onBlacklistExport: (uri: Uri) -> Unit = {},
     onBlacklist: (packageName: String) -> Unit = {},
     onBlacklistAll: () -> Unit = {},
     onWhitelist: (packageName: String) -> Unit = {},
     onWhitelistAll: () -> Unit = {},
-    onSearch: (query: String) -> Unit = {}
+    onSearch: (query: String) -> Unit = {},
+    onSortFilterStateChange: (SortFilterState) -> Unit = {}
 ) {
+    val activity = LocalActivity.current as? ComponentActivity
     val context = LocalContext.current
     val textFieldState = rememberTextFieldState()
     val searchBarState = rememberSearchBarState()
-    val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
+    var sheetVisible by remember { mutableStateOf(false) }
 
     val docImportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
@@ -110,6 +134,7 @@ private fun ScreenContent(
             }
         }
     )
+
     val docExportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(Constants.JSON_MIME_TYPE),
         onResult = {
@@ -131,7 +156,9 @@ private fun ScreenContent(
         BlacklistMenu { menuItem ->
             when (menuItem) {
                 MenuItem.SELECT_ALL -> onBlacklistAll()
+
                 MenuItem.REMOVE_ALL -> onWhitelistAll()
+
                 MenuItem.IMPORT -> {
                     docImportLauncher.launch(arrayOf(Constants.JSON_MIME_TYPE))
                 }
@@ -146,16 +173,25 @@ private fun ScreenContent(
     }
 
     fun onRequestSearch(query: String) {
-        textFieldState.setTextAndPlaceCursorAtEnd(query.trim())
+        val trimmed = query.trim()
+        if (textFieldState.text.toString() != trimmed) {
+            textFieldState.setTextAndPlaceCursorAtEnd(trimmed)
+        }
+        onSearch(trimmed)
         coroutineScope.launch { searchBarState.animateToCollapsed() }
-        onSearch(textFieldState.text.toString())
     }
 
     @Composable
     fun SearchBar() {
         val inputField = @Composable {
             SearchBarDefaults.InputField(
-                modifier = Modifier.focusRequester(focusRequester),
+                // Only allow focus while expanded. Otherwise the collapsed field
+                // grabs focus whenever it is restored (returning from details,
+                // dismissing the search on Android 8, ...) and the search bar
+                // reopens on its own. Tapping still expands via click detection.
+                modifier = Modifier.focusProperties {
+                    canFocus = searchBarState.targetValue == SearchBarValue.Expanded
+                },
                 searchBarState = searchBarState,
                 textFieldState = textFieldState,
                 onSearch = { query -> onRequestSearch(query) },
@@ -174,12 +210,7 @@ private fun ScreenContent(
                 },
                 trailingIcon = {
                     if (textFieldState.text.isNotBlank()) {
-                        IconButton(
-                            onClick = {
-                                textFieldState.clearText()
-                                focusRequester.requestFocus()
-                            }
-                        ) {
+                        IconButton(onClick = { textFieldState.clearText() }) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_cancel),
                                 contentDescription = stringResource(R.string.action_clear)
@@ -194,48 +225,140 @@ private fun ScreenContent(
             state = searchBarState,
             inputField = inputField,
             navigationIcon = {
-                IconButton(onClick = onNavigateUp) {
+                IconButton(onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_arrow_back),
                         contentDescription = stringResource(R.string.action_back)
                     )
                 }
             },
-            actions = { if (!packages.isNullOrEmpty()) SetupMenu() }
+            actions = {
+                IconButton(onClick = { sheetVisible = true }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_tune),
+                        contentDescription = stringResource(R.string.installed_sort_filter)
+                    )
+                }
+                SetupMenu()
+            },
+            colors = SearchBarDefaults.appBarWithSearchColors(
+                appBarContainerColor = Color.Transparent
+            )
         )
+        ExpandedFullScreenSearchBar(state = searchBarState, inputField = inputField) {
+            if (textFieldState.text.length >= 3) {
+                packages?.take(10)?.forEach { pkg ->
+                    Text(
+                        text = pkg.displayName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onRequestSearch(pkg.displayName) }
+                            .padding(
+                                horizontal = dimensionResource(R.dimen.spacing_medium),
+                                vertical = dimensionResource(R.dimen.spacing_small)
+                            )
+                    )
+                }
+            }
+        }
     }
 
-    Scaffold(topBar = { SearchBar() }) { paddingValues ->
-        LazyColumn(
+    Scaffold(
+        topBar = { SearchBar() }
+    ) { paddingValues ->
+        val listState = rememberLazyListState()
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_xxsmall))
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            items(items = packages ?: emptyList(), key = { p -> p.packageName.hashCode() }) { pkg ->
-                val isBlacklisted = isPackageBlacklisted(pkg.packageName)
-                val isFiltered = isPackageFiltered(pkg)
-                BlackListComposable(
-                    icon = PackageUtil.getIconForPackage(context, pkg.packageName)!!,
-                    displayName = pkg.applicationInfo!!.loadLabel(context.packageManager).toString(),
-                    packageName = pkg.packageName,
-                    versionName = pkg.versionName!!,
-                    versionCode = PackageInfoCompat.getLongVersionCode(pkg),
-                    isChecked = isBlacklisted || isFiltered,
-                    isEnabled = !isFiltered,
-                    onClick = {
-                        if (isBlacklisted) {
-                            onWhitelist(pkg.packageName)
-                        } else {
-                            onBlacklist(pkg.packageName)
+            if (packages == null) {
+                ContainedLoadingIndicator()
+            } else {
+                val (selectedPackages, otherPackages) = packages.partition { pkg ->
+                    isPackageBlacklisted(pkg.packageName) || pkg.isFiltered
+                }
+
+                @Composable
+                fun BlacklistRow(pkg: BlacklistAppItem) {
+                    val isBlacklisted = isPackageBlacklisted(pkg.packageName)
+                    BlackListItem(
+                        icon = pkg.icon,
+                        displayName = pkg.displayName,
+                        packageName = pkg.packageName,
+                        versionName = pkg.versionName,
+                        versionCode = pkg.versionCode,
+                        isChecked = isBlacklisted || pkg.isFiltered,
+                        isEnabled = !pkg.isFiltered,
+                        onClick = {
+                            if (isBlacklisted) {
+                                onWhitelist(pkg.packageName)
+                            } else {
+                                onBlacklist(pkg.packageName)
+                            }
                         }
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(R.dimen.spacing_xsmall)
+                    )
+                ) {
+                    if (selectedPackages.isNotEmpty()) {
+                        stickyHeader(key = "header_selected") {
+                            Surface(modifier = Modifier.fillMaxWidth()) {
+                                TextDividerComposable(
+                                    title = stringResource(
+                                        R.string.header_blacklist_selected
+                                    )
+                                )
+                            }
+                        }
+                        items(items = selectedPackages, key = { p ->
+                            p.packageName.hashCode()
+                        }) { pkg -> BlacklistRow(pkg) }
                     }
+
+                    if (otherPackages.isNotEmpty()) {
+                        stickyHeader(key = "header_others") {
+                            Surface(modifier = Modifier.fillMaxWidth()) {
+                                TextDividerComposable(
+                                    title = stringResource(
+                                        R.string.header_blacklist_others
+                                    )
+                                )
+                            }
+                        }
+                        items(items = otherPackages, key = { p ->
+                            p.packageName.hashCode()
+                        }) { pkg -> BlacklistRow(pkg) }
+                    }
+                }
+                ScrollHint(
+                    listState = listState,
+                    modifier = Modifier.align(Alignment.BottomCenter)
                 )
             }
         }
     }
+
+    if (sheetVisible) {
+        SortFilterSheet(
+            state = sortFilterState,
+            installers = installers,
+            onStateChange = onSortFilterStateChange,
+            onDismiss = { sheetVisible = false }
+        )
+    }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun BlacklistScreenPreview() {

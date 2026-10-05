@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.installer.base
@@ -26,4 +12,11 @@ interface IInstaller {
     fun clearQueue()
     fun isAlreadyQueued(packageName: String): Boolean
     fun removeFromInstallQueue(packageName: String)
+
+    /**
+     * Abandons any staged-but-uncommitted install session for [packageName] so cancelling
+     * a download doesn't leak a [android.content.pm.PackageInstaller] session. Default no-op
+     * for installers that don't stage sessions.
+     */
+    fun cancelInstall(packageName: String) {}
 }

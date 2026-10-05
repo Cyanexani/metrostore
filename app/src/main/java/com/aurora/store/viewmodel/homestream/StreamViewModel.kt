@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.viewmodel.homestream
@@ -23,6 +9,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aurora.extensions.TAG
 import com.aurora.gplayapi.data.models.StreamBundle
 import com.aurora.gplayapi.data.models.StreamCluster
 import com.aurora.gplayapi.helpers.contracts.StreamContract
@@ -30,18 +17,16 @@ import com.aurora.gplayapi.helpers.web.WebStreamHelper
 import com.aurora.store.HomeStash
 import com.aurora.store.data.model.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import javax.inject.Inject
 
 @HiltViewModel
 class StreamViewModel @Inject constructor(
     private val webStreamHelper: WebStreamHelper
 ) : ViewModel() {
-
-    private val TAG = StreamViewModel::class.java.simpleName
 
     val liveData: MutableLiveData<ViewState> = MutableLiveData()
 
@@ -70,10 +55,10 @@ class StreamViewModel @Inject constructor(
                     }
 
                     if (!bundle.hasCluster() || bundle.hasNext()) {
-
                         // Fetch new stream bundle
                         val newBundle = if (bundle.hasCluster()) {
                             streamContract.nextStreamBundle(
+                                bundle.id,
                                 category,
                                 bundle.streamNextPageUrl
                             )
@@ -81,7 +66,6 @@ class StreamViewModel @Inject constructor(
                             streamContract.fetch(type, category)
                         }
 
-                        // Update old bundle
                         val mergedBundle = bundle.copy(
                             streamClusters = bundle.streamClusters + newBundle.streamClusters,
                             streamNextPageUrl = newBundle.streamNextPageUrl
@@ -105,6 +89,7 @@ class StreamViewModel @Inject constructor(
             try {
                 if (streamCluster.hasNext()) {
                     val newCluster = streamContract.nextStreamCluster(
+                        streamCluster.id,
                         streamCluster.clusterNextPageUrl
                     )
 
@@ -136,7 +121,8 @@ class StreamViewModel @Inject constructor(
 
         val mergedCluster = oldCluster.copy(
             clusterNextPageUrl = newCluster.clusterNextPageUrl,
-            clusterAppList = oldCluster.clusterAppList + newCluster.clusterAppList
+            clusterAppList = (oldCluster.clusterAppList + newCluster.clusterAppList)
+                .distinctBy { it.packageName }
         )
 
         val updatedClusters = bundle.streamClusters.toMutableMap().apply {
@@ -158,7 +144,8 @@ class StreamViewModel @Inject constructor(
         stash[category] = bundle.copy(streamClusters = updatedClusters)
     }
 
-    private fun targetBundle(category: StreamContract.Category): StreamBundle {
-        return stash.getOrPut(category) { StreamBundle() }
-    }
+    private fun targetBundle(category: StreamContract.Category): StreamBundle =
+        stash.getOrPut(category) {
+            StreamBundle(id = category.value.hashCode())
+        }
 }

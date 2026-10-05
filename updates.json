@@ -1,9 +1,13 @@
 {
   "version_name": "0.8.0-beta",
-  "version_code": 72,
-  "aurora_build": "https://github.com/Cyanexani/metrostore/releases/tag/v0.8.0-beta",
-  "fdroid_build": "",
+  "version_code": "72",
+  "download_url": "https://github.com/Cyanexani/metrostore/releases/download/v0.8.0-beta/app-vanilla-universal-release.apk",
+  "icon_url": "",
+  "sha1": "",
+  "sha256": "",
   "changelog": "MetroStore v0.8.0-beta Release",
-  "size": 24853376,
-  "updated_on": "Jul 30, 2026"
+  "size": "24853376",
+  "last_commit": "",
+  "updated_on": "Jul 30, 2026",
+  "timestamp": "0"
 }

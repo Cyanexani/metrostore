@@ -63,7 +63,7 @@
     <string name="action_leave">Ikni</string>
     <string name="action_logout">Dilni</string>
     <string name="action_next">Pasuesi</string>
-    <string name="action_ok">OK</string>
+    <string name="action_ok">Ne rregull</string>
     <string name="action_open">Hape</string>
     <string name="action_pending">Pezull</string>
     <string name="action_post">Postoje</string>
@@ -100,7 +100,7 @@
     <string name="details_think_this_app">Si ju duket ky aplikacion\?</string>
     <string name="download_cancel_all">Anuloji krejt</string>
     <string name="download_canceled">Anuluar</string>
-    <string name="download_completed">Shkarkim i plotësuar</string>
+    <string name="download_completed">Shkarkimi u plotësua</string>
     <string name="download_eta_calculating">Po llogaritet</string>
     <string name="download_failed">Shkarkimi dështoi</string>
     <string name="download_force_clear_all">Spastroji krejt me detyrim</string>
@@ -108,7 +108,7 @@
     <string name="download_none">S’ka shkarkime</string>
     <string name="download_pause_all">Ndali krejt</string>
     <string name="download_queued">Në Radhë</string>
-    <string name="download_resume_all">Rimerri krejt</string>
+    <string name="download_resume_all">Vazhdoi krejt</string>
     <string name="download_speed_estimating">Afërsisht</string>
     <string name="exodus_no_tracker">S’përmban gjurmues të ditur</string>
     <string name="exodus_powered">Bazuar në Exodus Privacy</string>
@@ -236,7 +236,7 @@
     <string name="pref_vending_version_device">Parazgjedhje (nga formësim pajisjeje)</string>
     <string name="pref_network_proxy_url">URL ndërmjetësi</string>
     <string name="pref_updates_incompatible">Shfaq përditësime që mund të dështojnë</string>
-    <string name="pref_aurora_only">Filtro aplikacione nga burime të tjera</string>
+    <string name="pref_aurora_only">Filtro aplikacione nga burime të tjera.</string>
     <string name="session_enjoy">Bëni hyrjen dhe shijojeni.</string>
     <string name="toast_import_failed">S’u importua dot formësim pajisjeje</string>
     <string name="downloading_dep">Po shkarkohen kartela shtesë për <xliff:g id="app">%1$s</xliff:g></string>
@@ -263,7 +263,7 @@
     <string name="spoof_property"><xliff:g id="manufacturer">%1$s</xliff:g> • API <xliff:g id="api">%2$s</xliff:g></string>
     <string name="permissions_denied">U mohuan leje të domosdoshme. Ju lutemi, që të mund të vazhdohet veprimi, akordojini</string>
     <string name="notification_updates_available_desc_1">Ka gati një version të ri të <xliff:g id="app_one_name">%1$s</xliff:g></string>
-    <string name="pref_updates_check_frequency_desc">Formësoni intervale kohorë për përditësime të automatizuara, në orë.</string>
+    <string name="pref_updates_check_frequency_desc">Sa shpesh kontrollon Aurora për përditësime aplikacioni.</string>
     <string name="notification_updates_available_desc_4"><xliff:g id="app_one_name">%1$s</xliff:g>, <xliff:g id="app_two_name">%2$s</xliff:g>, <xliff:g id="app_three_name">%3$s</xliff:g> dhe <xliff:g id="apps_count">%4$d</xliff:g> të tjerë</string>
     <string name="access_denied_using_vpn">Hyrje e mohuar! Po përdorni VPN, ose Tor?</string>
     <string name="google_play_store_desc">Google Play, e njohur dhe si Google Play Store dhe ish-Android Market.</string>
@@ -278,7 +278,7 @@
     <string name="notification_channel_updates">Njoftime përditësimesh</string>
     <string name="title_app_settings">Rregullime aplikacioni</string>
     <string name="title_advanced">Të mëtejshme</string>
-    <string name="login_rate_limited">Oh, për ju ka kufizime</string>
+    <string name="login_rate_limited">Për ju ka kufizime</string>
     <string name="server_unreachable">Shërbyes i pakapshëm</string>
     <string name="check_connectivity">Kontrolloni lidhjen në rrjet</string>
     <string name="app_language">Gjuhë aplikacioni</string>
@@ -286,13 +286,13 @@
     <string name="download_paused">Ndalur • <xliff:g id="completed_downloads">%1$d</xliff:g> / <xliff:g id="all_downloads">%2$d</xliff:g></string>
     <string name="installer_shizuku_unavailable">Shizuku s’është instaluar, ose s’është ujdisur si duhet.</string>
     <string name="action_home_screen">Shtoje te skena e kreut</string>
-    <string name="download_clear_finished">Spastrimi përfundoi</string>
+    <string name="download_clear_finished">Spastro te përfunduarat</string>
     <string name="download_eta_min">Edhe %1$dm %2$ds</string>
     <string name="download_eta_sec">Edhe %1$ds</string>
     <string name="onboarding_permission_notifications_desc">Dërgo njoftime lidhur me gjendje instalimesh</string>
-    <string name="pref_updates_incompatible_desc">Shfaq përditësime për aplikacione të papërputhshëm, ose të çaktivizuar, për të cilët mund të dështojë instalimi</string>
+    <string name="pref_updates_incompatible_desc">Shfaq përditësime për aplikacione të papërputhshëm, ose të çaktivizuar, për të cilët mund të dështojë instalimi.</string>
     <string name="pref_aurora_only_desc">Mos kontrollo për përditësime për aplikacione të instaluar nga burime jashtë Shitores Aurora</string>
-    <string name="session_good">Hyaaa! Gjithçka në rregull.</string>
+    <string name="session_good">Gjithçka në rregull.</string>
     <string name="session_verifying_google">Po verifikohet sesion Google</string>
     <string name="title_search_suggestion">Sugjerim kërkimi</string>
     <string name="title_search_results">Përfundime kërkimi</string>
@@ -332,7 +332,7 @@
     <string name="add">Shtoje</string>
     <string name="remove">Hiqe</string>
     <string name="about_wiki_title">Wiki</string>
-    <string name="about_wiki_summary">Merrni përgjigje për pyetje të bëra rëndom (PBR), hapa diagnostikimi, etj</string>
+    <string name="about_wiki_summary">Gjeni përgjigje për pyetje të bëra shpesh, hapa diagnostikimi dhe më shumë</string>
     <string name="details_no_favourites">S’u gjetën aplikacione të parapëlqyer</string>
     <string name="title_favourites_manager">Aplikacione të parapëlqyer</string>
     <string name="toast_app_unavailable">Aplikacion jo gati për pajisjen tuaj</string>
@@ -346,7 +346,7 @@
     <string name="toast_fav_export_success">Të parapëlqyerit u eksportuan!</string>
     <string name="session_login">Ju lutemi, bëni hyrjen te llogaria juaj Google Play</string>
     <string name="action_favourite">E preferuara</string>
-    <string name="about_aurora_store_summary">Metro Store ju mundëson të kërkoni dhe shkarkoni aplikacione nga Shitorja zyrtare Google Play. Mund të shihni përshkrimet e aplikacioneve, foto ekrani, përditësime, komente përdoruesish të tjerë dhe të shkarkoni APK-në drejtpërdrejt nga Google Play në pajisjen tuaj. Që të përdorni Metro Store, duhet të keni një llogari në Google Play dhe të bëni hyrjen në të, kur të hapni për herë të parë dhe formësoni Metro Store.\n \nNdryshe nga një shitore tradicionale aplikacionesh, Metro Store nuk zotëron, licencon ose shpërndan ndonjë aplikacion. Krejt aplikacionet, përshkrimet e tyre, fotot e ekranit dhe lëndë tjetër në Metro Store shihen, shkarkohen dhe/ose shfaqen drejtpërdrejt nga Google Play. Metro Store funksionon mu si një derë, ose një shfletues, duke ju lejuar të bëni hyrjen në llogarinë tuaj Google Play dhe t’i gjeni aplikacionet nga Google Play. \n \nJu lutemi, kini parasysh se Metro Store nuk ka ndonjë miratim, sponsorizim apo autorizim nga Google, Google Play, nga çfarëdo aplikacionesh të shkarkuar përmes Metro Store apo nga çfarëdo zhvilluesish aplikacionesh; as ka Metro Store ndonjë përshoqërim, bashkëpunim apo lidhje me ta.</string>
+    <string name="about_aurora_store_summary">Metro Store ju mundëson të kërkoni dhe shkarkoni aplikacione nga Shitorja zyrtare Google Play. Mund të shihni përshkrimet e aplikacioneve, foto ekrani, përditësime, komente përdoruesish të tjerë dhe të shkarkoni APK-në drejtpërdrejt nga Google Play në pajisjen tuaj. Që të përdorni Metro Store, bëni hyrjen duke përdorur një llogari Google, kur të hapni për herë të parë dhe formësoni Metro Store-in.\n \nNdryshe nga një shitore tradicionale aplikacionesh, Metro Store nuk zotëron, licencon ose shpërndan ndonjë aplikacion. Krejt aplikacionet, përshkrimet e tyre, fotot e ekranit dhe lëndë tjetër në Metro Store shihen, shkarkohen dhe/ose shfaqen drejtpërdrejt nga Google Play. Metro Store funksionon mu si një derë, ose një shfletues, duke ju lejuar të bëni hyrjen në llogarinë tuaj Google Play dhe t’i gjeni aplikacionet nga Google Play. \n \nJu lutemi, kini parasysh se Metro Store nuk ka ndonjë miratim, sponsorizim apo autorizim nga Google, Google Play, nga çfarëdo aplikacionesh të shkarkuar përmes Metro Store apo nga çfarëdo zhvilluesish aplikacionesh; as ka Metro Store ndonjë përshoqërim, bashkëpunim apo lidhje me ta.</string>
     <string name="action_uninstall_success">U çinstalua me sukses</string>
     <string name="pref_network_proxy_url_message">Jepni një URL ndërmjetësi të vlefshme për të kaluar krejt të dhënat përmes ndërmjetësit.</string>
     <string name="check_updates">Kontrollo për përditësime</string>
@@ -373,18 +373,15 @@
     <string name="notification_channel_downloads">Shënim rreth shkarkimesh</string>
     <string name="export_app_title">Eksportues kartelash</string>
     <string name="authentication_required_unarchive">Që të çarkivoni aplikacionin, ju lutemi, bëni hyrjen në llogarinë tuaj Google Play!</string>
-    <string name="notification_channel_account">Njoftim lidhur me llogari</string>
     <string name="authentication_required_title">Lyp mirëfilltësim</string>
     <string name="checking_updates">Po kontrollohet për përditësime</string>
     <string name="pref_dispenser_title">Administroni distributorë</string>
     <string name="add_dispenser_hint">URL distributori</string>
-    <string name="remove_dispenser_summary">Doni të hiqet distributori \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
     <string name="pref_dispenser_summary">Shihni dhe administroni distributorë token-ësh për hyrje anonime</string>
     <string name="no_dispensers_available">S’ka distributorë</string>
     <string name="made_with_love">Krijuar me <xliff:g id="heart_emoji">%1$s</xliff:g> në Indi</string>
     <string name="add_dispenser_title">Shtoni distributor</string>
     <string name="add_dispenser_summary">Shtoni te Metro Store një distributor token-ësh. Distributorët e token-ëve i furnizojnë Metro Store-it kredenciale llogarie për hyrje anonime.</string>
-    <string name="remove_dispenser_title">Hiqe distributorin</string>
     <string name="default_spoof">Parazgjedhje</string>
     <string name="toast_black_export_failed">S’u arrit të eksportohej listë ndalimesh!</string>
     <string name="toast_black_export_success">Lista e ndalimeve u eksportua!</string>
@@ -416,7 +413,7 @@
     <string name="disable">Çaktivizoje</string>
     <string name="pref_network_proxy_desc">Shihni dhe administroni formësim ndërmjetësi</string>
     <string name="pref_updates_restrictions_title">Kufizime përditësimesh të automatizuara</string>
-    <string name="pref_updates_restrictions_desc">Formësoni kufizime pajisjeje për përditësime të automatizuara.</string>
+    <string name="pref_updates_restrictions_desc">Formësoni kufizime pajisjeje për përditësime të automatizuara</string>
     <string name="pref_updates_restrictions_metered">Vetëm në rrjete me trafik të pakufizuar</string>
     <string name="pref_updates_restrictions_battery">Kur bateria s’është e pakët</string>
     <string name="pref_updates_restrictions_idle">Kur pajisja është e plogësht</string>
@@ -427,4 +424,206 @@
     <string name="app_info_downloads">Shkarkime</string>
     <string name="pref_common_advanced">Të mëtejshme</string>
     <string name="pref_updates_app_source">Burim aplikacioni</string>
+    <plurals name="permissions_required">
+        <item quantity="one">Lyp leje</item>
+        <item quantity="other">Lyp leje</item>
+    </plurals>
+    <string name="set">Ujdiseni</string>
+    <string name="force_restart_snack">Të riniset, që të aplikohen ndryshimet?</string>
+    <string name="action_install_microG">Instalo Paketën microG</string>
+    <string name="details_data_safety_collect">Të dhëna që mund të grumbullojë ky aplikacion</string>
+    <string name="details_data_safety_collect_none">Zhvilluesi thotë se ky aplikacion s’grumbullon të dhëna përdoruesi.</string>
+    <string name="details_data_safety_shared">Të dhëna që ky aplikacion mund t’u japë të tjerëve</string>
+    <string name="details_data_safety_share_none">Zhvilluesi thotë se ky aplikacion s’jep të dhëna përdoruesi për shoqëri dhe ente të tjerë.</string>
+    <string name="exodus_tracker_desc">Ky version i aplikacioni mund të përmbajë ende gjurmues të tjerë jo të pranishëm në bazën e të dhënave të Exodus Privacy-së.</string>
+    <string name="exodus_report_trackers">Te <xliff:g id="app_version_name">%2$s</xliff:g> u gjet(ën) <xliff:g id="number_of_trackers">%1$d</xliff:g> gjurmues i(të) njohur</string>
+    <string name="installer_microg_misconfigured">Instaluesi MicroG s’arriti të instalojë aplikacionin, me gjasa për shkak formësimi të gabuar.</string>
+    <string name="pref_install_mode_microg">Instalues MicroG</string>
+    <string name="action_skip">Anashkaloje</string>
+    <string name="onboarding_title_gsf">Përputhje Aplikacioni</string>
+    <string name="onboarding_title_gsf_desc">Ka varësi të paplotësuara</string>
+    <string name="onboarding_gms_agreement">I kam lexuar dhe pajtohem me Kushtet e Shërbimit dhe Rregullat e Privatësisë së microG-së</string>
+    <string name="onboarding_gms_missing">S’gjetëm dot Google Play Services në pajisjen tuaj, një numër aplikacionesh të njohur tanimë e kanë të domosdoshëm, që të funksionojnë si duhet!</string>
+    <string name="onboarding_gms_microg">microG është një sendërtim i lirë dhe me burim të hapët, që ofron funksione të ngjashme për xhirim aplikacionesh që varen nga Google Play Services për pajisje Android, përmes risendërimti.\n\nmicroG u bën të mundur aplikacioneve të përdorin këto API Google, duke zgjeruar për përdoruesit shkallë përputhjeje, teksa ofron përfitime në pikëpamje të privatësisë. \n\nmicroG do të funksionojë automatikisht në prapaskenë, kur hapni aplikacione që varen nga Google Mobile Services.</string>
+    <string name="microg_privacy_policy">Lexoni Rregulla Privatësie të microG-së</string>
+    <string name="microg_license_agreement">Lexoni Licencë dhe Marrëveshje për microG</string>
+    <string name="microg_website">Vizitoni Sajtin e Projektit microG</string>
+    <string name="microg_installer_subtitle">Që të instalohet, lyp aplikacionin shoqërues microG</string>
+    <string name="microg_installer_desc">Ju ndihmon të anashkaloni kontroll Integriteti Aplikacioni (vetëm për instaluesin)</string>
+    <string name="manual_download_version_error">Kodi i versionit mund të përmbajë vetëm shifra</string>
+    <string name="status_verifying">Po verifikohet</string>
+    <string name="no_description">S’ka përshkrim</string>
+    <string name="permissions_requested"><xliff:g id="number_of_permissions">%1$d</xliff:g> leje</string>
+    <string name="details_more_info">Më tepër informacion</string>
+    <string name="details_more_package_name">Emër pakete</string>
+    <string name="details_more_content_rating">Vlerësim lënde</string>
+    <string name="preparing_to_install">Po bëhet gati për instalim</string>
+    <string name="select_app_for_details">Për më tepër hollësi, përzgjidhni një aplikacion</string>
+    <string name="action_filter_no_ads">Pa reklama</string>
+    <string name="action_filter_no_gms">Pa shërbime luajtjesh</string>
+    <string name="loading">Ngarkim në kryerje e sipër</string>
+    <string name="page">Faqja <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="status_unavailable">Nuk është gati</string>
+    <string name="available_spoof">Gati</string>
+    <string name="details_more_target_api">Synimi</string>
+    <string name="action_retry">Riprovoni</string>
+    <string name="preparing_to_download">Po përgatitet të shkarkojë</string>
+    <string name="verifying_downloads">Po verifikohen shkarkime</string>
+    <string name="action_view_on_play">Shiheni në Play Store</string>
+    <string name="header_blacklist_others">Të tjerë</string>
+    <string name="microg_removed_auth_warning">microG s’është më i instaluar. Rikryeni ujdisjen që t’i mbani gjëra të funksionojnë rrjedhshëm.</string>
+    <string name="pref_source_filters_title">Filtro aplikacione nga burime të tjera</string>
+    <string name="pref_source_filters_desc_all">Anashkalo do aplikacion jo të instaluar nga Metro Store</string>
+    <string name="pref_source_filters_desc_none">S’u përjashtuan instalues</string>
+    <string name="pref_source_filters_desc_count">U përjashtua %1$d instalues()</string>
+    <string name="source_filters_all">Filtro krejt instaluesit e tjerë</string>
+    <string name="source_filters_installers_header">Instalues specifikë</string>
+    <string name="source_filters_installers_empty">Ende pa instalues të shtuar</string>
+    <string name="source_filters_add">Shtoni instalues</string>
+    <string name="source_filters_add_dialog_hint">Jepni emër pakete</string>
+    <string name="source_filters_remove">Hiqe instaluesin</string>
+    <string name="updates_incompatible_header">Përditësime të papërputhshme</string>
+    <string name="updates_incompatible_desc">Këto përditësime aplikacionesh sistemi s’mund të instalohet në këtë OS</string>
+    <string name="updates_ignored_header">Të shpërfillur</string>
+    <string name="updates_ignored_desc">Këto përditësime janë të fshehura, deri sa të hiqni shpërfilljen për to</string>
+    <string name="action_ignore_all">Shpërfilli krejt përditësimet</string>
+    <string name="action_ignore_version">Anashkalo versionin <xliff:g id="version_name">%1$s</xliff:g></string>
+    <string name="action_unignore">Hiqja shpërfilljen</string>
+    <string name="pref_updates_check_frequency_3h">Çdo 3 orë</string>
+    <string name="pref_updates_check_frequency_6h">Çdo 6 orë</string>
+    <string name="pref_updates_check_frequency_12h">Çdo 12 orë</string>
+    <string name="pref_updates_check_frequency_24h">Çdo 24 orë</string>
+    <string name="pref_updates_check_frequency_3d">Çdo 3 ditë</string>
+    <string name="pref_updates_check_frequency_7d">Çdo 7 ditë</string>
+    <string name="pref_updates_check_frequency_15d">Çdo 15 ditë</string>
+    <string name="pref_ui_theme">Temë</string>
+    <string name="pref_theme_style_system">Ndiq sistemin</string>
+    <string name="pref_theme_style_light">E çelët</string>
+    <string name="pref_theme_style_dark">E errët</string>
+    <string name="installed_sort_filter">Renditini dhe filtrojini</string>
+    <string name="installed_sort_by">Renditi sipas</string>
+    <string name="installed_sort_name">Emrash</string>
+    <string name="installed_sort_date_installed">Datash instalimi</string>
+    <string name="installed_sort_date_updated">Datash përditësimi</string>
+    <string name="installed_sort_package_name">Emrash pakete</string>
+    <string name="installed_sort_size">Madhësish</string>
+    <string name="installed_sort_ascending">Në rend rritës</string>
+    <string name="installed_sort_descending">Në rend zbritës</string>
+    <string name="installed_filter">Filtroji</string>
+    <string name="installed_filter_user_apps">Aplikacione përdoruesi</string>
+    <string name="installed_filter_system_apps">Aplikacione sistemi</string>
+    <string name="installed_filter_installer">Instaluar që nga</string>
+    <string name="installed_filter_all">Krejt</string>
+    <string name="installed_updated_at">Përditësuar më <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="updates_approval_header">Përditësime që lypin miratim</string>
+    <string name="updates_app_details">Hollësi</string>
+    <string name="header_blacklist_selected">Vënë në listë bllokimesh</string>
+    <string name="updates_approval_desc">Këta aplikacione s’qenë instaluar nga Aurora. Përditësimi i tyre do të kërkojë shpërngulje pronësie përditësimesh aplikacioni.</string>
+    <string name="action_check">Kontrolloje</string>
+    <string name="title_notifications">Njoftime</string>
+    <string name="pref_notification_progress">Shfaq ecuri shkarkimi</string>
+    <string name="pref_notification_progress_desc">Shfaq ecuri të hollësishme teksa shkarkohen dhe përditësohen aplikacione. Kur është e çaktivizuar, shfaqet vetëm një njoftim i vetëm i heshtur teksa shkarkimet kryhen në prapaskenë.</string>
+    <string name="pref_notification_categories">Kategori</string>
+    <string name="pref_notification_categories_desc">Përimtoni tingullin dhe rëndësinë për secilin lloj njoftimesh</string>
+    <string name="pref_notification_disabled">Njoftimet janë të çaktivizuara</string>
+    <string name="pref_notification_disabled_desc">Prekeni që të aktivizohen njoftime për Metro Store</string>
+    <string name="download_failed_storage">Hapësirë e pamjaftueshme depozitimi për shkarkimin e këtij aplikacioni</string>
+    <string name="installer_fallback_session">Instaluesi i zgjedhur s’është i përdorshëm, në vend të tij po përdoret instaluesi parazgjedhje.</string>
+    <string name="title_security">Siguri</string>
+    <string name="app_lock_title">Kyçje aplikacioni</string>
+    <string name="app_lock_summary">Lyp doemos mirëfilltësim biometrik, ose kyçje ekrani për hapjen e Metro Store-it.</string>
+    <string name="app_lock_no_credential">Së pari ujdisni në pajisjen tuaj kyçje ekrani (PIN, rregullsi, fjalëkalim apo mirëfilltësim biometrik).</string>
+    <string name="app_lock_locked_message">Që të hyhet në Metro Store, duhet bërë mirëfilltësimi</string>
+    <string name="app_lock_unlock">Shkyçe</string>
+    <string name="app_lock_prompt_title">Shkyçe Metro Store-in</string>
+    <string name="app_lock_prompt_subtitle">Jepni rregullsi kyçjeje ekrani telefoni, PIN, fjalëkalim, ose shenja gishtash</string>
+    <string name="notification_channel_alerts">Gabime &amp; sinjalizime</string>
+    <string name="notification_group_activity">Shkarkime &amp; përditësime</string>
+    <string name="notification_group_alerts">Sinjalizime</string>
+    <string name="pref_self_update">Vetëpërditësim</string>
+    <string name="pref_self_update_desc">Ofro montime të rinj Metro Store te skeda Përditësime.</string>
+    <string name="updates_self_header">Vetëpërditësim</string>
+    <string name="updates_self_desc">Ka gati një montim më të ri të Metro Store-it</string>
+    <string name="status_installing">Instalim</string>
+    <plurals name="notification_installed_summary">
+        <item quantity="one">%d aplikacion i instaluar</item>
+        <item quantity="other">%d aplikacione të instaluar</item>
+    </plurals>
+    <plurals name="notification_failed_summary">
+        <item quantity="one">U dështua për %d aplikacion</item>
+        <item quantity="other">U dështua për %d aplikacione</item>
+    </plurals>
+    <string name="account_set_default">Vëre si parazgjedhje</string>
+    <string name="account_default">Parazgjedhje</string>
+    <string name="account_remove">Hiqe</string>
+    <string name="account_remove_title">Të hiqet llogaria?</string>
+    <string name="account_remove_message">Të hiqet %1$s nga Metro Store?</string>
+    <string name="account_remove_last_message">Kjo është llogaria juaj e vetme. Heqja e saj do të sjellë nxjerrjen tuaj nga llogaria dhe s’do të jeni në gjendje të përdorni Metro Store-in, para se të bëni sërish hyrjen.</string>
+    <string name="account_add">Shtoni llogari</string>
+    <string name="account_add_google">Hyni me Google</string>
+    <string name="account_add_anonymous">Shtoni llogari anonime</string>
+    <string name="account_set_default_title">Të kalohet te llogaria parazgjedhje?</string>
+    <string name="account_set_default_message">Që të përdoret llogaria e re parazgjedhje, Metro Store do të riniset.</string>
+    <string name="account_switching">Po ndërrohet llogari…</string>
+    <string name="account_adding">Po shtohet llogari…</string>
+    <string name="account_refresh_all">Rifresko krejt llogaritë</string>
+    <string name="account_refreshing">Po rifreskohen llogari…</string>
+    <string name="account_add_device">Llogari pajisjeje</string>
+    <string name="account_refresh_done">U rifreskohen krejt llogaritë</string>
+    <string name="account_switch_failed">S’u rifreskua dot ajo llogari, ndaj parazgjedhja s’u ndryshua.</string>
+    <string name="account_add_failed">S’u shtua dot ajo llogari. Ju lutemi, riprovoni.</string>
+    <string name="action_buy">Blini @ %1$s</string>
+    <string name="action_install_all">Instaloji krejt</string>
+    <string name="action_switch_account">Ndërroni llogari</string>
+    <string name="details_review_comment_hint">Përshkruani rastin tuaj (opsionale)</string>
+    <string name="details_review_edit">Përpunoni shqyrtimin tuaj</string>
+    <string name="details_review_delete">Fshije</string>
+    <string name="details_review_delete_title">Të fshihet shqyrtimi?</string>
+    <string name="details_review_delete_message">Vlerësimi juaj dhe shqyrtimi do të hiqen nga Google Play.</string>
+    <string name="details_your_review">Shqyrtimi juaj</string>
+    <string name="filter_latest">Më i riu</string>
+    <string name="confirm_deeplink_title">Ripohoni lidhje të jashtme</string>
+    <string name="confirm_deeplink_summary">Pyet, para se të hapet një aplikacion që referohet nga një lidhje, duke penguar kështu reklama të hapin Metro Store-i pa pranimin tuaj.</string>
+    <string name="confirm_deeplink_sheet_title">Të vazhdohet te Metro Store?</string>
+    <string name="confirm_deeplink_sheet_message">Një aplikacion i jashtëm dëshiron të hapë Metro Store-in</string>
+    <string name="confirm_deeplink_sheet_source">Hapur nga %1$s</string>
+    <string name="title_install_favourites">Të instalohet të parapëlqyerit?</string>
+    <string name="install_favourites_summary">Kjo do të shkarkojë dhe instalojë %1$d aplikacione.</string>
+    <string name="install_favourites_warning">Mund të shihni një hap më vete fillimi instalimi për secilin aplikacion.</string>
+    <string name="pref_ui_dynamic_color">Ngjyra dinamike</string>
+    <string name="pref_ui_dynamic_color_desc">Përdorni ngjyra nga sfondi juaj. Për paletë marke Aurora, çaktivizojeni.</string>
+    <string name="toast_fav_install_enqueued">Po instalohen %1$d aplikacione</string>
+    <string name="toast_fav_install_none">S’ka gjë për instalim</string>
+    <string name="toast_fav_install_failed">S’u arrit të sillen hollësi aplikacioni</string>
+    <plurals name="favourites_count">
+        <item quantity="one">%1$d i parapëlqyer</item>
+        <item quantity="other">%1$d të parapëlqyer</item>
+    </plurals>
+    <plurals name="account_count">
+        <item quantity="one">%1$d llogari gjithsej</item>
+        <item quantity="other">%1$d llogari gjithsej</item>
+    </plurals>
+    <plurals name="account_refresh_failed">
+        <item quantity="one">S’u rifreskua dot %1$d llogari</item>
+        <item quantity="other">S’u rifreskuan dot %1$d llogari</item>
+    </plurals>
+    <string name="details_ratings_title_hint">Titull shqyrtimi</string>
+    <string name="status_installed">I instaluar</string>
+    <string name="remove_dispenser_title">Hiq shpërndarësit?</string>
+    <string name="remove_dispenser_summary">Dëshironi ta hiqni shpërndarësin \"<xliff:g id="url">%1$s</xliff:g>\"?</string>
+    <string name="account_exists">Llogaria është shtuar tashmë</string>
+    <string name="action_update_anyway">Përditësoje sido qoftë</string>
+    <string name="exodus_report_history">Historik versionesh</string>
+    <string name="exodus_history_version">%1$s (%2$s)</string>
+    <string name="exodus_history_subtitle">%1$s • %2$d gjurmues</string>
+    <string name="exodus_latest">Më i fundit</string>
+    <string name="pref_updates_warn_trackers">Paralajmëro për gjurmues të rinj në përditësimet e aplikacioneve</string>
+    <string name="pref_updates_warn_trackers_desc">Shfaq një paralajmërim para përditësimit kur versioni i ri shton gjurmues që nuk ishin në versionin e instaluar</string>
+    <string name="tracker_warning_title">U zbuluan gjurmues të rinj</string>
+    <string name="tracker_warning_desc">Ky përditësim shton gjurmues që nuk ishin në versionin e instaluar:</string>
+    <string name="manual_download_lookup">Kërko versionet</string>
+    <string name="manual_download_select_version">Zgjidh një version</string>
+    <string name="manual_download_no_versions">Nuk u gjet asnjë version i njohur</string>
+    <string name="manual_download_availability_warning">Disa versione mund të jenë të padisponueshme për shkarkim ose të papajtueshme me pajisjen tënde.</string>
+    <string name="details_more_certificate_hash">Hash-i i certifikatës</string>
 </resources>

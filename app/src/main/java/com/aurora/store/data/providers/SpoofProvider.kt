@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.providers
@@ -24,11 +10,11 @@ import com.aurora.store.R
 import com.aurora.store.util.Preferences
 import com.aurora.store.util.Preferences.PREFERENCE_VENDING_VERSION
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.json.Json
 import java.util.Locale
 import java.util.Properties
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.serialization.json.Json
 
 /**
  * Provider class to work with device and locale spoofs
@@ -36,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SpoofProvider @Inject constructor(
     private val json: Json,
-    @ApplicationContext val context: Context,
+    @ApplicationContext val context: Context
 ) : SpoofDeviceProvider(context) {
 
     companion object {
@@ -119,7 +105,10 @@ class SpoofProvider @Inject constructor(
             val versionStrings = resources.getStringArray(R.array.pref_vending_version)
 
             currentProperties.setProperty("Vending.version", versionCodes[vendingVersionIndex])
-            currentProperties.setProperty("Vending.versionString", versionStrings[vendingVersionIndex])
+            currentProperties.setProperty(
+                "Vending.versionString",
+                versionStrings[vendingVersionIndex]
+            )
         }
     }
 }

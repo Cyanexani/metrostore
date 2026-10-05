@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.helper
 
 import android.content.Context
@@ -11,36 +16,46 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.aurora.extensions.TAG
 import com.aurora.store.AuroraApp
+import com.aurora.store.BuildConfig
 import com.aurora.store.data.event.BusEvent
 import com.aurora.store.data.event.InstallerEvent
+import com.aurora.store.data.model.BuildType
 import com.aurora.store.data.model.UpdateMode
+import com.aurora.store.data.room.update.IgnoredUpdate
+import com.aurora.store.data.room.update.IgnoredUpdateDao
 import com.aurora.store.data.room.update.UpdateDao
+import com.aurora.store.data.room.update.isIgnoredBy
 import com.aurora.store.data.work.UpdateWorker
+import com.aurora.store.util.PackageUtil
 import com.aurora.store.util.Preferences
 import com.aurora.store.util.Preferences.PREFERENCES_UPDATES_RESTRICTIONS_BATTERY
 import com.aurora.store.util.Preferences.PREFERENCES_UPDATES_RESTRICTIONS_IDLE
 import com.aurora.store.util.Preferences.PREFERENCES_UPDATES_RESTRICTIONS_METERED
 import com.aurora.store.util.Preferences.PREFERENCE_UPDATES_CHECK_INTERVAL
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.UUID
+import java.util.concurrent.TimeUnit.HOURS
+import java.util.concurrent.TimeUnit.MINUTES
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.UUID
-import java.util.concurrent.TimeUnit.HOURS
-import java.util.concurrent.TimeUnit.MINUTES
-import javax.inject.Inject
 
 /**
  * Helper class to work with the [UpdateWorker].
  */
 class UpdateHelper @Inject constructor(
     private val updateDao: UpdateDao,
+    private val ignoredUpdateDao: IgnoredUpdateDao,
     @ApplicationContext private val context: Context
 ) {
 
@@ -82,18 +97,38 @@ class UpdateHelper @Inject constructor(
         }
     }
 
-    private val TAG = UpdateHelper::class.java.simpleName
-
     private val isExtendedUpdateEnabled
         get() = Preferences.getBoolean(context, Preferences.PREFERENCE_UPDATES_EXTENDED)
 
-    val updates = updateDao.updates()
+    private val filteredUpdates = updateDao.updates()
         .map { list -> if (!isExtendedUpdateEnabled) list.filter { it.hasValidCert } else list }
-        .stateIn(AuroraApp.scope, SharingStarted.WhileSubscribed(), null)
+
+    /**
+     * Updates surfaced to the UI / notifications. Updates muted by the user via
+     * [ignoreAll] or [ignoreVersion] are filtered out — see [ignoredUpdates] for the
+     * complementary list.
+     */
+    val updates = combine(filteredUpdates, ignoredUpdateDao.ignoredUpdates()) { list, ignored ->
+        val byPkg = ignored.associateBy { it.packageName }
+        list.filterNot { it.isIgnoredBy(byPkg) }
+    }.stateIn(AuroraApp.scope, SharingStarted.WhileSubscribed(), null)
+
+    /**
+     * Updates that the user has chosen to ignore (all-future or version-specific) and
+     * which currently have a row in the `update` table. Used to render the "Ignored"
+     * footer section on the Updates screen.
+     */
+    val ignoredUpdates = combine(
+        filteredUpdates,
+        ignoredUpdateDao.ignoredUpdates()
+    ) { list, ignored ->
+        val byPkg = ignored.associateBy { it.packageName }
+        list.filter { it.isIgnoredBy(byPkg) }
+    }.stateIn(AuroraApp.scope, SharingStarted.WhileSubscribed(), emptyList())
 
     val isCheckingUpdates = WorkManager.getInstance(context)
         .getWorkInfosForUniqueWorkFlow(EXPEDITED_UPDATE_WORKER)
-        .map { list -> !list.all { it.state.isFinished } }
+        .map { list -> list.any { it.state == WorkInfo.State.RUNNING } }
         .stateIn(AuroraApp.scope, SharingStarted.WhileSubscribed(), false)
 
     /**
@@ -135,8 +170,11 @@ class UpdateHelper @Inject constructor(
             .setInputData(inputData)
             .build()
 
+        // REPLACE (not KEEP) so a manual check cancels any worker parked in a retry
+        // backoff and starts fresh; otherwise the stuck worker would linger for hours and
+        // the tap would be a no-op.
         WorkManager.getInstance(context)
-            .enqueueUniqueWork(EXPEDITED_UPDATE_WORKER, ExistingWorkPolicy.KEEP, work)
+            .enqueueUniqueWork(EXPEDITED_UPDATE_WORKER, ExistingWorkPolicy.REPLACE, work)
     }
 
     /**
@@ -152,6 +190,37 @@ class UpdateHelper @Inject constructor(
      */
     suspend fun deleteAllUpdates() {
         updateDao.deleteAll()
+    }
+
+    /**
+     * Immediately drops Aurora Store's own update row, e.g. when the user turns the
+     * self-update preference off. The periodic check won't re-add it while disabled.
+     */
+    fun deleteSelfUpdate() {
+        AuroraApp.scope.launch { deleteUpdate(BuildConfig.APPLICATION_ID) }
+    }
+
+    /**
+     * Hide all future updates for [packageName] until [unignore] is called.
+     */
+    suspend fun ignoreAll(packageName: String) {
+        ignoredUpdateDao.upsert(IgnoredUpdate(packageName = packageName))
+    }
+
+    /**
+     * Hide only [versionCode] for [packageName]; newer versions show up again.
+     */
+    suspend fun ignoreVersion(packageName: String, versionCode: Long) {
+        ignoredUpdateDao.upsert(
+            IgnoredUpdate(packageName = packageName, ignoredVersionCode = versionCode)
+        )
+    }
+
+    /**
+     * Drop the ignore rule for [packageName], regardless of which kind it was.
+     */
+    suspend fun unignore(packageName: String) {
+        ignoredUpdateDao.delete(packageName)
     }
 
     /**
@@ -189,6 +258,23 @@ class UpdateHelper @Inject constructor(
 
     private suspend fun deleteInvalidUpdates() {
         updateDao.updates().firstOrNull()?.forEach { update ->
+            if (update.isSelfUpdate(context)) {
+                // Self-updates need a flavor-aware staleness check. Release/preload bump the
+                // version code, so the normal up-to-date check works. Nightly reuses a static
+                // version code (isUpToDate is always true there), so fall back to the
+                // commit-tagged version name. Without this the row lingers until the next
+                // update check, since the install event isn't delivered when the app replaces
+                // itself.
+                val alreadyInstalled = if (BuildType.CURRENT == BuildType.NIGHTLY) {
+                    PackageUtil.getInstalledVersionName(context, update.packageName) ==
+                        update.versionName
+                } else {
+                    update.isUpToDate(context)
+                }
+                if (alreadyInstalled) deleteUpdate(update.packageName)
+                return@forEach
+            }
+
             if (!update.isInstalled(context) || update.isUpToDate(context)) {
                 deleteUpdate(update.packageName)
             }

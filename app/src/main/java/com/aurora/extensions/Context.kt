@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.extensions
@@ -42,7 +28,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.aurora.Constants
-import com.aurora.gplayapi.data.models.App
 import com.aurora.store.ComposeActivity
 import com.aurora.store.R
 import com.aurora.store.compose.navigation.Screen
@@ -61,6 +46,14 @@ fun Context.browse(url: String) {
     }
 }
 
+fun Context.viewExternal(url: String): Boolean = try {
+    startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+    true
+} catch (_: Exception) {
+    Log.e(TAG, "No app to handle $url")
+    false
+}
+
 fun Context.appInfo(packageName: String) {
     try {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -77,7 +70,7 @@ fun Context.share(displayName: String, packageName: String) {
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_SUBJECT, displayName)
-            putExtra(Intent.EXTRA_TEXT, "${Constants.SHARE_URL}${packageName}")
+            putExtra(Intent.EXTRA_TEXT, "${Constants.SHARE_URL}$packageName")
             type = "text/plain"
         }
         startActivity(Intent.createChooser(sendIntent, getString(R.string.action_share)))
@@ -113,21 +106,20 @@ fun Context.openInfo(packageName: String) {
 
 fun <T> Context.open(className: Class<T>, newTask: Boolean = false) {
     val intent = Intent(this, className)
-    if (newTask)
+    if (newTask) {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
     startActivity(
         intent,
         getEmptyActivityBundle()
     )
 }
 
-fun Context.getEmptyActivityBundle(): Bundle? {
-    return ActivityOptionsCompat.makeCustomAnimation(
-        this,
-        android.R.anim.fade_in,
-        android.R.anim.fade_out
-    ).toBundle()
-}
+fun Context.getEmptyActivityBundle(): Bundle? = ActivityOptionsCompat.makeCustomAnimation(
+    this,
+    android.R.anim.fade_in,
+    android.R.anim.fade_out
+).toBundle()
 
 fun Context.copyToClipBoard(data: String?) {
     val clipboard = getSystemService<ClipboardManager>()
@@ -142,39 +134,31 @@ fun Context.getStyledAttributeColor(id: Int): Int {
     return styledAttr
 }
 
-fun Context.isIgnoringBatteryOptimizations(): Boolean {
-    return getSystemService<PowerManager>()?.isIgnoringBatteryOptimizations(packageName) ?: true
+fun Context.isIgnoringBatteryOptimizations(): Boolean =
+    getSystemService<PowerManager>()?.isIgnoringBatteryOptimizations(packageName) ?: true
+
+fun Context.areNotificationsEnabled(): Boolean = when {
+    isNAndAbove -> getSystemService<NotificationManager>()!!.areNotificationsEnabled()
+    else -> true
 }
 
-fun Context.areNotificationsEnabled(): Boolean {
-    return if (isNAndAbove) {
-        getSystemService<NotificationManager>()!!.areNotificationsEnabled()
-    } else {
-        true
-    }
+fun Context.checkManifestPermission(permission: String): Boolean =
+    ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+fun Context.isExternalStorageAccessible(): Boolean = when {
+    isRAndAbove -> Environment.isExternalStorageManager()
+    else -> checkManifestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 }
 
-fun Context.checkManifestPermission(permission: String): Boolean {
-    return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.isExternalStorageAccessible(): Boolean {
-    return if (isRAndAbove) {
-        Environment.isExternalStorageManager()
-    } else {
-        checkManifestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    }
-}
-
-fun Context.isDomainVerified(domain: String): Boolean {
-    return if (isSAndAbove) {
+fun Context.isDomainVerified(domain: String): Boolean = when {
+    isSAndAbove -> {
         val domainVerificationManager = getSystemService<DomainVerificationManager>()
         val userState = domainVerificationManager!!.getDomainVerificationUserState(packageName)
         val domainMap = userState?.hostToStateMap?.filterKeys { it == domain }
         domainMap?.values?.first() == DomainVerificationUserState.DOMAIN_STATE_SELECTED
-    } else {
-        true
     }
+
+    else -> true
 }
 
 fun Context.navigate(screen: Screen) {

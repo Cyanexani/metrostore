@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.work
 
 import android.content.Context
@@ -8,6 +13,8 @@ import androidx.work.ExistingPeriodicWorkPolicy.KEEP
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.aurora.store.data.model.DownloadStatus
+import com.aurora.store.data.room.download.DownloadDao
 import com.aurora.store.util.PathUtil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,12 +24,14 @@ import java.util.concurrent.TimeUnit.HOURS
 import java.util.concurrent.TimeUnit.MINUTES
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.coroutines.flow.first
 
 /**
  * A periodic worker to automatically clear the old downloads cache periodically.
  */
 @HiltWorker
 class CacheWorker @AssistedInject constructor(
+    private val downloadDao: DownloadDao,
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
@@ -58,23 +67,42 @@ class CacheWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Log.i(TAG, "Cleaning cache")
 
-        PathUtil.getOldDownloadDirectories(context).filter { it.exists() }.forEach { dir -> // Downloads
+        // Files for downloads that are still in-flight or downloaded & awaiting install
+        // must be protected from the age-based purge, otherwise a download the user hasn't
+        // installed yet (e.g. they missed the system prompt) would lose its files and have
+        // to be re-downloaded. Keyed by packageName -> versionCode.
+        val protectedVersions = runCatching {
+            downloadDao.downloads().first()
+                .filter { it.isActive || it.status == DownloadStatus.COMPLETED }
+                .map { it.packageName to it.versionCode }
+                .toSet()
+        }.getOrDefault(emptySet())
+
+        PathUtil.getOldDownloadDirectories(context).filter { it.exists() }.forEach { dir ->
+            // Downloads
             Log.i(TAG, "Deleting old unused download directory: $dir")
             dir.deleteRecursively()
         }
 
-        PathUtil.getDownloadDirectory(context).listFiles()?.forEach { download -> // com.example.app
+        PathUtil.getDownloadDirectory(context).listFiles()?.forEach { download ->
+            // com.example.app
             // Delete if the download directory is empty
             if (download.listFiles().isNullOrEmpty()) {
                 Log.i(TAG, "Removing empty download directory for ${download.name}")
-                download.deleteRecursively(); return@forEach
+                download.deleteRecursively()
+                return@forEach
             }
 
-            download.listFiles()!!.forEach { versionCode -> // 20240325
+            download.listFiles()!!.forEach { versionCode ->
+                // 20240325
+                val isProtected = (download.name to versionCode.name.toLongOrNull()) in
+                    protectedVersions
                 if (versionCode.listFiles().isNullOrEmpty()) {
                     // Purge empty non-accessible directory
                     Log.i(TAG, "Removing empty directory for ${download.name}, ${versionCode.name}")
                     versionCode.deleteRecursively()
+                } else if (isProtected) {
+                    Log.i(TAG, "Keeping ${download.name} (${versionCode.name}); install pending")
                 } else {
                     versionCode.deleteIfOld()
                 }

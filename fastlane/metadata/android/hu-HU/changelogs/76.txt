@@ -1,0 +1,9 @@
+• A felület teljesen megújult, mostantól a modern Jetpack Compose technológiára épül
+• Több Google-fiók támogatása
+• Felhasználói értékelések az alkalmazás adatlapján
+• Opcionális alkalmazászár biometrikus azonosítással vagy az eszköz hitelesítő adataival
+• Kedvencek telepítése egy kattintással, valamint vásárlási folyamat a fizetős alkalmazásokhoz
+• Megújult értesítések csoportosított összefoglalókkal és részletes beállítási lehetőségekkel
+• Átdolgozott frissítések képernyő; az önfrissítések mostantól a listában is megjelennek
+• Megbízhatóbb letöltések és telepítések, valamint microG telepítő támogatása
+• Hibajavítások és fordítási frissítések

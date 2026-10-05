@@ -1,31 +1,18 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.installer
 
 import android.content.Context
+import android.os.Process
 import android.util.Log
+import com.aurora.extensions.TAG
 import com.aurora.store.AuroraApp
 import com.aurora.store.R
 import com.aurora.store.data.event.InstallerEvent
 import com.aurora.store.data.installer.base.InstallerBase
-import com.aurora.store.data.model.BuildType
 import com.aurora.store.data.model.Installer
 import com.aurora.store.data.model.InstallerInfo
 import com.aurora.store.data.room.download.Download
@@ -48,15 +35,12 @@ class RootInstaller @Inject constructor(
             get() = InstallerInfo(
                 id = 2,
                 installer = Installer.ROOT,
-                packageNames = BuildType.PACKAGE_NAMES,
                 installerPackageNames = listOf(PLAY_PACKAGE_NAME),
                 title = R.string.pref_install_mode_root,
                 subtitle = R.string.root_installer_subtitle,
                 description = R.string.root_installer_desc
             )
     }
-
-    private val TAG = RootInstaller::class.java.simpleName
 
     override fun install(download: Download) {
         if (isAlreadyQueued(download.packageName)) {
@@ -76,7 +60,10 @@ class RootInstaller @Inject constructor(
                     context.getString(R.string.installer_status_failure),
                     context.getString(R.string.installer_root_unavailable)
                 )
-                Log.e(TAG, " >>>>>>>>>>>>>>>>>>>>>>>>>> NO ROOT ACCESS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                Log.e(
+                    TAG,
+                    " >>>>>>>>>>>>>>>>>>>>>>>>>> NO ROOT ACCESS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+                )
             }
         }
     }
@@ -84,11 +71,13 @@ class RootInstaller @Inject constructor(
     private fun xInstall(packageName: String, versionCode: Long, sharedLibPkgName: String = "") {
         var totalSize = 0
 
-        for (file in getFiles(packageName, versionCode, sharedLibPkgName))
+        for (file in getFiles(packageName, versionCode, sharedLibPkgName)) {
             totalSize += file.length().toInt()
+        }
 
+        val userId = Process.myUid() / 100_000
         val result: Shell.Result =
-            Shell.cmd("pm install-create -i $PLAY_PACKAGE_NAME --user 0 -r -S $totalSize")
+            Shell.cmd("pm install-create -i $PLAY_PACKAGE_NAME --user $userId -r -S $totalSize")
                 .exec()
 
         val response = result.out
@@ -101,7 +90,9 @@ class RootInstaller @Inject constructor(
             val sessionId = sessionIdMatcher.group(1)?.toInt()
             if (Shell.getShell().isRoot && sessionId != null) {
                 for (file in getFiles(packageName, versionCode, sharedLibPkgName)) {
-                    Shell.cmd("cat \"${file.absoluteFile}\" | pm install-write -S ${file.length()} $sessionId \"${file.name}\"")
+                    Shell.cmd(
+                        "cat \"${file.absoluteFile}\" | pm install-write -S ${file.length()} $sessionId \"${file.name}\""
+                    )
                         .exec()
                 }
 
@@ -137,7 +128,5 @@ class RootInstaller @Inject constructor(
         }
     }
 
-    private fun parseError(result: Shell.Result): String {
-        return result.err.joinToString(separator = "\n")
-    }
+    private fun parseError(result: Shell.Result): String = result.err.joinToString(separator = "\n")
 }

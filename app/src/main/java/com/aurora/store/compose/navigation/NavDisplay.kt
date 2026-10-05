@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -6,28 +7,101 @@
 package com.aurora.store.compose.navigation
 
 import android.content.Intent
-import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.IntOffset
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.metadata
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
-import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.aurora.store.MainActivity
+import com.aurora.Constants.PACKAGE_NAME_GMS
+import com.aurora.extensions.toast
+import com.aurora.store.AuroraApp
+import com.aurora.store.ComposeActivity
 import com.aurora.store.R
 import com.aurora.store.compose.ui.about.AboutScreen
 import com.aurora.store.compose.ui.accounts.AccountsScreen
+import com.aurora.store.compose.ui.accounts.GoogleLoginScreen
 import com.aurora.store.compose.ui.blacklist.BlacklistScreen
+import com.aurora.store.compose.ui.commons.CategoryBrowseScreen
+import com.aurora.store.compose.ui.commons.ExpandedStreamBrowseScreen
 import com.aurora.store.compose.ui.commons.PermissionRationaleScreen
+import com.aurora.store.compose.ui.commons.StreamBrowseScreen
 import com.aurora.store.compose.ui.details.AppDetailsScreen
 import com.aurora.store.compose.ui.dev.DevProfileScreen
+import com.aurora.store.compose.ui.dispenser.DispenserScreen
 import com.aurora.store.compose.ui.downloads.DownloadsScreen
 import com.aurora.store.compose.ui.favourite.FavouriteScreen
+import com.aurora.store.compose.ui.installed.InstalledScreen
+import com.aurora.store.compose.ui.main.MainScreen
+import com.aurora.store.compose.ui.notifications.NotificationsScreen
+import com.aurora.store.compose.ui.onboarding.OnboardingScreen
+import com.aurora.store.compose.ui.preferences.NotificationPreferenceScreen
+import com.aurora.store.compose.ui.preferences.SettingsScreen
+import com.aurora.store.compose.ui.preferences.UIPreferenceScreen
+import com.aurora.store.compose.ui.preferences.installation.InstallationPreferenceScreen
+import com.aurora.store.compose.ui.preferences.installation.InstallerScreen
+import com.aurora.store.compose.ui.preferences.network.NetworkPreferenceScreen
+import com.aurora.store.compose.ui.preferences.security.SecurityPreferenceScreen
+import com.aurora.store.compose.ui.preferences.updates.SourceFiltersScreen
+import com.aurora.store.compose.ui.preferences.updates.UpdatesPreferenceScreen
 import com.aurora.store.compose.ui.search.SearchScreen
+import com.aurora.store.compose.ui.splash.SplashScreen
+import com.aurora.store.compose.ui.spoof.SpoofScreen
+import com.aurora.store.data.event.AuthEvent
+import com.aurora.store.data.event.InstallerEvent
+import com.aurora.store.data.model.AccountType
+import com.aurora.store.data.providers.AccountProvider
+import com.aurora.store.data.providers.AuthProvider
+import com.aurora.store.util.PackageUtil
+import com.aurora.store.util.Preferences
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+
+/**
+ * Shared spring for the horizontal slide of both the entering and leaving screen. Using a single
+ * critically-damped ([Spring.DampingRatioNoBouncy]) spec for both panels keeps them traveling in
+ * lock-step and removes the end-of-slide overshoot, which is what made the earlier mismatched
+ * enter/exit springs feel choppy.
+ */
+private val navSlideSpec = spring<IntOffset>(
+    dampingRatio = Spring.DampingRatioNoBouncy,
+    stiffness = 380f,
+    visibilityThreshold = IntOffset.VisibilityThreshold
+)
+
+/**
+ * Gentle cross-fade layered on top of the slide, matched in duration to [navSlideSpec] so the
+ * fade and the movement finish together (Material shared-axis motion).
+ */
+private val navFadeSpec = spring<Float>(stiffness = 380f)
+
+/**
+ * Lets this VM-less navigation host reach the [AuthProvider] singleton for full sign-out.
+ */
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+internal interface NavDisplayEntryPoint {
+    fun authProvider(): AuthProvider
+}
 
 /**
  * Navigation display for compose screens
@@ -36,93 +110,236 @@ import com.aurora.store.compose.ui.search.SearchScreen
 @Composable
 fun NavDisplay(startDestination: NavKey) {
     val backstack = rememberNavBackStack(startDestination)
+    val context = LocalContext.current
 
-    // TODO: Drop this logic once everything is in compose
-    val activity = LocalActivity.current
-    fun onNavigateUp() {
-        if (backstack.size == 1) activity?.finish() else backstack.removeLastOrNull()
+    fun isMicroGAuthInvalidated(): Boolean =
+        Preferences.getBoolean(context, Preferences.PREFERENCE_AUTH_VIA_MICROG, false) &&
+            AccountProvider.getAccountType(context) == AccountType.GOOGLE &&
+            !PackageUtil.hasSupportedMicroGVariant(context)
+
+    fun handleMicroGRemoved() {
+        context.toast(R.string.microg_removed_auth_warning)
+        // Full sign-out: clears the account DB rows (incl. the now-invalid microG account) as
+        // well as the legacy prefs, so the stale account can't linger as the DB is the source
+        // of truth.
+        EntryPointAccessors.fromApplication(context, NavDisplayEntryPoint::class.java)
+            .authProvider().logout()
+        val intent = Intent(context, ComposeActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
+
+    // Check every time the screen resumes in case microG was removed while Aurora was in background.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        if (isMicroGAuthInvalidated()) handleMicroGRemoved()
+    }
+
+    // Also react immediately if the GMS package is uninstalled while Aurora is in the foreground.
+    LaunchedEffect(Unit) {
+        AuroraApp.events.installerEvent.collect { event ->
+            if (event is InstallerEvent.Uninstalled && event.packageName == PACKAGE_NAME_GMS) {
+                if (isMicroGAuthInvalidated()) handleMicroGRemoved()
+            }
+        }
+    }
+
+    // Send the user back to Splash whenever a ViewModel reports the saved Play
+    // token was rejected. SplashScreen re-validates via a live Play call and
+    // rebuilds auth on failure, then routes to AppDetails if a packageName was attached.
+    LaunchedEffect(Unit) {
+        AuroraApp.events.authEvent.collect { event ->
+            if (event is AuthEvent.SessionExpired) {
+                backstack.clear()
+                backstack.add(Screen.Splash(event.packageName))
+            }
+        }
+    }
+
+    fun navigate(destination: Destination) {
+        when (destination) {
+            is Destination.Splash -> {
+                // Clear the backstack when navigating to Splash to prevent going back to the previous screen when the user is sent back to the splash screen (e.g. after logout).
+                backstack.clear()
+                backstack.add(Screen.Splash(destination.packageName))
+            }
+
+            is Destination.Main -> {
+                // Clear the backstack when navigating to Main to prevent going back to the splash screen or other screens.
+                backstack.clear()
+                backstack.add(Screen.Main(destination.initialTab))
+            }
+
+            is Destination.ExpandedStreamBrowse -> backstack.add(
+                Screen.ExpandedStreamBrowse(destination.title, destination.browseUrl)
+            )
+
+            is Destination.CategoryBrowse -> backstack.add(
+                Screen.CategoryBrowse(destination.category.title, destination.category.browseUrl)
+            )
+
+            is Destination.PermissionRationale -> backstack.add(
+                Screen.PermissionRationale(destination.permissions)
+            )
+
+            is Destination.AppDetails -> backstack.add(Screen.AppDetails(destination.packageName))
+            is Destination.DevProfile -> backstack.add(Screen.DevProfile(destination.devId))
+            is Destination.AppUpdate -> Unit
+            is Destination.StreamBrowse -> backstack.add(Screen.StreamBrowse(destination.cluster))
+            is Destination.GoogleLogin -> backstack.add(Screen.GoogleLogin(destination.addAccount))
+
+            Destination.Search -> backstack.add(Screen.Search)
+            Destination.Downloads -> backstack.add(Screen.Downloads)
+            Destination.Notifications -> backstack.add(Screen.Notifications)
+            Destination.Accounts -> backstack.add(Screen.Accounts)
+            Destination.About -> backstack.add(Screen.About)
+            Destination.Favourite -> backstack.add(Screen.Favourite)
+            Destination.Spoof -> backstack.add(Screen.Spoof)
+            Destination.Installed -> backstack.add(Screen.Installed)
+            Destination.Blacklist -> backstack.add(Screen.Blacklist)
+            Destination.Settings -> backstack.add(Screen.Settings)
+            Destination.InstallationPreference -> backstack.add(Screen.InstallationPreference)
+            Destination.Installer -> backstack.add(Screen.Installer)
+            Destination.NetworkPreference -> backstack.add(Screen.NetworkPreference)
+            Destination.Dispenser -> backstack.add(Screen.Dispenser)
+            Destination.UIPreference -> backstack.add(Screen.UIPreference)
+            Destination.NotificationPreference -> backstack.add(Screen.NotificationPreference)
+            Destination.UpdatesPreference -> backstack.add(Screen.UpdatesPreference)
+            Destination.SourceFilters -> backstack.add(Screen.SourceFilters)
+            Destination.SecurityPreference -> backstack.add(Screen.SecurityPreference)
+        }
     }
 
     NavDisplay(
+        onBack = { backstack.removeLastOrNull() },
         backStack = backstack,
         entryDecorators = listOf(
-            rememberSceneSetupNavEntryDecorator(),
-            rememberSavedStateNavEntryDecorator(),
+            rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
+        transitionSpec = {
+            (slideInHorizontally(navSlideSpec) { it } + fadeIn(navFadeSpec)) togetherWith
+                (slideOutHorizontally(navSlideSpec) { -it } + fadeOut(navFadeSpec))
+        },
+        popTransitionSpec = {
+            (slideInHorizontally(navSlideSpec) { -it } + fadeIn(navFadeSpec)) togetherWith
+                (slideOutHorizontally(navSlideSpec) { it } + fadeOut(navFadeSpec))
+        },
+        predictivePopTransitionSpec = {
+            (slideInHorizontally(navSlideSpec) { -it } + fadeIn(navFadeSpec)) togetherWith
+                (slideOutHorizontally(navSlideSpec) { it } + fadeOut(navFadeSpec))
+        },
         entryProvider = entryProvider {
-            entry<Screen.Blacklist> {
-                BlacklistScreen(onNavigateUp = { onNavigateUp() })
-            }
-
-            entry<Screen.Search> {
-                SearchScreen(onNavigateUp = { onNavigateUp() })
+            entry<Screen.Main> { screen ->
+                MainScreen(
+                    initialTab = screen.initialTab,
+                    onNavigateTo = ::navigate
+                )
             }
 
             entry<Screen.AppDetails> { screen ->
                 AppDetailsScreen(
                     packageName = screen.packageName,
-                    onNavigateUp = { onNavigateUp() },
-                    onNavigateToAppDetails = { packageName ->
-                        backstack.add(Screen.AppDetails(packageName))
-                    }
+                    onNavigateTo = ::navigate
                 )
             }
 
             entry<Screen.DevProfile> { screen ->
                 DevProfileScreen(
                     developerId = screen.developerId,
-                    onNavigateUp = { onNavigateUp() },
-                    onNavigateToAppDetails = { packageName ->
-                        backstack.add(Screen.AppDetails(packageName))
-                    }
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.PublisherProfile> { screen ->
+                DevProfileScreen(
+                    publisherId = screen.publisherId,
+                    onNavigateTo = ::navigate
                 )
             }
 
             entry<Screen.PermissionRationale> { screen ->
                 PermissionRationaleScreen(
-                    onNavigateUp = { onNavigateUp() },
+                    requiredPermissions = screen.requiredPermissions
                 )
             }
 
-            entry<Screen.Downloads> {
-                DownloadsScreen(
-                    onNavigateUp = { onNavigateUp() },
-                    onNavigateToAppDetails = { packageName ->
-                        backstack.add(Screen.AppDetails(packageName))
+            entry<Screen.StreamBrowse> { screen ->
+                StreamBrowseScreen(
+                    streamCluster = screen.streamCluster,
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.ExpandedStreamBrowse> { screen ->
+                ExpandedStreamBrowseScreen(
+                    browseUrl = screen.browseUrl,
+                    defaultTitle = screen.title,
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.CategoryBrowse> { screen ->
+                CategoryBrowseScreen(
+                    title = screen.title,
+                    browseUrl = screen.browseUrl,
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.InstallationPreference> {
+                InstallationPreferenceScreen(onNavigateTo = ::navigate)
+            }
+
+            entry<Screen.Search>(
+                metadata = metadata {
+                    put(NavDisplay.TransitionKey) {
+                        fadeIn(navFadeSpec) togetherWith
+                            ExitTransition.KeepUntilTransitionsFinished
                     }
-                )
-            }
-
-            entry<Screen.Accounts> {
-                // TODO: Rework when migrating splash fragment to compose
-                val splashIntent = NavDeepLinkBuilder(LocalContext.current)
-                    .setGraph(R.navigation.mobile_navigation)
-                    .setDestination(R.id.splashFragment)
-                    .setComponentName(MainActivity::class.java)
-                    .createTaskStackBuilder()
-                    .intents
-                    .first()
-                    .apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) }
-
-                AccountsScreen(
-                    onNavigateUp = { onNavigateUp() },
-                    onNavigateToSplash = { activity?.startActivity(splashIntent) }
-                )
-            }
-
-            entry<Screen.About> {
-                AboutScreen(onNavigateUp = { onNavigateUp() })
-            }
-
-            entry<Screen.Favourite> {
-                FavouriteScreen(
-                    onNavigateUp = { onNavigateUp() },
-                    onNavigateToAppDetails = { packageName ->
-                        backstack.add(Screen.AppDetails(packageName))
+                    put(NavDisplay.PopTransitionKey) {
+                        fadeIn(navFadeSpec) togetherWith
+                            slideOutVertically(navSlideSpec) { it }
                     }
+                    put(NavDisplay.PredictivePopTransitionKey) {
+                        fadeIn(navFadeSpec) togetherWith
+                            slideOutVertically(navSlideSpec) { it }
+                    }
+                }
+            ) { SearchScreen() }
+
+            entry<Screen.Splash> { screen ->
+                SplashScreen(
+                    deepLinkPackageName = screen.packageName,
+                    onNavigateTo = ::navigate
                 )
             }
+
+            entry<Screen.GoogleLogin> { screen ->
+                GoogleLoginScreen(
+                    addAccount = screen.addAccount,
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.Onboarding> { OnboardingScreen() }
+            entry<Screen.Blacklist> { BlacklistScreen() }
+            entry<Screen.Downloads> { DownloadsScreen(onNavigateTo = ::navigate) }
+            entry<Screen.Notifications> { NotificationsScreen(onNavigateTo = ::navigate) }
+            entry<Screen.Accounts> { AccountsScreen(onNavigateTo = ::navigate) }
+            entry<Screen.About> { AboutScreen() }
+            entry<Screen.Favourite> { FavouriteScreen(onNavigateTo = ::navigate) }
+            entry<Screen.Spoof> { SpoofScreen(onNavigateTo = ::navigate) }
+            entry<Screen.Dispenser> { DispenserScreen() }
+            entry<Screen.Installer> { InstallerScreen() }
+            entry<Screen.Installed> { InstalledScreen(onNavigateTo = ::navigate) }
+            entry<Screen.Settings> { SettingsScreen(onNavigateTo = ::navigate) }
+            entry<Screen.NetworkPreference> { NetworkPreferenceScreen(onNavigateTo = ::navigate) }
+            entry<Screen.UIPreference> { UIPreferenceScreen() }
+            entry<Screen.NotificationPreference> { NotificationPreferenceScreen() }
+            entry<Screen.UpdatesPreference> { UpdatesPreferenceScreen(onNavigateTo = ::navigate) }
+            entry<Screen.SourceFilters> { SourceFiltersScreen() }
+            entry<Screen.SecurityPreference> { SecurityPreferenceScreen() }
         }
     )
 }

@@ -1,0 +1,9 @@
+• İnterfeys müasir Jetpack Compose ilə yenidən quruldu
+• Çoxlu Google hesabına dəstək əlavə olundu
+• Tətbiq təfərrüatları ekranında istifadəçi rəyləri göstərildi
+• Biometriya və ya cihaz parol/şifrəsi ilə istəyə bağlı tətbiq kilidi
+• Sevimlilər üçün tək toxunuşla quraşdırma və ödənişli tətbiqlər üçün satın alma axını
+• Qruplaşdırılmış xülasələr və tənzimləmələrlə yenilənmiş bildirişlər
+• Yenidən işlənmiş yenilənmələr ekranı; tətbiqin öz yenilənmələri də artıq siyahıda göstərilir
+• Daha etibarlı yükləmə/quraşdırma sistemləri və microG quraşdırıcısı dəstəyi
+• Səhvlər düzəldildi və tərcümələr yeniləndi

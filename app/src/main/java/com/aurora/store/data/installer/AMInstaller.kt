@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.installer
 
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.aurora.extensions.TAG
 import com.aurora.store.R
 import com.aurora.store.data.installer.base.InstallerBase
 import com.aurora.store.data.model.Installer
@@ -30,15 +36,12 @@ class AMInstaller @Inject constructor(
             get() = InstallerInfo(
                 id = 4,
                 installer = Installer.AM,
-                packageNames = listOf(AM_PACKAGE_NAME, AM_DEBUG_PACKAGE_NAME),
                 installerPackageNames = listOf(AM_PACKAGE_NAME, AM_DEBUG_PACKAGE_NAME),
                 title = R.string.pref_install_mode_am,
                 subtitle = R.string.am_installer_subtitle,
                 description = R.string.am_installer_desc
             )
     }
-
-    private val TAG = AMInstaller::class.java.simpleName
 
     override fun install(download: Download) {
         if (isAlreadyQueued(download.packageName)) {

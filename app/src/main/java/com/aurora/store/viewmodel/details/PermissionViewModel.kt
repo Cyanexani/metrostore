@@ -21,14 +21,14 @@ import kotlinx.coroutines.flow.asStateFlow
 class PermissionViewModel @AssistedInject constructor(
     @Assisted private val permissions: List<String>,
     @ApplicationContext private val context: Context
-): ViewModel() {
+) : ViewModel() {
 
     @AssistedFactory
     interface Factory {
         fun create(permissions: List<String>): PermissionViewModel
     }
 
-    private val _permissionsInfo = MutableStateFlow<Map<String, PermissionInfo?>>(emptyMap())
+    private val _permissionsInfo = MutableStateFlow<Map<String, PermissionInfo>>(emptyMap())
     val permissionsInfo = _permissionsInfo.asStateFlow()
 
     init {
@@ -36,14 +36,15 @@ class PermissionViewModel @AssistedInject constructor(
     }
 
     private fun fetchPermissions() {
-        _permissionsInfo.value = permissions.associateWith { getPermissionInfo(it) }
+        // Bail out if this is not a known permission for the OS
+        _permissionsInfo.value = permissions.mapNotNull { permission ->
+            getPermissionInfo(permission)?.let { info -> permission to info }
+        }.toMap()
     }
 
-    private fun getPermissionInfo(permissionName: String): PermissionInfo? {
-        return try {
-            context.packageManager.getPermissionInfo(permissionName, 0)
-        } catch (_: PackageManager.NameNotFoundException) {
-            null
-        }
+    private fun getPermissionInfo(permissionName: String): PermissionInfo? = try {
+        context.packageManager.getPermissionInfo(permissionName, 0)
+    } catch (_: PackageManager.NameNotFoundException) {
+        null
     }
 }

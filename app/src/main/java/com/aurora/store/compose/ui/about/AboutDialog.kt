@@ -11,7 +11,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
  * Dialog for displaying information about Aurora Store
@@ -33,6 +35,7 @@ fun AboutDialog(onDismiss: () -> Unit = {}) {
     )
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AboutDialogPreview() {

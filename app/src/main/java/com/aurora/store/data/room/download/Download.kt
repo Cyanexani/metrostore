@@ -1,18 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.room.download
 
 import android.content.Context
 import android.os.Parcelable
-import androidx.compose.ui.platform.LocalContext
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.aurora.extensions.requiresGMS
 import com.aurora.gplayapi.data.models.App
 import com.aurora.gplayapi.data.models.PlayFile
 import com.aurora.store.data.model.DownloadStatus
 import com.aurora.store.data.room.suite.ExternalApk
 import com.aurora.store.data.room.update.Update
 import com.aurora.store.util.PathUtil
-import kotlinx.parcelize.Parcelize
 import java.util.Date
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "download")
@@ -25,7 +31,8 @@ data class Download(
     val iconURL: String,
     val size: Long,
     val id: Int,
-    var downloadStatus: DownloadStatus,
+    @ColumnInfo("downloadStatus")
+    var status: DownloadStatus,
     var progress: Int,
     var speed: Long,
     var timeRemaining: Long,
@@ -34,83 +41,92 @@ data class Download(
     var fileList: List<PlayFile>,
     val sharedLibs: List<SharedLib>,
     val targetSdk: Int = 1,
-    val downloadedAt: Long = 0
+    val downloadedAt: Long = 0,
+    val requiresGMS: Boolean = false
 ) : Parcelable {
-    val isFinished get() = downloadStatus in DownloadStatus.finished
-    val isRunning get() = downloadStatus in DownloadStatus.running
-    private val isSuccessful get() = downloadStatus == DownloadStatus.COMPLETED
+    val isFinished get() = status in DownloadStatus.finished
+    val isRunning get() = status in DownloadStatus.running
+    private val isSuccessful get() = status in DownloadStatus.installable
+
+    /**
+     * `true` while the download is queued, purchasing, downloading or verifying, i.e.
+     * the pipeline is actively working on it. Unlike [isRunning] this also covers
+     * [DownloadStatus.VERIFYING], which sits between downloading and completion.
+     */
+    val isActive get() = isRunning || status == DownloadStatus.VERIFYING
+
+    val isAwaitingInstall get() = status == DownloadStatus.AWAITING_INSTALL
 
     companion object {
-        fun fromApp(app: App): Download {
-            return Download(
-                app.packageName,
-                app.versionCode,
-                app.offerType,
-                app.isInstalled,
-                app.displayName,
-                app.iconArtwork.url,
-                app.size,
-                app.id,
-                DownloadStatus.QUEUED,
-                0,
-                0L,
-                0L,
-                0,
-                0,
-                app.fileList.filterNot { it.url.isBlank() },
-                app.dependencies.dependentLibraries.map { SharedLib.fromApp(it) },
-                app.targetSdk,
-                Date().time
-            )
-        }
+        fun fromApp(app: App): Download = Download(
+            app.packageName,
+            app.versionCode,
+            app.offerType,
+            app.isInstalled,
+            app.displayName,
+            app.iconArtwork.url,
+            app.size,
+            app.id,
+            DownloadStatus.QUEUED,
+            0,
+            0L,
+            0L,
+            0,
+            0,
+            app.fileList.filterNot { it.url.isBlank() },
+            app.dependencies.dependentLibraries.map { SharedLib.fromApp(it) },
+            app.targetSdk,
+            Date().time,
+            app.requiresGMS()
+        )
 
-        fun fromUpdate(update: Update): Download {
-            return Download(
-                update.packageName,
-                update.versionCode,
-                update.offerType,
-                true,
-                update.displayName,
-                update.iconURL,
-                update.size,
-                update.id,
-                DownloadStatus.QUEUED,
-                0,
-                0L,
-                0L,
-                0,
-                0,
-                update.fileList,
-                update.sharedLibs,
-                update.targetSdk,
-                Date().time
-            )
-        }
+        fun fromUpdate(update: Update): Download = Download(
+            update.packageName,
+            update.versionCode,
+            update.offerType,
+            true,
+            update.displayName,
+            update.iconURL,
+            update.size,
+            update.id,
+            DownloadStatus.QUEUED,
+            0,
+            0L,
+            0L,
+            0,
+            0,
+            update.fileList,
+            update.sharedLibs,
+            update.targetSdk,
+            Date().time
+        )
 
-        fun fromExternalApk(externalApk: ExternalApk): Download {
-            return Download(
-                packageName = externalApk.packageName,
-                versionCode = externalApk.versionCode,
-                offerType = 0,
-                isInstalled = false,
-                displayName = externalApk.displayName,
-                iconURL = externalApk.iconURL,
-                size = 0,
-                id = 0,
-                downloadStatus = DownloadStatus.QUEUED,
-                progress = 0,
-                speed = 0L,
-                timeRemaining = 0L,
-                totalFiles = 1,
-                downloadedFiles = 0,
-                fileList = externalApk.fileList,
-                sharedLibs = emptyList(),
-            )
-        }
+        fun fromExternalApk(externalApk: ExternalApk): Download = Download(
+            packageName = externalApk.packageName,
+            versionCode = externalApk.versionCode,
+            offerType = 0,
+            isInstalled = false,
+            displayName = externalApk.displayName,
+            iconURL = externalApk.iconURL,
+            size = 0,
+            id = 0,
+            status = DownloadStatus.QUEUED,
+            progress = 0,
+            speed = 0L,
+            timeRemaining = 0L,
+            totalFiles = 1,
+            downloadedFiles = 0,
+            fileList = externalApk.fileList,
+            sharedLibs = emptyList()
+        )
     }
 
-    fun canInstall(context: Context): Boolean {
+    fun canInstall(context: Context): Boolean = isSuccessful && hasDownloadedFiles(context)
+
+    fun hasDownloadedFiles(context: Context): Boolean {
         val dir = PathUtil.getAppDownloadDir(context, packageName, versionCode)
-        return isSuccessful && dir.listFiles() != null
+        // Require at least one actual APK on disk, not just that the directory exists —
+        // an empty/partially-cleaned directory must not look installable.
+        return dir.listFiles()?.any { it.name.endsWith(".apk") } == true
     }
 }

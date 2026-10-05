@@ -1,21 +1,7 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *  Copyright (C) 2022, The Calyx Institute
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-FileCopyrightText: 2022 The Calyx Institute
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.extensions
@@ -26,6 +12,9 @@ import java.util.Locale
 
 val isNAndAbove: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+val isNMR1AndAbove: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
 val isOAndAbove: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
@@ -54,32 +43,45 @@ val isVAndAbove: Boolean
 val isMIUI: Boolean
     get() = !getSystemProperty("ro.miui.ui.version.name").isNullOrBlank()
 
+val isHyperOS: Boolean
+    get() = !getSystemProperty("ro.mi.os.version.name").isNullOrBlank() ||
+        !getSystemProperty("ro.mi.os.version.code").isNullOrBlank()
+
+val isGrapheneOS: Boolean
+    get() = Build.FINGERPRINT.contains("GrapheneOS", ignoreCase = true) ||
+        Build.HOST.contains("grapheneos", ignoreCase = true) ||
+        getSystemProperty("ro.build.flavor")?.contains("grapheneos", ignoreCase = true) == true
+
 val isHuawei: Boolean
-    get() = Build.MANUFACTURER.lowercase(Locale.getDefault()).contains("huawei")
-            || Build.HARDWARE.lowercase(Locale.getDefault()).contains("kirin")
-            || Build.HARDWARE.lowercase(Locale.getDefault()).contains("hi3")
+    get() = Build.MANUFACTURER.lowercase(Locale.getDefault()).contains("huawei") ||
+        Build.HARDWARE.lowercase(Locale.getDefault()).contains("kirin") ||
+        Build.HARDWARE.lowercase(Locale.getDefault()).contains("hi3")
+
+val isOneUI: Boolean
+    get() = !getSystemProperty("ro.build.version.oneui").isNullOrBlank() ||
+        Build.MANUFACTURER.equals("samsung", ignoreCase = true)
 
 @get:SuppressLint("PrivateApi")
 val isMiuiOptimizationDisabled: Boolean
     get() {
         return if ("0" == getSystemProperty("persist.sys.miui_optimization")) {
             true
-        } else try {
-            Class.forName("android.miui.AppOpsUtils")
-                .getDeclaredMethod("isXOptMode")
-                .invoke(null) as Boolean
-        } catch (_: java.lang.Exception) {
-            false
+        } else {
+            try {
+                Class.forName("android.miui.AppOpsUtils")
+                    .getDeclaredMethod("isXOptMode")
+                    .invoke(null) as Boolean
+            } catch (_: java.lang.Exception) {
+                false
+            }
         }
     }
 
 @SuppressLint("PrivateApi")
-private fun getSystemProperty(key: String): String? {
-    return try {
-        Class.forName("android.os.SystemProperties")
-            .getDeclaredMethod("get", String::class.java)
-            .invoke(null, key) as String
-    } catch (e: Exception) {
-        null
-    }
+private fun getSystemProperty(key: String): String? = try {
+    Class.forName("android.os.SystemProperties")
+        .getDeclaredMethod("get", String::class.java)
+        .invoke(null, key) as String
+} catch (_: Exception) {
+    null
 }

@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.providers
@@ -24,18 +10,20 @@ import android.content.SharedPreferences
 import com.aurora.extensions.isNAndAbove
 import com.aurora.store.util.Preferences
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.serialization.json.Json
 
 @Singleton
 class BlacklistProvider @Inject constructor(
     private val json: Json,
-    @ApplicationContext val context: Context,
+    @ApplicationContext val context: Context
 ) {
 
-    private val PREFERENCE_BLACKLIST = "PREFERENCE_BLACKLIST"
+    companion object {
+        private const val PREFERENCE_BLACKLIST = "PREFERENCE_BLACKLIST"
+    }
 
     var blacklist: MutableSet<String>
         set(value) = Preferences.putString(
@@ -65,19 +53,17 @@ class BlacklistProvider @Inject constructor(
                 } else {
                     Preferences.getString(context, PREFERENCE_BLACKLIST)
                 }
-                if (rawBlacklist!!.isEmpty())
+                if (rawBlacklist!!.isEmpty()) {
                     mutableSetOf()
-                else
+                } else {
                     json.decodeFromString<MutableSet<String>>(rawBlacklist)
-            } catch (e: Exception) {
+                }
+            } catch (_: Exception) {
                 mutableSetOf()
             }
         }
 
-    fun isBlacklisted(packageName: String): Boolean {
-        return blacklist.contains(packageName)
-    }
-
+    fun isBlacklisted(packageName: String): Boolean = blacklist.contains(packageName)
 
     fun blacklist(packageName: String) {
         blacklist = blacklist.apply {

@@ -1,0 +1,9 @@
+• Uudelleenrakennettu käyttöliittymä modernilla Jetpack Composilla
+• Tuki useammalle Google-tilille
+• Arvosteluja sovelluksen tiedot -näytössä
+• Vaihtoehtoinen sovelluksen lukitus biometrialla tai laitteen kirjautumistiedoilla
+• Yhden napauksen suosikkien lataus ja ostoflow maksullisille sovelluksille
+• Parannetut ilmoitukset ryhmitetyillä yhteenvedoilla ja asetuksilla
+• Uudelleenrakennettu päivitys-näyttö; itsestäänpäivitykset näkyvät nyt listalla
+• Vakaammat lataukset/asennukset ja microG asentajan tuki
+• Bugikorjauksia ja käännöksien päivitys
