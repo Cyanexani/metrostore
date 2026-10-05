@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.extensions
 
 import android.content.pm.ApplicationInfo
@@ -13,18 +18,27 @@ fun PackageInfo.isValidApp(packageManager: PackageManager): Boolean {
     // Filter out core AOSP system apps
     if (this.applicationInfo!!.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
         if (this.packageName.endsWith(".resources")) return false
-        if (this.applicationInfo!!.loadLabel(packageManager).startsWith(this.packageName)) return false
+        if (this.applicationInfo!!.loadLabel(packageManager).startsWith(this.packageName)) {
+            return false
+        }
         if (this.versionName?.endsWith("system image") == true) return false
         if (this.versionName?.endsWith("-initial") == true) return false
-        if (this.versionName == Build.VERSION.RELEASE && PackageInfoCompat.getLongVersionCode(this) == Build.VERSION.SDK_INT.toLong()) return false
+        if (this.versionName == Build.VERSION.RELEASE &&
+            PackageInfoCompat.getLongVersionCode(this) == Build.VERSION.SDK_INT.toLong()
+        ) {
+            return false
+        }
     }
 
     return when {
         isQAndAbove -> {
             Process.isApplicationUid(this.applicationInfo!!.uid) &&
-                    !this.applicationInfo!!.isResourceOverlay && !this.isApex
+                !this.applicationInfo!!.isResourceOverlay &&
+                !this.isApex
         }
+
         isNAndAbove -> Process.isApplicationUid(this.applicationInfo!!.uid)
+
         else -> this.versionName != null
     }
 }

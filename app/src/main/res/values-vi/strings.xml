@@ -375,7 +375,6 @@
     <string name="action_logout_confirmation_title">Đăng xuất?</string>
     <string name="action_logout_confirmation_message">Bạn có chắc muốn đăng xuất hay không?</string>
     <string name="made_with_love">Được làm bằng <xliff:g id="heart_emoji">%1$s</xliff:g> ở Ấn Độ</string>
-    <string name="notification_channel_account">Thông báo liên quan đến tài khoản</string>
     <string name="status_unavailable">Không có sẵn</string>
     <string name="authentication_required_title">Yêu cầu xác thực</string>
     <string name="authentication_required_unarchive">Vui lòng đăng nhập vào tài khoản Google Play của bạn để giải nén ứng dụng!</string>
@@ -407,4 +406,22 @@
     <string name="details_compatibility_gms_required_title">Yêu cầu Dịch vụ Google Play</string>
     <string name="details_compatibility_gms_required_subtitle">Bạn có thể cần phải cài đặt thư viện độc quyền của Google hoặc bản triển khai lại FOSS như microG.</string>
     <string name="details_compatibility_gms_not_required_title">Hoạt động không cần dịch vụ Google Play</string>
+    <string name="details_data_safety_collect">Dữ liệu mà ứng dụng này có thể thu thập</string>
+    <string name="details_data_safety_collect_none">Nhà phát triển cho biết ứng dụng này không thu thập dữ liệu người dùng.</string>
+    <string name="details_data_safety_shared">Dữ liệu mà ứng dụng này có thể chia sẻ</string>
+    <string name="details_data_safety_share_none">Nhà phát triển cho biết ứng dụng này không chia sẻ dữ liệu người dùng với các công ty hoặc tổ chức khác.</string>
+    <string name="app_info_downloads">Tải xuống</string>
+    <string name="app_info_updated_on">Cập nhật mới nhất</string>
+    <string name="onboarding_title_gsf">Tương thích ứng dụng</string>
+    <string name="onboarding_gms_agreement">Tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của microG</string>
+    <string name="onboarding_gms_missing">Chúng tôi không tìm thấy Dịch vụ Google Play trên thiết bị của bạn, một số ứng dụng phổ biến hiện nay yêu cầu dịch vụ này để hoạt động bình thường!</string>
+    <string name="microg_privacy_policy">Đọc Chính sách bảo mật của microG</string>
+    <string name="microg_license_agreement">Đọc Giấy phép và Thỏa thuận microG</string>
+    <string name="details_more_info">Thông tin thêm</string>
+    <string name="details_more_target_api">Mục tiêu</string>
+    <string name="details_more_content_rating">Xếp hạng nội dung</string>
+    <string name="preparing_to_install">Chuẩn bị cài đặt</string>
+    <plurals name="permissions_required">
+        <item quantity="other">Cần có sự cho phép</item>
+    </plurals>
 </resources>

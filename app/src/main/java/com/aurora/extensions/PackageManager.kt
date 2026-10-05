@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.extensions
 
 import android.content.pm.PackageManager
@@ -22,6 +27,9 @@ fun PackageManager.getUpdateOwnerPackageNameCompat(packageName: String): String?
             installSourceInfo.installingPackageName
         }
 
-        else -> @Suppress("DEPRECATION") getInstallerPackageName(packageName)
+        else -> {
+            @Suppress("DEPRECATION")
+            getInstallerPackageName(packageName)
+        }
     }
 }

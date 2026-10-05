@@ -9,8 +9,12 @@ package com.aurora.store.viewmodel.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aurora.extensions.TAG
 import com.aurora.gplayapi.data.models.App
+import com.aurora.gplayapi.exceptions.GooglePlayException
 import com.aurora.gplayapi.helpers.AppDetailsHelper
+import com.aurora.store.AuroraApp
+import com.aurora.store.data.event.AuthEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,8 +35,6 @@ class MoreViewModel @AssistedInject constructor(
         fun create(dependencies: List<String>): MoreViewModel
     }
 
-    private val TAG = MoreViewModel::class.java.simpleName
-
     private val _dependentApps = MutableStateFlow<List<App>?>(emptyList())
     val dependentApps = _dependentApps.asStateFlow()
 
@@ -44,6 +46,9 @@ class MoreViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _dependentApps.value = appDetailsHelper.getAppByPackageName(dependencies)
+            } catch (exception: GooglePlayException.AuthException) {
+                Log.w(TAG, "Dependencies fetch returned ${exception.code}, redirecting to Splash")
+                AuroraApp.events.send(AuthEvent.SessionExpired())
             } catch (exception: Exception) {
                 Log.e(TAG, "Failed to fetch dependencies", exception)
                 _dependentApps.value = null

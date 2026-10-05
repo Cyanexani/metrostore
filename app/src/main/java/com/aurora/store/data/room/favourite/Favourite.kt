@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.room.favourite
 
 import android.os.Parcelable
@@ -21,23 +26,19 @@ data class Favourite(
 ) : Parcelable {
 
     companion object {
-        fun fromApp(app: App, mode: Mode): Favourite {
-            return Favourite(
-                packageName = app.packageName,
-                displayName = app.displayName,
-                iconURL = app.iconArtwork.url,
-                added = System.currentTimeMillis(),
-                mode = mode
-            )
-        }
+        fun fromApp(app: App, mode: Mode): Favourite = Favourite(
+            packageName = app.packageName,
+            displayName = app.displayName,
+            iconURL = app.iconArtwork.url,
+            added = System.currentTimeMillis(),
+            mode = mode
+        )
 
-        fun Favourite.toApp(): App {
-            return App(
-                packageName = packageName,
-                displayName = displayName,
-                iconArtwork = Artwork(url = iconURL)
-            )
-        }
+        fun Favourite.toApp(): App = App(
+            packageName = packageName,
+            displayName = displayName,
+            iconArtwork = Artwork(url = iconURL)
+        )
     }
 
     enum class Mode {

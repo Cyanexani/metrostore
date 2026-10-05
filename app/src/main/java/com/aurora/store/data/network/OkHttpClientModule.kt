@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.network
@@ -33,10 +19,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.CertificatePinner
-import okhttp3.OkHttpClient
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.InputStream
 import java.net.Authenticator
 import java.net.InetSocketAddress
@@ -47,6 +31,11 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import kotlinx.serialization.json.Json
+import okhttp3.Cache
+import okhttp3.CertificatePinner
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -57,10 +46,32 @@ object OkHttpClientModule {
     private const val CERT_BEGIN = "-----BEGIN CERTIFICATE-----"
     private const val CERT_END = "-----END CERTIFICATE-----"
 
+    /**
+     * This network interceptor tags authenticated responses with `Vary: Authorization` so the cache
+     * partitions entries per account instead of by URL alone.
+     */
+    private val varyByAuthorizationInterceptor = Interceptor { chain ->
+        val request = chain.request()
+        val response = chain.proceed(request)
+        val needsVary = request.header("Authorization") != null &&
+            response.headers("Vary").none { it.contains("Authorization", ignoreCase = true) }
+        if (needsVary) {
+            response.newBuilder().addHeader("Vary", "Authorization").build()
+        } else {
+            response
+        }
+    }
+
     @Provides
     @Singleton
-    fun providesOkHttpClientInstance(certPinner: CertificatePinner, proxy: Proxy?): OkHttpClient {
+    fun providesOkHttpClientInstance(
+        certificatePinner: CertificatePinner,
+        proxy: Proxy?,
+        cache: Cache
+    ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
+            .cache(cache)
+            .addNetworkInterceptor(varyByAuthorizationInterceptor)
             .proxy(proxy)
             .connectTimeout(25, TimeUnit.SECONDS)
             .readTimeout(25, TimeUnit.SECONDS)
@@ -70,7 +81,7 @@ object OkHttpClientModule {
             .followSslRedirects(true)
 
         if (!BuildConfig.DEBUG) {
-            okHttpClientBuilder.certificatePinner(certPinner)
+            okHttpClientBuilder.certificatePinner(certificatePinner)
         }
 
         return okHttpClientBuilder.build()
@@ -83,13 +94,13 @@ object OkHttpClientModule {
         val googleRootCerts = getGoogleRootCertHashes(context).map { "sha256/$it" }
             .toTypedArray()
 
-        return  CertificatePinner.Builder()
+        return CertificatePinner.Builder()
             .add("*.googleapis.com", *googleRootCerts)
             .add("*.google.com", *googleRootCerts)
-            .add("auroraoss.com", "sha256/mEflZT5enoR1FuXLgYYGqnVEoZvmf9c2bVBpiOjYQ0c=") // GTS Root R4
-            .add("*.exodus-privacy.eu.org", "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=") // ISRG Root X1
-            .add("gitlab.com", "sha256/x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=") // USERTrust RSA Certification Authority
-            .add("plexus.techlore.tech", "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=") // ISRG Root X1
+            .add("auroraoss.com", "sha256/mEflZT5enoR1FuXLgYYGqnVEoZvmf9c2bVBpiOjYQ0c=")
+            .add("*.exodus-privacy.eu.org", "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
+            .add("gitlab.com", "sha256/x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=")
+            .add("plexus.techlore.tech", "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
             .build()
     }
 
@@ -101,7 +112,11 @@ object OkHttpClientModule {
             val proxyInfo = json.decodeFromString<ProxyInfo>(proxyInfoString)
 
             val proxy = Proxy(
-                if (proxyInfo.protocol.removeSuffix("5") == "SOCKS") Proxy.Type.SOCKS else Proxy.Type.HTTP,
+                if (proxyInfo.protocol.removeSuffix("5") == "SOCKS") {
+                    Proxy.Type.SOCKS
+                } else {
+                    Proxy.Type.HTTP
+                },
                 InetSocketAddress.createUnresolved(proxyInfo.host, proxyInfo.port)
             )
 
@@ -110,9 +125,8 @@ object OkHttpClientModule {
 
             if (!proxyUser.isNullOrBlank() && !proxyPassword.isNullOrBlank()) {
                 Authenticator.setDefault(object : Authenticator() {
-                    override fun getPasswordAuthentication(): PasswordAuthentication {
-                        return PasswordAuthentication(proxyUser, proxyPassword.toCharArray())
-                    }
+                    override fun getPasswordAuthentication(): PasswordAuthentication =
+                        PasswordAuthentication(proxyUser, proxyPassword.toCharArray())
                 })
             }
             return proxy
@@ -122,18 +136,29 @@ object OkHttpClientModule {
         }
     }
 
-    private fun getGoogleRootCertHashes(context: Context): List<String> {
-        return try {
-            val certs = getX509Certificates(context.resources.openRawResource(R.raw.google_roots_ca))
-            certs.map {
-                val messageDigest = MessageDigest.getInstance(Algorithm.SHA256.value)
-                messageDigest.update(it.publicKey.encoded)
-                Base64.encodeToString(messageDigest.digest(), Base64.NO_WRAP)
-            }
-        } catch (exception: Exception) {
-            Log.e(TAG, "Failed to get SHA256 certificate hash", exception)
-            emptyList()
+    @Provides
+    @Singleton
+    fun providesCacheDir(@ApplicationContext context: Context): Cache {
+        val legacyCache = File(context.cacheDir, "http_cache")
+        if (legacyCache.exists()) legacyCache.deleteRecursively()
+
+        return Cache(
+            directory = File(context.cacheDir, "http_cache_v2"),
+            maxSize = 100L * 1024 * 1024
+        )
+    }
+
+    private fun getGoogleRootCertHashes(context: Context): List<String> = try {
+        val certs =
+            getX509Certificates(context.resources.openRawResource(R.raw.google_roots_ca))
+        certs.map {
+            val messageDigest = MessageDigest.getInstance(Algorithm.SHA256.value)
+            messageDigest.update(it.publicKey.encoded)
+            Base64.encodeToString(messageDigest.digest(), Base64.NO_WRAP)
         }
+    } catch (exception: Exception) {
+        Log.e(TAG, "Failed to get SHA256 certificate hash", exception)
+        emptyList()
     }
 
     private fun getX509Certificates(inputStream: InputStream): List<X509Certificate> {

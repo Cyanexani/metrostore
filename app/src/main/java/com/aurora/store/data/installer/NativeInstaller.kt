@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.installer
@@ -24,6 +10,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import com.aurora.extensions.TAG
 import com.aurora.extensions.runOnUiThread
 import com.aurora.store.R
 import com.aurora.store.data.installer.base.InstallerBase
@@ -48,15 +35,12 @@ class NativeInstaller @Inject constructor(
             get() = InstallerInfo(
                 id = 1,
                 installer = Installer.NATIVE,
-                packageNames = BuildType.PACKAGE_NAMES,
                 installerPackageNames = BuildType.PACKAGE_NAMES,
                 title = R.string.pref_install_mode_native,
                 subtitle = R.string.native_installer_subtitle,
                 description = R.string.native_installer_desc
             )
     }
-
-    private val TAG = NativeInstaller::class.java.simpleName
 
     override fun install(download: Download) {
         if (isAlreadyQueued(download.packageName)) {

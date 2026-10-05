@@ -5,13 +5,16 @@
 
 package com.aurora.store.compose.ui.about
 
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
+import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
  * Dialog for displaying information about Aurora Store
@@ -19,20 +22,21 @@ import com.aurora.store.R
  */
 @Composable
 fun AboutDialog(onDismiss: () -> Unit = {}) {
-    AlertDialog(
+    MetroAlertDialog(
         title = { Text(text = stringResource(R.string.about_aurora_store_title)) },
         text = {
             Text(text = stringResource(R.string.about_aurora_store_summary))
         },
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(android.R.string.ok))
+            MetroButton(onClick = onDismiss) {
+                Text(text = stringResource(android.R.string.ok).metroLowercase())
             }
         }
     )
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AboutDialogPreview() {

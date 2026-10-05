@@ -1,0 +1,9 @@
+• Arayüz, yeni Jetpack Compose ile yeniden tasarlandı
+• Birden fazla Google hesabı desteği
+• Uygulama ayrıntıları ekranında kullanıcı incelemeleri
+• Biyometrik kimlik doğrulama veya aygıt kimlik bilgileri ile isteğe bağlı uygulama kilidi
+• Sık kullanılanlar için tek tıklamayla kurulum ve ücretli uygulamalar için satın alma akışı
+• Gruplandırılan özetler ve ayarlarla yeniden tasarlanan bildirimler
+• Yenilenen güncellemeler ekranı; öz güncellemeler artık listede gösteriliyor
+• Daha güvenilir indirme/kurulum işlemleri ve microG kurucu desteği
+• Hata düzeltmeleri ve çeviri güncellemeleri

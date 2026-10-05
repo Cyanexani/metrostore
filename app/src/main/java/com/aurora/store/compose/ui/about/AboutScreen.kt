@@ -5,6 +5,7 @@
 
 package com.aurora.store.compose.ui.about
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,18 +34,22 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.aurora.extensions.browse
+import com.aurora.extensions.copyToClipBoard
+import com.aurora.extensions.viewExternal
 import com.aurora.store.BuildConfig.VERSION_CODE
 import com.aurora.store.BuildConfig.VERSION_NAME
 import com.aurora.store.R
-import com.aurora.store.compose.composables.LinkComposable
-import com.aurora.store.compose.composables.TopAppBarComposable
+import com.aurora.store.compose.composable.LinkListItem
+import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.Link
 
 @Composable
-fun AboutScreen(onNavigateUp: () -> Unit) {
+fun AboutScreen() {
     var shouldShowAboutDialog by rememberSaveable { mutableStateOf(false) }
 
     if (shouldShowAboutDialog) {
@@ -52,13 +57,12 @@ fun AboutScreen(onNavigateUp: () -> Unit) {
     }
 
     ScreenContent(
-        onNavigateUp = onNavigateUp,
         onAboutAurora = { shouldShowAboutDialog = true }
     )
 }
 
 @Composable
-private fun ScreenContent(onNavigateUp: () -> Unit = {}, onAboutAurora: () -> Unit = {}) {
+private fun ScreenContent(onAboutAurora: () -> Unit = {}) {
     val context = LocalContext.current
 
     val linkURLS = stringArrayResource(R.array.link_urls)
@@ -76,7 +80,7 @@ private fun ScreenContent(onNavigateUp: () -> Unit = {}, onAboutAurora: () -> Un
         R.drawable.ic_ethereum_eth,
         R.drawable.ic_bhim,
         R.drawable.ic_paypal,
-        R.drawable.ic_libera_pay,
+        R.drawable.ic_libera_pay
     )
 
     val links = linkURLS.mapIndexed { index, url ->
@@ -91,9 +95,8 @@ private fun ScreenContent(onNavigateUp: () -> Unit = {}, onAboutAurora: () -> Un
 
     Scaffold(
         topBar = {
-            TopAppBarComposable(
-                title = stringResource(R.string.title_about),
-                onNavigateUp = onNavigateUp
+            TopAppBar(
+                title = stringResource(R.string.title_about)
             )
         }
     ) { paddingValues ->
@@ -101,7 +104,7 @@ private fun ScreenContent(onNavigateUp: () -> Unit = {}, onAboutAurora: () -> Un
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_xxsmall))
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xsmall))
         ) {
             stickyHeader {
                 Surface(modifier = Modifier.fillMaxWidth()) {
@@ -109,12 +112,23 @@ private fun ScreenContent(onNavigateUp: () -> Unit = {}, onAboutAurora: () -> Un
                 }
             }
             items(items = links, key = { item -> item.id }) { link ->
-                LinkComposable(
+                LinkListItem(
                     link = link,
                     onClick = {
-                        when (link.id) {
-                            0 -> onAboutAurora()
-                            else -> context.browse(link.url)
+                        when {
+                            link.id == 0 -> onAboutAurora()
+                            link.url.startsWith("http") -> context.browse(link.url)
+                            // upi:// opens a payment app; if none is installed (or for crypto
+                            // addresses, which have no handler) copy the value to the clipboard.
+                            link.url.startsWith("upi") && context.viewExternal(link.url) -> Unit
+                            else -> {
+                                context.copyToClipBoard(link.url)
+                                Toast.makeText(
+                                    context,
+                                    R.string.toast_clipboard_copied,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 )
@@ -128,9 +142,9 @@ private fun BrandHeader() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(R.dimen.margin_medium)),
+            .padding(dimensionResource(R.dimen.spacing_medium)),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_xxsmall))
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xsmall))
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -163,6 +177,7 @@ private fun BrandHeader() {
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AboutScreenPreview() {

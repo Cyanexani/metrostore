@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.viewmodel.auth
@@ -24,6 +10,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aurora.Constants
+import com.aurora.extensions.TAG
 import com.aurora.gplayapi.data.models.AuthData
 import com.aurora.gplayapi.helpers.AuthHelper
 import com.aurora.store.AuroraApp
@@ -34,16 +21,19 @@ import com.aurora.store.data.model.AuthState
 import com.aurora.store.data.providers.AccountProvider
 import com.aurora.store.data.providers.AuthProvider
 import com.aurora.store.util.AC2DMTask
+import com.aurora.store.util.PackageUtil
 import com.aurora.store.util.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -52,10 +42,12 @@ class AuthViewModel @Inject constructor(
     private val aC2DMTask: AC2DMTask
 ) : ViewModel() {
 
-    private val TAG = AuthViewModel::class.java.simpleName
-
     private val _authState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Init)
     val authState = _authState.asStateFlow()
+
+    /** Emits the outcome of adding a Google account (non-default) so the caller can navigate back. */
+    private val _accountAdded = MutableSharedFlow<Boolean>()
+    val accountAdded = _accountAdded.asSharedFlow()
 
     init {
         updateAuthState()
@@ -77,6 +69,31 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Adds a Google account WITHOUT changing the active default (used by the account screen's
+     * "add account" flow). Does not touch [authState], so the current session/UI is unaffected.
+     * Re-syncs the prefs to the real default afterwards, because the AC2DM step
+     * ([buildAuthData]) writes the new account's e-mail/token into the legacy prefs mid-flow.
+     */
+    fun addGoogleAuthData(email: String, token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val added = runCatching {
+                val authData = authProvider
+                    .buildGoogleAuthData(email, token, AuthHelper.Token.AAS)
+                    .getOrThrow()
+                require(authData.authToken.isNotEmpty() && authData.deviceConfigToken.isNotEmpty())
+                authProvider.persistAccount(
+                    authData = authData,
+                    accountType = AccountType.GOOGLE,
+                    authViaMicroG = false,
+                    makeDefault = false
+                )
+            }.isSuccess
+            authProvider.syncDefaultToPrefs()
+            _accountAdded.emit(added)
+        }
+    }
+
     fun buildAnonymousAuthData() {
         _authState.value = AuthState.Fetching
         viewModelScope.launch(Dispatchers.IO) {
@@ -87,21 +104,29 @@ class AuthViewModel @Inject constructor(
                 )
             } catch (exception: Exception) {
                 Log.e(TAG, "Failed to generate Session", exception)
-                _authState.value = AuthState.Failed(exception.message.toString())
+                val message = when (exception) {
+                    is UnknownHostException -> context.getString(R.string.check_connectivity)
+                    else -> exception.message.toString()
+                }
+
+                _authState.value = AuthState.Failed(message)
             }
         }
     }
 
-    fun buildAuthData(context: Context, email: String, oauthToken: String?) {
+    fun buildAuthData(context: Context, email: String, oauthToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = aC2DMTask.getAC2DMResponse(email, oauthToken)
                 if (response.isNotEmpty()) {
                     val aasToken = response["Token"]
                     if (aasToken != null) {
-                        Preferences.putString(context, Constants.ACCOUNT_EMAIL_PLAIN, email)
+                        val accountEmail = response["Email"]?.takeIf { it.isNotBlank() } ?: email
+                        Preferences.putString(context, Constants.ACCOUNT_EMAIL_PLAIN, accountEmail)
                         Preferences.putString(context, Constants.ACCOUNT_AAS_PLAIN, aasToken)
-                        AuroraApp.events.send(AuthEvent.GoogleLogin(true, email, aasToken))
+                        AuroraApp.events.send(
+                            AuthEvent.GoogleLogin(true, accountEmail, aasToken)
+                        )
                     } else {
                         Preferences.putString(context, Constants.ACCOUNT_EMAIL_PLAIN, "")
                         Preferences.putString(context, Constants.ACCOUNT_AAS_PLAIN, "")
@@ -116,6 +141,8 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
+
+    fun retry() = updateAuthState()
 
     private fun updateAuthState() {
         if (_authState.value != AuthState.Fetching) {
@@ -136,6 +163,7 @@ class AuthViewModel @Inject constructor(
                 // Generate and validate new auth
                 when (AccountProvider.getAccountType(context)) {
                     AccountType.ANONYMOUS -> buildAnonymousAuthData()
+
                     AccountType.GOOGLE -> {
                         val email = AccountProvider.getLoginEmail(context)
                         val tokenPair = AccountProvider.getLoginToken(context)
@@ -150,7 +178,8 @@ class AuthViewModel @Inject constructor(
                             }
 
                             AuthHelper.Token.AUTH -> {
-                                _authState.value = AuthState.PendingAccountManager(email, tokenPair.first)
+                                _authState.value =
+                                    AuthState.PendingAccountManager(email, tokenPair.first)
                             }
                         }
                     }
@@ -166,21 +195,44 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun verifyAndSaveAuth(authData: AuthData, accountType: AccountType) {
+    private suspend fun verifyAndSaveAuth(authData: AuthData, accountType: AccountType) {
         _authState.value = AuthState.Verifying
         if (authData.authToken.isNotEmpty() && authData.deviceConfigToken.isNotEmpty()) {
             authProvider.saveAuthData(authData)
+            val tokenType =
+                if (authData.aasToken.isBlank()) AuthHelper.Token.AUTH else AuthHelper.Token.AAS
             AccountProvider.login(
                 context,
                 authData.email,
-                authData.aasToken.ifBlank { authData.authToken },
-                if (authData.aasToken.isBlank()) AuthHelper.Token.AUTH else AuthHelper.Token.AAS,
+                authData.aasToken.ifBlank {
+                    authData.authToken
+                },
+                tokenType,
                 accountType
+            )
+            // Record whether this Google session relies on microG's AccountManager so we
+            // can warn the user if microG is later uninstalled.
+            Preferences.putBoolean(
+                context,
+                Preferences.PREFERENCE_AUTH_VIA_MICROG,
+                accountType == AccountType.GOOGLE &&
+                    tokenType == AuthHelper.Token.AUTH &&
+                    PackageUtil.hasSupportedMicroGVariant(context)
+            )
+            authProvider.persistAccount(
+                authData = authData,
+                accountType = accountType,
+                authViaMicroG = Preferences.getBoolean(
+                    context,
+                    Preferences.PREFERENCE_AUTH_VIA_MICROG,
+                    false
+                ),
+                makeDefault = true
             )
             _authState.value = AuthState.SignedIn
         } else {
             authProvider.removeAuthData(context)
-            AccountProvider.logout(context)
+            authProvider.logout()
             _authState.value =
                 AuthState.Failed(context.getString(R.string.failed_to_generate_session))
         }

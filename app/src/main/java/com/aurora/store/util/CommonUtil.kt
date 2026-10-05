@@ -1,20 +1,6 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.util
@@ -48,8 +34,9 @@ object CommonUtil {
     )
 
     fun addSiPrefix(value: Long): String {
-        if (value <= 1L)
+        if (value <= 1L) {
             return "NA"
+        }
         var tempValue = value
         var order = 0
         while (tempValue >= 1000.0) {
@@ -100,7 +87,8 @@ object CommonUtil {
         val exp = (ln(bytes.toDouble()) / ln(unit.toDouble())).toInt()
         val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1].toString() + if (si) "" else "i"
         return String.format(
-            Locale.getDefault(), "%.1f %sB/s",
+            Locale.getDefault(),
+            "%.1f %sB/s",
             bytes / unit.toDouble().pow(exp.toDouble()),
             pre
         )
@@ -120,8 +108,8 @@ object CommonUtil {
     }
 
     fun parseProxyUrl(proxyUrl: String): ProxyInfo? {
-        val pattern = """^(https?|socks5?)://(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+):(\d+)$""".toRegex()
-        val match = pattern.find(proxyUrl)
+        val pattern = """^(https?|socks5?)://(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+):(\d+)$"""
+        val match = pattern.toRegex().find(proxyUrl)
 
         return when {
             match != null -> {

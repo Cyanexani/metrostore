@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2021 Rahul Kumar Patel <whyorean@gmail.com>
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,17 +13,22 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
+import com.aurora.extensions.TAG
 import com.aurora.extensions.requiresGMS
 import com.aurora.gplayapi.SearchSuggestEntry
 import com.aurora.gplayapi.data.models.App
 import com.aurora.gplayapi.data.models.StreamCluster
-import com.aurora.gplayapi.helpers.SearchHelper
+import com.aurora.gplayapi.exceptions.GooglePlayException
 import com.aurora.gplayapi.helpers.contracts.SearchContract
 import com.aurora.gplayapi.helpers.web.WebSearchHelper
+import com.aurora.store.AuroraApp
+import com.aurora.store.data.PageResult
+import com.aurora.store.data.event.AuthEvent
 import com.aurora.store.data.model.SearchFilter
 import com.aurora.store.data.paging.GenericPagingSource.Companion.manualPager
 import com.aurora.store.data.providers.AuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,26 +39,22 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     val authProvider: AuthProvider,
-    private val searchHelper: SearchHelper,
     private val webSearchHelper: WebSearchHelper
 ) : ViewModel() {
 
-    private val TAG = SearchViewModel::class.java.simpleName
-
     private val contract: SearchContract
-        get() = if (authProvider.isAnonymous) webSearchHelper else searchHelper
+        get() = webSearchHelper
 
     private val _suggestions = MutableStateFlow<List<SearchSuggestEntry>>(emptyList())
     val suggestions = _suggestions.asStateFlow()
 
-    private val _filter = MutableStateFlow(SearchFilter())
+    private val searchFilter = MutableStateFlow(SearchFilter())
     private val _apps = MutableStateFlow<PagingData<App>>(PagingData.empty())
-    val apps = combine(_filter, _apps) { filter, pagingData ->
+    val apps = combine(searchFilter, _apps) { filter, pagingData ->
         pagingData.filter { app ->
             when {
                 filter.noAds && app.containsAds -> false
@@ -66,24 +68,22 @@ class SearchViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
     fun filterResults(filter: SearchFilter) {
-        _filter.value = filter
+        searchFilter.value = filter
     }
 
     fun search(query: String) {
         var nextBundleUrl: String? = null
         val nextStreamUrls = mutableSetOf<String>()
 
-        fun Collection<StreamCluster>.flatClusters(): List<App> {
-            return this.flatMap { streamCluster ->
-                if (streamCluster.hasNext()) {
-                    nextStreamUrls.add(streamCluster.clusterNextPageUrl)
-                }
-                streamCluster.clusterAppList
-            }.distinctBy { app -> app.packageName }
-        }
+        fun Collection<StreamCluster>.flatClusters(): List<App> = this.flatMap { streamCluster ->
+            if (streamCluster.hasNext()) {
+                nextStreamUrls.add(streamCluster.clusterNextPageUrl)
+            }
+            streamCluster.clusterAppList
+        }.distinctBy { app -> app.packageName }
 
         manualPager { page ->
-            try {
+            val items = try {
                 when (page) {
                     1 -> contract.searchResults(query)
                         .also { nextBundleUrl = it.streamNextPageUrl }
@@ -107,13 +107,14 @@ class SearchViewModel @Inject constructor(
 
                             else -> emptyList()
                         }
-                        emptyList()
                     }
                 }
-            } catch (exception: Exception) {
-                Log.e(TAG, "Failed to search results for $query", exception)
+            } catch (exception: GooglePlayException.AuthException) {
+                Log.w(TAG, "Search returned ${exception.code}, redirecting to Splash")
+                AuroraApp.events.send(AuthEvent.SessionExpired())
                 emptyList()
             }
+            PageResult(items)
         }.flow.distinctUntilChanged()
             .cachedIn(viewModelScope)
             .onEach { _apps.value = it }
@@ -124,7 +125,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _suggestions.value = contract.searchSuggestions(query)
                 .filter { it.title.isNotBlank() }
-                .take(3)
+                .take(5)
         }
     }
 }

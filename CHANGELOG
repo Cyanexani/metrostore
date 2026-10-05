@@ -1,3 +1,28 @@
+Changelog : v0.9.0-beta (78)
+The biggest Metro Store update so far: rebuilt on Aurora Store 4.8.4, with the Windows Phone Store look redone from scratch on top of it.
+
+Windows Phone Store look
+• Home is the Store panorama again: a giant "Store" title that drifts as you swipe, featured apps as square tiles, green quick-link tiles and a plain lowercase categories list
+• Apps and games open as one pivot: for you, top free, top grossing, trending, top paid and categories
+• App pages are pivots again (overview, reviews, details, related), with install and update in the application bar
+• Application bar on every page: circled buttons plus a "…" menu for everything else, with no toolbar icons or back arrows
+• Windows Phone controls: square outlined buttons, rectangular toggle switches, square check boxes, text filters and full-width message boxes at the top of the screen
+• Windows Phone wording: lowercase buttons, menus and lists, all-caps page captions, and brand names keep their capitals
+• Black or white backgrounds with the Store's green; turn on wallpaper colours (Android 12+) to recolour the accent
+
+New from Aurora Store 4.8.4
+• Multiple Google accounts
+• Read and write reviews on app pages
+• Optional app lock with fingerprint or screen lock
+• One-tap install of favourites, and buying paid apps
+• Reworked updates and notifications, with a warning when an update adds new trackers
+• Shizuku and microG installer support, storage checks before downloading, and many download and install fixes
+
+Also in this release
+• Updates now live under "my apps"; the first quick-link tile shows how many are waiting
+• Metro Store's own icon everywhere, including debug builds and phones older than Android 8
+• Requires Android 6.0 or newer
+
 Changelog : v0.8.5-beta (77)
 • App details: the Install / Open / Update button no longer sits under the system navigation bar on 2-/3-button navigation
 • Token dispenser: the add button no longer clips against the navigation bar

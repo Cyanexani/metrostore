@@ -1,21 +1,7 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *  Copyright (C) 2023, grrfe <grrfe@420blaze.it>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-FileCopyrightText: 2023 grrfe <grrfe@420blaze.it>
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.installer
@@ -32,6 +18,7 @@ import android.content.pm.PackageManager
 import android.os.Process
 import android.util.Log
 import androidx.core.app.PendingIntentCompat
+import com.aurora.extensions.TAG
 import com.aurora.extensions.isNAndAbove
 import com.aurora.extensions.isOAndAbove
 import com.aurora.extensions.isSAndAbove
@@ -55,6 +42,7 @@ import com.aurora.store.data.room.download.Download
 import com.aurora.store.util.PackageUtil.isSharedLibraryInstalled
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,13 +51,12 @@ class SessionInstaller @Inject constructor(
     @ApplicationContext private val context: Context
 ) : InstallerBase(context) {
 
-    private val TAG = SessionInstaller::class.java.simpleName
-
     val currentSessionId: Int?
         get() = enqueuedSessions.firstOrNull()?.last()?.sessionId
 
     private val packageInstaller = context.packageManager.packageInstaller
     private val enqueuedSessions = mutableListOf<MutableSet<SessionInfo>>()
+    private val committedSessions = ConcurrentHashMap.newKeySet<Int>()
 
     val callback = object : PackageInstaller.SessionCallback() {
         override fun onCreated(sessionId: Int) {}
@@ -95,6 +82,8 @@ class SessionInstaller @Inject constructor(
         }
 
         override fun onFinished(sessionId: Int, success: Boolean) {
+            committedSessions.remove(sessionId)
+
             val sessionSet =
                 enqueuedSessions.find { it.any { session -> session.sessionId == sessionId } }
                     ?: return
@@ -118,8 +107,7 @@ class SessionInstaller @Inject constructor(
                 }
             }
 
-            // Proceed with the next available session
-            enqueuedSessions.firstOrNull()?.firstOrNull()?.let(::commitInstall)
+            commitNextPending()
         }
     }
 
@@ -129,7 +117,6 @@ class SessionInstaller @Inject constructor(
             get() = InstallerInfo(
                 id = 0,
                 installer = Installer.SESSION,
-                packageNames = BuildType.PACKAGE_NAMES,
                 installerPackageNames = BuildType.PACKAGE_NAMES,
                 title = R.string.pref_install_mode_session,
                 subtitle = R.string.session_installer_subtitle,
@@ -183,6 +170,35 @@ class SessionInstaller @Inject constructor(
         }
     }
 
+    override fun cancelInstall(packageName: String) {
+        val sessionSet = enqueuedSessions
+            .find { set -> set.any { it.packageName == packageName } } ?: return
+
+        Log.i(TAG, "Abandoning staged session(s) for $packageName")
+        sessionSet.forEach {
+            runCatching { packageInstaller.abandonSession(it.sessionId) }
+            committedSessions.remove(it.sessionId)
+        }
+        enqueuedSessions.remove(sessionSet)
+        removeFromInstallQueue(packageName)
+    }
+
+    /**
+     * Commits the head of the first queued set that isn't already in flight.
+     *
+     * Re-committing a session that is still waiting on the system's install confirmation makes
+     * PackageInstallerSession swap in the new status receiver and re-dispatch, which fires a
+     * second STATUS_PENDING_USER_ACTION and puts a duplicate confirmation dialog on screen. One
+     * of the two installs the app, the other is left resolving a session that no longer exists
+     * and lands the user on the system's "Can't install app" screen.
+     */
+    private fun commitNextPending() {
+        enqueuedSessions
+            .mapNotNull { it.firstOrNull() }
+            .firstOrNull { it.sessionId !in committedSessions }
+            ?.let(::commitInstall)
+    }
+
     private fun stageInstall(
         packageName: String,
         versionCode: Long,
@@ -190,7 +206,12 @@ class SessionInstaller @Inject constructor(
     ): Int? {
         val resolvedPackageName = sharedLibPkgName.ifBlank { packageName }
 
-        val sessionParams = buildSessionParams(resolvedPackageName)
+        // Size hint lets the system reserve space (and evict its cache) for the staged copy.
+        val totalSize = runCatching {
+            getFiles(packageName, versionCode, sharedLibPkgName).sumOf { it.length() }
+        }.getOrDefault(0L)
+
+        val sessionParams = buildSessionParams(resolvedPackageName, totalSize)
         val sessionId = packageInstaller.createSession(sessionParams)
         val session = packageInstaller.openSession(sessionId)
 
@@ -217,9 +238,10 @@ class SessionInstaller @Inject constructor(
         }
     }
 
-    private fun buildSessionParams(packageName: String): SessionParams {
-        return SessionParams(SessionParams.MODE_FULL_INSTALL).apply {
+    private fun buildSessionParams(packageName: String, totalSize: Long = 0L): SessionParams =
+        SessionParams(SessionParams.MODE_FULL_INSTALL).apply {
             setAppPackageName(packageName)
+            if (totalSize > 0) setSize(totalSize)
             setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO)
             if (isNAndAbove) {
                 setOriginatingUid(Process.myUid())
@@ -239,7 +261,6 @@ class SessionInstaller @Inject constructor(
                 setApplicationEnabledSettingPersistent()
             }
         }
-    }
 
     private fun commitInstall(sessionInfo: SessionInfo) {
         try {
@@ -261,10 +282,12 @@ class SessionInstaller @Inject constructor(
 
     private fun commitSession(sessionInfo: SessionInfo) {
         try {
+            committedSessions.add(sessionInfo.sessionId)
             val session = packageInstaller.openSession(sessionInfo.sessionId)
             session.commit(getCallBackIntent(sessionInfo)!!.intentSender)
             session.close()
         } catch (e: Exception) {
+            committedSessions.remove(sessionInfo.sessionId)
             Log.e(TAG, "Error committing session: ${e.message}")
         } finally {
             removeFromInstallQueue(sessionInfo.packageName)

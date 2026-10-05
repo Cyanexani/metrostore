@@ -1,0 +1,9 @@
+• Uus liides kaasaegse Jetpack Compose’i abil
+• Mitme Google’i konto tugi
+• Kasutajate arvustused rakenduse vaates
+• Rakenduse lukustamise võimalus seadme autentimise abil, sh biomeetria
+• Lemmikute paigaldamine ühe klõpsuga ja tasuliste rakenduste ostuprotsess
+• Uus teavituste lahendus rühmitatud kokkuvõtete ja seadistustega
+• Parem uuenduste vaade; automaatsed uuendused kuvatakse nüüd loendis
+• Toimivamad allalaadimised/paigaldamised ja microG-paigaldaja tugi
+• Veaparandused ja tõlkeuuendused

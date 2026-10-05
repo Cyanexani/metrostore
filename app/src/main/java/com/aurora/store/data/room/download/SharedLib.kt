@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.room.download
 
 import android.os.Parcelable
@@ -14,12 +19,10 @@ data class SharedLib(
     var fileList: List<PlayFile>
 ) : Parcelable {
     companion object {
-        fun fromApp(app: App): SharedLib {
-            return SharedLib(
-                app.packageName,
-                app.versionCode,
-                app.fileList.filterNot { it.url.isBlank() }
-            )
-        }
+        fun fromApp(app: App): SharedLib = SharedLib(
+            app.packageName,
+            app.versionCode,
+            app.fileList.filterNot { it.url.isBlank() }
+        )
     }
 }

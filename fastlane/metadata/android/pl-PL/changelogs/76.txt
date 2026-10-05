@@ -1,0 +1,11 @@
+• Nowy interfejs oparty na Jetpack Compose
+• Dodano obsługę wielu kont Google
+• Przywrócono recenzje użytkowników na ekranie szczegółów aplikacji
+• Dodano blokadę aplikacji za pomocą biometrii lub poświadczeń urządzenia (opcjonalne)
+• Dodano instalację ulubionych aplikacji jednym kliknięciem
+• Dodano możliwość zakupu płatnych aplikacji
+• Przeprojektowano powiadomienia dodając pogrupowane podsumowania oraz nowe ustawieniami
+• Ulepszono ekran aktualizacji (samoaktualizacja aplikacji jest teraz wyświetlana na liście)
+• Wprowadzono bardziej niezawodne pobieranie/instalowanie oraz obsługę instalatora microG
+• Poprawiono błędy
+• Zaktualizowano tłumaczenia

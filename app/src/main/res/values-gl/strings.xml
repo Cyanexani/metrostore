@@ -289,7 +289,6 @@
     <string name="details_ratings_title_hint">Titulo da reseña</string>
     <string name="download_clear_finished">Limpar o finalizado</string>
     <string name="filter_latest">Máis recente</string>
-    <string name="notification_channel_account">Notificación relacionada coa conta</string>
     <string name="notification_channel_export">Notificación de exportación da aplicación</string>
     <string name="notification_channel_install">Notificación de instalación</string>
     <string name="notification_channel_downloads">Notificación de descargas</string>
@@ -443,4 +442,12 @@
     <string name="microg_privacy_policy">Ler Política de Privacidade de microG</string>
     <string name="microg_license_agreement">Ler Acordo de Licenza de microG</string>
     <string name="microg_website">Visitar web do Proxecto microG</string>
+    <string name="action_retry">Intentar de novo</string>
+    <string name="action_view_on_play">Ver na Play Store</string>
+    <string name="details_data_safety_collect">Datos que a aplicación podería recopilar</string>
+    <string name="account_set_default">Establecer como predeterminada</string>
+    <string name="account_default">Predeterminada</string>
+    <string name="account_remove">Eliminar</string>
+    <string name="account_remove_title">Eliminar conta?</string>
+    <string name="account_remove_message">Eliminar %1$s da Metro Store?</string>
 </resources>

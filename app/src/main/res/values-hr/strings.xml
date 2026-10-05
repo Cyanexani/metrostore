@@ -343,7 +343,6 @@
     <string name="server_unreachable">Server je nedostupan</string>
     <string name="shizuku_installer_desc">Zahtijeva Shizuku ili Sui, mora se postaviti i odobriti dozvolu</string>
     <string name="download_clear_finished">Izbriši gotove</string>
-    <string name="notification_channel_account">Obavijest o računu</string>
     <string name="login_rate_limited">Broj tvojih prijava je ograničen</string>
     <string name="app_links_title">Poveznice aplikacija</string>
     <string name="google_play_store_desc">Google Play, poznat i kao Google Play Store, a prije Android Market.</string>
@@ -420,7 +419,7 @@
     <string name="toast_proxy_disabled">Proxy je uspješno deaktiviran</string>
     <string name="pref_network_proxy_desc">Pogledaj i upravljaj konfiguracijom proxyja</string>
     <string name="pref_updates_restrictions_title">Ograničenja za automatska aktualiziranja</string>
-    <string name="pref_updates_restrictions_desc">Konfiguriraj ograničenja uređaja za automatska aktualiziranja.</string>
+    <string name="pref_updates_restrictions_desc">Konfiguriraj ograničenja uređaja za automatska aktualiziranja</string>
     <string name="pref_updates_restrictions_idle">Kad je urađaj neaktivan</string>
     <string name="pref_updates_restrictions_battery">Kad razina baterije nije niska</string>
     <string name="pref_network_microg_login_title">Koristi microG za prijavu na račune</string>
@@ -458,4 +457,10 @@
     <string name="action_install_microG">Instaliraj microG paket</string>
     <string name="exodus_report_trackers"><xliff:g id="number_of_trackers">%1$d</xliff:g> pronađena programa za praćenje u <xliff:g id="app_version_name">%2$s</xliff:g></string>
     <string name="onboarding_gms_microg">microG je besplatna i otvorenog koda implementacija koja pruža sličnu funkcionalnost za pokretanje aplikacija koje ovise o Google Play uslugama na Android uređajima putem ponovne implementacije.\n\nmicroG omogućuje aplikacijama pristup Google API-jima, poboljšavajući kompatibilnost za korisnike uz dodatne prednosti po pitanju privatnosti.\n\nmicroG će se automatski pokrenuti u pozadini kada otvorite aplikacije koje ovise o Google mobilnim uslugama.</string>
+    <string name="preparing_to_install">Priprema za instalaciju</string>
+    <plurals name="permissions_required">
+        <item quantity="one">Potrebna dozvola</item>
+        <item quantity="few">Potrebne dozvole</item>
+        <item quantity="other">Potrebnih dozvola</item>
+    </plurals>
 </resources>

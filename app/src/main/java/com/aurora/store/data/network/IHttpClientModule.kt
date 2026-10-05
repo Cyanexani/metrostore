@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.network
 
 import com.aurora.gplayapi.network.IHttpClient
@@ -13,7 +18,5 @@ object IHttpClientModule {
 
     @Provides
     @Singleton
-    fun providesIHttpClientInstance(httpClient: HttpClient): IHttpClient {
-        return httpClient
-    }
+    fun providesIHttpClientInstance(httpClient: HttpClient): IHttpClient = httpClient
 }

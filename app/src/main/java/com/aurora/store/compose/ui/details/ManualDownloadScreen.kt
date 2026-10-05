@@ -1,10 +1,13 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.compose.ui.details
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,30 +15,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,52 +46,52 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.extensions.adaptiveNavigationIcon
 import com.aurora.extensions.isWindowCompact
-import com.aurora.extensions.toast
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
-import com.aurora.store.compose.composables.InfoComposable
-import com.aurora.store.compose.composables.TopAppBarComposable
+import com.aurora.store.compose.composable.Info
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroProgressDots
+import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
+import com.aurora.store.compose.preview.ThemePreviewProvider
+import com.aurora.store.compose.ui.sheets.VersionPickerSheet
+import com.aurora.store.data.model.AppState
+import com.aurora.store.data.model.Report
 import com.aurora.store.viewmodel.details.AppDetailsViewModel
-import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 
 @Composable
 fun ManualDownloadScreen(
     packageName: String,
-    onNavigateUp: () -> Unit,
+    onRequestInstall: (requestedApp: App) -> Unit,
     viewModel: AppDetailsViewModel = hiltViewModel(key = packageName),
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
 ) {
-    val context = LocalContext.current
-
     val app by viewModel.app.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val reports by viewModel.exodusReports.collectAsStateWithLifecycle()
+    val lookupInProgress by viewModel.versionLookupInProgress.collectAsStateWithLifecycle()
     val topAppBarTitle = when {
         windowAdaptiveInfo.isWindowCompact -> app!!.displayName
         else -> stringResource(R.string.title_manual_download)
     }
 
-    LaunchedEffect(key1 = Unit) {
-        viewModel.purchaseStatus.collect { success ->
-            if (success) {
-                context.toast(R.string.toast_manual_available)
-                onNavigateUp()
-            } else {
-                context.toast(R.string.toast_manual_unavailable)
-            }
-        }
-    }
-
     ScreenContent(
+        state = state,
         topAppBarTitle = topAppBarTitle,
         currentVersionCode = app!!.versionCode,
-        onNavigateUp = onNavigateUp,
-        onDownload = { versionCode ->
+        reports = reports,
+        lookupInProgress = lookupInProgress,
+        onLookup = viewModel::lookupVersions,
+        onRequestInstall = { versionCode ->
             val requestedApp = app!!.copy(
                 versionCode = versionCode,
                 dependencies = app!!.dependencies.copy(
@@ -97,42 +100,54 @@ fun ManualDownloadScreen(
                     }
                 )
             )
-            viewModel.purchase(requestedApp)
+            onRequestInstall(requestedApp)
         }
     )
 }
 
 @Composable
 private fun ScreenContent(
+    state: AppState = AppState.Unavailable,
     topAppBarTitle: String? = null,
     currentVersionCode: Long = 0L,
-    onNavigateUp: () -> Unit = {},
-    onDownload: (versionCode: Long) -> Unit = {},
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    reports: List<Report> = emptyList(),
+    lookupInProgress: Boolean = false,
+    onLookup: () -> Unit = {},
+    onRequestInstall: (versionCode: Long) -> Unit = {},
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
 ) {
-
+    val activity = LocalActivity.current as? ComponentActivity
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     val errorMessage = stringResource(R.string.manual_download_version_error)
 
-    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     var versionCode by remember {
         val initText = currentVersionCode.toString()
         mutableStateOf(TextFieldValue(text = initText, selection = TextRange(initText.length)))
     }
 
-    LaunchedEffect(focusRequester) {
-        awaitFrame()
-        focusRequester.requestFocus()
+    var showVersionPicker by remember { mutableStateOf(false) }
+
+    if (showVersionPicker) {
+        VersionPickerSheet(
+            reports = reports,
+            loading = lookupInProgress,
+            onSelect = { report ->
+                val code = report.versionCode
+                versionCode = TextFieldValue(text = code, selection = TextRange(code.length))
+                showVersionPicker = false
+            },
+            onDismiss = { showVersionPicker = false }
+        )
     }
 
     Scaffold(
         modifier = Modifier.imePadding(),
         topBar = {
-            TopAppBarComposable(
+            TopAppBar(
                 title = topAppBarTitle,
-                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon,
-                onNavigateUp = onNavigateUp
+                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
@@ -141,21 +156,22 @@ private fun ScreenContent(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(dimensionResource(R.dimen.padding_medium)),
+                .padding(dimensionResource(R.dimen.spacing_medium)),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_medium)
+                )
             ) {
-                InfoComposable(
-                    icon = R.drawable.ic_download_manager,
+                Info(
+                    painter = painterResource(R.drawable.ic_download_manager),
                     title = AnnotatedString(text = stringResource(R.string.manual_download_hint))
                 )
                 OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !state.inProgress(),
                     value = versionCode,
                     onValueChange = {
                         if (it.text.isDigitsOnly()) {
@@ -166,32 +182,68 @@ private fun ScreenContent(
                     },
                     shape = RoundedCornerShape(0.dp),
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    )
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                    trailingIcon = {
+                        if (state.inProgress()) {
+                            MetroProgressDots(
+                                modifier = Modifier
+                                    .requiredWidth(dimensionResource(R.dimen.icon_size_small))
+                            )
+                        }
+                    }
                 )
+
+                MetroButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !state.inProgress(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    ),
+                    onClick = {
+                        // Dismiss the keyboard so the sheet opens over a settled layout, then
+                        // load versions (a no-op fetch when they are already cached).
+                        focusManager.clearFocus()
+                        showVersionPicker = true
+                        onLookup()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(R.string.manual_download_lookup).metroLowercase(),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_medium)
+                )
             ) {
-                OutlinedButton(
+                MetroButton(
                     modifier = Modifier.weight(1F),
-                    onClick = onNavigateUp
+                    onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                 ) {
                     Text(
-                        text = stringResource(R.string.action_cancel),
+                        text = stringResource(R.string.action_close).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
 
-                OutlinedButton(
+                MetroButton(
                     modifier = Modifier.weight(1F),
-                    onClick = { onDownload(versionCode.text.toLong()) }) {
+                    enabled = !state.inProgress() && versionCode.text.isNotBlank(),
+                    onClick = {
+                        onRequestInstall(versionCode.text.toLong())
+                        focusManager.clearFocus()
+                    }
+                ) {
                     Text(
-                        text = stringResource(R.string.action_install),
+                        text = stringResource(R.string.action_install).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -201,13 +253,17 @@ private fun ScreenContent(
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
-private fun ManualDownloadScreenPreview(
-    @PreviewParameter(AppPreviewProvider::class) app: App
-) {
+private fun ManualDownloadScreenPreview(@PreviewParameter(AppPreviewProvider::class) app: App) {
     ScreenContent(
         topAppBarTitle = app.displayName,
-        currentVersionCode = app.versionCode
+        currentVersionCode = app.versionCode,
+        reports = listOf(
+            Report(version = "8.5.1", versionCode = "85100"),
+            Report(version = "8.4.0", versionCode = "84000"),
+            Report(version = "8.3.2", versionCode = "83200")
+        )
     )
 }

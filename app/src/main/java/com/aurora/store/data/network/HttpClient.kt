@@ -1,30 +1,20 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.network
 
 import android.util.Log
+import com.aurora.extensions.TAG
 import com.aurora.gplayapi.data.models.PlayResponse
 import com.aurora.gplayapi.network.IHttpClient
 import com.aurora.store.BuildConfig.APPLICATION_ID
 import com.aurora.store.BuildConfig.VERSION_CODE
 import com.aurora.store.BuildConfig.VERSION_NAME
+import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,17 +27,14 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
-class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient): IHttpClient {
+class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient) : IHttpClient {
 
-    private val TAG = HttpClient::class.java.simpleName
-
-    private val POST = "POST"
-    private val GET = "GET"
+    companion object {
+        private const val POST = "POST"
+        private const val GET = "GET"
+    }
 
     private val _responseCode = MutableStateFlow(100)
     override val responseCode: StateFlow<Int>
@@ -68,7 +55,7 @@ class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient): IH
     fun call(url: String, headers: Map<String, String> = emptyMap()): Response {
         val request = Request(
             url = url.toHttpUrl(),
-            headers = headers.toHeaders(),
+            headers = headers.toHeaders()
         )
         return okHttpClient.newCall(request).execute()
     }
@@ -101,14 +88,12 @@ class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient): IH
     }
 
     @Throws(IOException::class)
-    override fun post(url: String, headers: Map<String, String>, body: ByteArray): PlayResponse {
-        return post(url, headers, body.toRequestBody())
-    }
+    override fun post(url: String, headers: Map<String, String>, body: ByteArray): PlayResponse =
+        post(url, headers, body.toRequestBody())
 
     @Throws(IOException::class)
-    override fun get(url: String, headers: Map<String, String>): PlayResponse {
-        return get(url, headers, mapOf())
-    }
+    override fun get(url: String, headers: Map<String, String>): PlayResponse =
+        get(url, headers, mapOf())
 
     @Throws(IOException::class)
     override fun get(
@@ -135,11 +120,7 @@ class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient): IH
     }
 
     @Throws(IOException::class)
-    override fun get(
-        url: String,
-        headers: Map<String, String>,
-        paramString: String
-    ): PlayResponse {
+    override fun get(url: String, headers: Map<String, String>, paramString: String): PlayResponse {
         val request = Request(
             url = "$url$paramString".toHttpUrl(),
             headers = headers.toHeaders(),
@@ -164,15 +145,14 @@ class HttpClient @Inject constructor(private val okHttpClient: OkHttpClient): IH
         return urlBuilder.build()
     }
 
-    private fun buildPlayResponse(response: Response): PlayResponse {
-        return PlayResponse(
-            isSuccessful = response.isSuccessful,
-            code = response.code,
-            responseBytes = response.body.bytes(),
-            errorString = if (!response.isSuccessful) response.message else String()
-        ).also {
-            _responseCode.value = response.code
-            Log.i(TAG, "OKHTTP [${response.code}] ${response.request.url}")
-        }
+    private fun buildPlayResponse(response: Response): PlayResponse = PlayResponse(
+        isSuccessful = response.isSuccessful,
+        code = response.code,
+        responseBytes = response.body.bytes(),
+        errorString = if (!response.isSuccessful) response.message else String()
+    ).also {
+        val isCached = if (response.cacheResponse != null) "CACHED" else "NETWORK"
+        _responseCode.value = response.code
+        Log.i(TAG, "OKHTTP [$isCached] [${response.code}] ${response.request.url}")
     }
 }

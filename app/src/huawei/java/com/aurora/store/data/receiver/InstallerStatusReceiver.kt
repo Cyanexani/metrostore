@@ -1,21 +1,8 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 package com.aurora.store.data.receiver
 
 import android.content.Context
@@ -24,6 +11,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.util.Log
 import com.aurora.Constants.PACKAGE_NAME_APP_GALLERY
+import com.aurora.extensions.TAG
 import com.huawei.appgallery.coreservice.api.ApiClient
 import com.huawei.appgallery.coreservice.api.ApiCode
 import com.huawei.appgallery.coreservice.api.IConnectionResult
@@ -37,8 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InstallerStatusReceiver : BaseInstallerStatusReceiver() {
-
-    private val TAG = InstallerStatusReceiver::class.java.simpleName
 
     private lateinit var apiClient: ApiClient
 
@@ -58,7 +44,7 @@ class InstallerStatusReceiver : BaseInstallerStatusReceiver() {
         }
     }
 
-    override fun postStatus(status: Int, packageName: String?, extra: String?, context: Context) {
+    override fun postStatus(status: Int, packageName: String, extra: String?, context: Context) {
         super.postStatus(status, packageName, extra, context)
 
         if (::apiClient.isInitialized && apiClient.isConnected) {
@@ -144,19 +130,17 @@ class InstallerStatusReceiver : BaseInstallerStatusReceiver() {
         }
     }
 
-    private fun isHuaweiSilentInstallSupported(context: Context): Boolean {
-        return try {
-            val applicationInfo: ApplicationInfo = context.packageManager.getApplicationInfo(
-                PACKAGE_NAME_APP_GALLERY,
-                PackageManager.GET_META_DATA
-            )
+    private fun isHuaweiSilentInstallSupported(context: Context): Boolean = try {
+        val applicationInfo: ApplicationInfo = context.packageManager.getApplicationInfo(
+            PACKAGE_NAME_APP_GALLERY,
+            PackageManager.GET_META_DATA
+        )
 
-            val supportFunction = applicationInfo.metaData.getInt("appgallery_support_function")
-            Log.i(TAG, "Huawei silent install support function: $supportFunction")
+        val supportFunction = applicationInfo.metaData.getInt("appgallery_support_function")
+        Log.i(TAG, "Huawei silent install support function: $supportFunction")
 
-            (supportFunction and (1 shl 5)) != 0
-        } catch (e: Exception) {
-            false
-        }
+        (supportFunction and (1 shl 5)) != 0
+    } catch (_: Exception) {
+        false
     }
 }

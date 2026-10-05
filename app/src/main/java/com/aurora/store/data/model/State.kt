@@ -1,29 +1,12 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.model
 
-
 sealed class ViewState {
-    inline fun <reified T> ViewState.getDataAs(): T {
-        return (this as? Success<*>)?.data as T
-    }
+    inline fun <reified T> ViewState.getDataAs(): T = (this as? Success<*>)?.data as T
 
     data object Loading : ViewState()
     data object Empty : ViewState()
@@ -33,7 +16,7 @@ sealed class ViewState {
 }
 
 sealed class AuthState {
-    data object Init: AuthState()
+    data object Init : AuthState()
     data object Available : AuthState()
     data object Unavailable : AuthState()
     data object SignedIn : AuthState()
@@ -55,7 +38,9 @@ sealed class AppState {
         val timeRemaining: Long
     ) : AppState()
 
+    data object Queued : AppState()
     data object Purchasing : AppState()
+    data object Verifying : AppState()
     data class Installing(val progress: Float) : AppState()
     data class Error(val message: String?) : AppState()
     data class Installed(val versionName: String, val versionCode: Long) : AppState()
@@ -67,18 +52,19 @@ sealed class AppState {
     /**
      * Whether there is some sort of ongoing process related to the app
      */
-    fun inProgress(): Boolean {
-        return this is Downloading || this is Installing || this is Purchasing
-    }
+    fun inProgress(): Boolean = this is Downloading ||
+        this is Installing ||
+        this is Purchasing ||
+        this is Queued ||
+        this is Verifying
 
     /**
-     * Progress of the process related to the app; 0 otherwise
+     * Determinate progress (0..100) of the process related to the app; 0 when no
+     * determinate value is available (e.g. installing, where the indicator should
+     * be indeterminate).
      */
-    fun progress(): Float {
-        return when (this) {
-            is Downloading -> progress
-            is Installing -> progress
-            else -> 0F
-        }
+    fun progress(): Float = when (this) {
+        is Downloading -> progress
+        else -> 0F
     }
 }

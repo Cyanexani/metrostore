@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.room.suite
 
 import android.content.Context
@@ -21,7 +26,5 @@ data class ExternalApk(
     var fileList: List<PlayFile>
 ) : Parcelable {
 
-    fun isInstalled(context: Context): Boolean {
-        return PackageUtil.isInstalled(context, packageName)
-    }
+    fun isInstalled(context: Context): Boolean = PackageUtil.isInstalled(context, packageName)
 }

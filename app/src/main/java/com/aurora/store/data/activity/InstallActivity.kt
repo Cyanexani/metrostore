@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 package com.aurora.store.data.activity
 
 import android.content.pm.PackageInstaller.SessionCallback
@@ -7,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import com.aurora.Constants
+import com.aurora.extensions.TAG
 import com.aurora.store.data.installer.SessionInstaller
 import com.aurora.store.data.room.download.Download
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,8 +20,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class InstallActivity : AppCompatActivity() {
-
-    private val TAG = InstallActivity::class.java.simpleName
 
     @Inject
     lateinit var sessionInstaller: SessionInstaller

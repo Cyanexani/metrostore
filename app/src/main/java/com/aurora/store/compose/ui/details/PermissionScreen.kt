@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2026 Aurora OSS
  * SPDX-FileCopyrightText: 2025 The Calyx Institute
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,39 +8,44 @@ package com.aurora.store.compose.ui.details
 
 import android.content.pm.PermissionInfo
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.extensions.adaptiveNavigationIcon
 import com.aurora.extensions.isWindowCompact
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
-import com.aurora.store.compose.composables.InfoComposable
-import com.aurora.store.compose.composables.TopAppBarComposable
+import com.aurora.store.compose.composable.Info
+import com.aurora.store.compose.composable.ScrollHint
+import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.preview.AppPreviewProvider
+import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.viewmodel.details.AppDetailsViewModel
 import com.aurora.store.viewmodel.details.PermissionViewModel
-import java.util.Locale
 
 @Composable
 fun PermissionScreen(
     packageName: String,
-    onNavigateUp: () -> Unit,
     appDetailsViewModel: AppDetailsViewModel = hiltViewModel(key = packageName),
     permissionViewModel: PermissionViewModel = hiltViewModel(
         key = "$packageName/permission",
@@ -47,7 +53,7 @@ fun PermissionScreen(
             factory.create(appDetailsViewModel.app.value!!.permissions)
         }
     ),
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
 ) {
     val app by appDetailsViewModel.app.collectAsStateWithLifecycle()
     val permissionsInfo by permissionViewModel.permissionsInfo.collectAsStateWithLifecycle()
@@ -59,7 +65,6 @@ fun PermissionScreen(
 
     ScreenContent(
         topAppBarTitle = topAppBarTitle,
-        onNavigateUp = onNavigateUp,
         permissionsInfo = permissionsInfo
     )
 }
@@ -67,54 +72,65 @@ fun PermissionScreen(
 @Composable
 private fun ScreenContent(
     topAppBarTitle: String? = null,
-    permissionsInfo: Map<String, PermissionInfo?> = emptyMap(),
-    onNavigateUp: () -> Unit = {},
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    permissionsInfo: Map<String, PermissionInfo> = emptyMap(),
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
 ) {
     val packageManager = LocalContext.current.packageManager
 
     Scaffold(
         topBar = {
-            TopAppBarComposable(
+            TopAppBar(
                 title = topAppBarTitle,
-                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon,
-                onNavigateUp = onNavigateUp
+                navigationIcon = windowAdaptiveInfo.adaptiveNavigationIcon
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        val listState = rememberLazyListState()
+        Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
-                .padding(horizontal = dimensionResource(R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
+                .padding(paddingValues)
         ) {
-            items(items = permissionsInfo.keys.toList(), key = { it }) { permission ->
-                // Bail out if this is not a known permission for the OS
-                val permissionInfo = permissionsInfo.getValue(permission) ?: return@items
-
-                InfoComposable(
-                    title = AnnotatedString(
-                        text = permissionInfo.loadLabel(packageManager)
-                            .toString()
-                            .replaceFirstChar {
-                                if (it.isLowerCase()) {
-                                    it.titlecase(Locale.getDefault())
-                                } else {
-                                    it.toString()
-                                }
-                            }
-                    ),
-                    description = AnnotatedString(
-                        text = permissionInfo.loadDescription(packageManager)?.toString()
-                            ?: stringResource(R.string.no_description)
-                    )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
+                state = listState,
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_medium)
                 )
+            ) {
+                items(items = permissionsInfo.keys.toList(), key = { it }) { permission ->
+                    val permissionInfo = permissionsInfo.getValue(permission)
+
+                    Info(
+                        title = AnnotatedString(
+                            text = permissionInfo.loadLabel(packageManager)
+                                .toString()
+                                .replaceFirstChar {
+                                    if (it.isLowerCase()) {
+                                        it.titlecase(LocalLocale.current.platformLocale)
+                                    } else {
+                                        it.toString()
+                                    }
+                                }
+                        ),
+                        description = AnnotatedString(
+                            text = permissionInfo.loadDescription(packageManager)?.toString()
+                                ?: stringResource(R.string.no_description)
+                        )
+                    )
+                }
             }
+            ScrollHint(
+                listState = listState,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun PermissionScreenPreview(@PreviewParameter(AppPreviewProvider::class) app: App) {

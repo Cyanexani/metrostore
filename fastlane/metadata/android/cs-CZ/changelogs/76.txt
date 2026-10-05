@@ -1,0 +1,9 @@
+• Přepracováno rozhraní pomocí Jetpack Compose
+• Podpora více účtů Google
+• Recenze na obrazovce s podrobnostmi o aplikaci
+• Volitelné zamykání aplikace pomocí údajů zařízení
+• Rychlá instalace oblíbených aplikací a proces nákupu placených aplikací
+• Přepracována oznámení se seskupenými souhrny a nastavením
+• Vylepšená obrazovka aktualizací; automatické aktualizace se nyní zobrazují v seznamu
+• Spolehlivější stahování a instalace a podpora instalátoru microG
+• Opravy chyb a aktualizace překladů

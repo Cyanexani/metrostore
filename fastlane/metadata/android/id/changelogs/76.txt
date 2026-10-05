@@ -1,0 +1,9 @@
+• Antarmuka dibangun ulang dengan Jetpack Compose
+• Dukungan beberapa akun Google
+• Ulasan pengguna di detail aplikasi
+• Kunci aplikasi via biometrik/kredensial perangkat
+• Instal sekali klik untuk favorit dan alur beli aplikasi berbayar
+• Notifikasi diperbarui dengan ringkasan grup dan setelan
+• Layar pembaruan baru; update mandiri tampil di daftar
+• Unduhan/pemasangan lebih andal, dukungan microG
+• Perbaikan bug dan pembaruan terjemahan

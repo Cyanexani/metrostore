@@ -5,111 +5,377 @@
 
 package com.aurora.store.compose.ui.accounts
 
+import android.accounts.AccountManager
+import android.widget.Toast
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.Constants.URL_DISCLAIMER
 import com.aurora.Constants.URL_LICENSE
 import com.aurora.Constants.URL_TOS
 import com.aurora.extensions.browse
+import com.aurora.store.BuildConfig
 import com.aurora.store.R
-import com.aurora.store.compose.composables.TopAppBarComposable
-import com.aurora.store.data.providers.AccountProvider
+import com.aurora.store.compose.composable.AccountListItem
+import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroMenuItem
+import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
+import com.aurora.store.compose.navigation.Destination
+import com.aurora.store.compose.preview.ThemePreviewProvider
+import com.aurora.store.compose.ui.commons.LoadingDialog
+import com.aurora.store.compose.ui.sheets.AccountActionsSheet
+import com.aurora.store.data.room.account.Account
+import com.aurora.store.util.CertUtil.GOOGLE_ACCOUNT_TYPE
+import com.aurora.store.util.PackageUtil
+import com.aurora.store.util.Preferences
+import com.aurora.store.util.RestartUtil
 import com.aurora.store.viewmodel.accounts.AccountsViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountsScreen(
-    onNavigateUp: () -> Unit,
-    onNavigateToSplash: () -> Unit,
+    onNavigateTo: (Destination) -> Unit,
     viewModel: AccountsViewModel = hiltViewModel()
 ) {
-    val userProfile = viewModel.authProvider.authData?.userProfile
-    val avatar = when {
-        viewModel.authProvider.isAnonymous -> R.mipmap.ic_launcher
-        userProfile != null -> userProfile.artwork.url
-        else -> R.mipmap.ic_launcher
-    }
-    val name = when {
-        viewModel.authProvider.isAnonymous -> stringResource(R.string.account_anonymous)
-        userProfile != null -> userProfile.name
-        else -> stringResource(R.string.account_anonymous)
-    }
-    val email = when {
-        viewModel.authProvider.isAnonymous -> stringResource(R.string.account_anonymous_email)
-        userProfile != null -> userProfile.email
-        else -> stringResource(R.string.account_anonymous_email)
-    }
-
     val context = LocalContext.current
-    var shouldShowLogoutDialog by rememberSaveable { mutableStateOf(false) }
+    val activity = LocalActivity.current
+    val accounts by viewModel.accounts.collectAsStateWithLifecycle()
+    var showAddSheet by remember { mutableStateOf(false) }
+    var selectedAccount by remember { mutableStateOf<Account?>(null) }
+    var accountToRemove by remember { mutableStateOf<Account?>(null) }
+    var accountToSetDefault by remember { mutableStateOf<Account?>(null) }
+    var isSwitchingDefault by remember { mutableStateOf(false) }
+    var isAddingAccount by remember { mutableStateOf(false) }
+    var isRefreshing by remember { mutableStateOf(false) }
 
-    if (shouldShowLogoutDialog) {
-        LogoutDialog(
-            onConfirm = {
-                shouldShowLogoutDialog = false
-                AccountProvider.logout(context)
-                onNavigateToSplash()
-            },
-            onDismiss = { shouldShowLogoutDialog = false }
-        )
+    val canMicroGLogin = PackageUtil.hasSupportedMicroGVariant(context) &&
+        Preferences.getBoolean(context, Preferences.PREFERENCE_MICROG_AUTH, true)
+
+    val accountChooserLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val accountName = result.data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
+        when {
+            accountName.isNullOrBlank() -> isAddingAccount = false
+            accounts.any { it.email.equals(accountName, ignoreCase = true) } -> {
+                isAddingAccount = false
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.account_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> viewModel.addSystemAccount(accountName, activity)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.switched.collect { ok ->
+            if (ok) {
+                RestartUtil.restart(context)
+            } else {
+                isSwitchingDefault = false
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.account_switch_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.removeResult.collect { result ->
+            when (result) {
+                AccountsViewModel.RemoveResult.LOGGED_OUT -> onNavigateTo(Destination.Splash())
+                AccountsViewModel.RemoveResult.RESTART -> RestartUtil.restart(context)
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.addResult.collect { added ->
+            isAddingAccount = false
+            if (!added) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.account_add_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.refreshResult.collect { failures ->
+            isRefreshing = false
+            val message = if (failures == 0) {
+                context.getString(R.string.account_refresh_done)
+            } else {
+                context.resources.getQuantityString(
+                    R.plurals.account_refresh_failed,
+                    failures,
+                    failures
+                )
+            }
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     ScreenContent(
-        onNavigateUp = onNavigateUp,
-        avatar = avatar,
-        name = name,
-        email = email,
-        onLogout = { shouldShowLogoutDialog = true }
+        accounts = accounts,
+        onAccountClick = { selectedAccount = it },
+        onAddAccount = { showAddSheet = true },
+        onRefreshAll = {
+            isRefreshing = true
+            viewModel.refreshAll(activity)
+        }
     )
+
+    selectedAccount?.let { account ->
+        AccountActionsSheet(
+            account = account,
+            onSetDefault = {
+                selectedAccount = null
+                accountToSetDefault = account
+            },
+            onRemove = {
+                selectedAccount = null
+                accountToRemove = account
+            },
+            onDismiss = { selectedAccount = null }
+        )
+    }
+
+    accountToSetDefault?.let { account ->
+        MetroAlertDialog(
+            onDismissRequest = { accountToSetDefault = null },
+            title = { Text(text = stringResource(R.string.account_set_default_title)) },
+            text = { Text(text = stringResource(R.string.account_set_default_message)) },
+            confirmButton = {
+                MetroButton(
+                    onClick = {
+                        accountToSetDefault = null
+                        isSwitchingDefault = true
+                        viewModel.setDefault(account)
+                    }
+                ) {
+                    Text(text = stringResource(R.string.action_restart).metroLowercase())
+                }
+            },
+            dismissButton = {
+                MetroButton(onClick = { accountToSetDefault = null }) {
+                    Text(text = stringResource(R.string.action_cancel).metroLowercase())
+                }
+            }
+        )
+    }
+
+    if (isSwitchingDefault) {
+        LoadingDialog(message = stringResource(R.string.account_switching))
+    }
+
+    if (isAddingAccount) {
+        LoadingDialog(message = stringResource(R.string.account_adding))
+    }
+
+    if (isRefreshing) {
+        LoadingDialog(message = stringResource(R.string.account_refreshing))
+    }
+
+    accountToRemove?.let { account ->
+        val isLast = accounts.size <= 1
+        val name = if (account.isAnonymous) {
+            stringResource(R.string.account_anonymous)
+        } else {
+            account.displayName ?: account.email
+        }
+        MetroAlertDialog(
+            onDismissRequest = { accountToRemove = null },
+            title = { Text(text = stringResource(R.string.account_remove_title)) },
+            text = {
+                Text(
+                    text = if (isLast) {
+                        stringResource(R.string.account_remove_last_message)
+                    } else {
+                        stringResource(R.string.account_remove_message, name)
+                    }
+                )
+            },
+            confirmButton = {
+                MetroButton(
+                    onClick = {
+                        accountToRemove = null
+                        viewModel.remove(account)
+                    }
+                ) {
+                    Text(text = stringResource(R.string.account_remove).metroLowercase())
+                }
+            },
+            dismissButton = {
+                MetroButton(onClick = { accountToRemove = null }) {
+                    Text(text = stringResource(R.string.action_cancel).metroLowercase())
+                }
+            }
+        )
+    }
+
+    if (showAddSheet) {
+        val deviceEmails by produceState(initialValue = emptyList()) {
+            value = viewModel.discoverableEmails()
+        }
+
+        ModalBottomSheet(
+            onDismissRequest = { showAddSheet = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.spacing_small))
+            ) {
+                Text(
+                    text = stringResource(R.string.account_add),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(R.dimen.spacing_large),
+                        vertical = dimensionResource(R.dimen.spacing_small)
+                    )
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_xsmall))
+                )
+
+                if (deviceEmails.isNotEmpty()) {
+                    SectionLabel(text = stringResource(R.string.account_add_device))
+                    deviceEmails.forEach { email ->
+                        AddOptionRow(
+                            iconRes = R.drawable.ic_account,
+                            label = email,
+                            onClick = {
+                                showAddSheet = false
+                                isAddingAccount = true
+                                viewModel.addSystemAccount(email, activity)
+                            }
+                        )
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(
+                            vertical = dimensionResource(R.dimen.spacing_xsmall)
+                        )
+                    )
+                }
+
+                AddOptionRow(
+                    iconRes = R.drawable.ic_google,
+                    label = stringResource(R.string.account_add_google),
+                    onClick = {
+                        showAddSheet = false
+                        if (canMicroGLogin) {
+                            isAddingAccount = true
+                            accountChooserLauncher.launch(
+                                AccountManager.newChooseAccountIntent(
+                                    null,
+                                    null,
+                                    arrayOf(GOOGLE_ACCOUNT_TYPE),
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                )
+                            )
+                        } else {
+                            onNavigateTo(Destination.GoogleLogin(addAccount = true))
+                        }
+                    }
+                )
+
+                if (BuildConfig.SHOW_ANONYMOUS_LOGIN && accounts.none { it.isAnonymous }) {
+                    AddOptionRow(
+                        iconRes = R.drawable.ic_anonymous,
+                        label = stringResource(R.string.account_add_anonymous),
+                        onClick = {
+                            showAddSheet = false
+                            isAddingAccount = true
+                            viewModel.addAnonymousAccount()
+                        }
+                    )
+                }
+
+                Spacer(Modifier.navigationBarsPadding())
+            }
+        }
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScreenContent(
-    avatar: Any = R.mipmap.ic_launcher,
-    name: String = stringResource(R.string.account_anonymous),
-    email: String = stringResource(R.string.account_anonymous_email),
-    onNavigateUp: () -> Unit = {},
-    onLogout: () -> Unit = {}
+    accounts: List<Account> = emptyList(),
+    onAccountClick: (Account) -> Unit = {},
+    onAddAccount: () -> Unit = {},
+    onRefreshAll: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
-            TopAppBarComposable(
-                title = stringResource(R.string.title_account_manager),
-                onNavigateUp = onNavigateUp
+            TopAppBar(
+                title = stringResource(R.string.title_account_manager)
+            )
+        },
+        bottomBar = {
+            val context = LocalContext.current
+            MetroAppBar(
+                menuItems = listOf(
+                    MetroMenuItem(stringResource(R.string.account_refresh_all)) { onRefreshAll() },
+                    MetroMenuItem(stringResource(R.string.menu_terms)) { context.browse(URL_TOS) },
+                    MetroMenuItem(stringResource(R.string.menu_disclaimer)) {
+                        context.browse(URL_DISCLAIMER)
+                    },
+                    MetroMenuItem(stringResource(R.string.menu_license)) { context.browse(URL_LICENSE) }
+                )
             )
         }
     ) { paddingValues ->
@@ -117,62 +383,21 @@ private fun ScreenContent(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(vertical = dimensionResource(R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            AssistHeader()
+            SectionHeader(
+                title = pluralStringResource(R.plurals.account_count, accounts.size, accounts.size),
+                trailing = {
+                    MetroButton(onClick = onAddAccount) {
+                        Text(text = stringResource(R.string.account_add).metroLowercase())
+                    }
+                }
+            )
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .crossfade(true)
-                        .data(avatar)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .requiredSize(dimensionResource(R.dimen.icon_size_avatar))
-                        .clip(RoundedCornerShape(0.dp))
-                )
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = email,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = dimensionResource(R.dimen.height_bottom_adj)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_medium))
-            ) {
-                Text(
-                    text = stringResource(R.string.account_logout),
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                OutlinedButton(onClick = onLogout) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_logout),
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.width(dimensionResource(R.dimen.padding_xsmall)))
-                    Text(
-                        text = stringResource(R.string.action_logout)
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(items = accounts, key = { it.id }) { account ->
+                    AccountListItem(
+                        account = account,
+                        onClick = { onAccountClick(account) }
                     )
                 }
             }
@@ -181,29 +406,45 @@ private fun ScreenContent(
 }
 
 @Composable
-private fun AssistHeader() {
-    val context = LocalContext.current
-    val links = mapOf(
-        R.string.menu_terms to URL_TOS,
-        R.string.menu_disclaimer to URL_DISCLAIMER,
-        R.string.menu_license to URL_LICENSE
+private fun SectionLabel(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(R.dimen.spacing_large),
+            vertical = dimensionResource(R.dimen.spacing_xsmall)
+        )
     )
+}
 
-    LazyRow(
+@Composable
+private fun AddOptionRow(iconRes: Int, label: String, onClick: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(R.dimen.padding_medium)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.margin_normal))
+            .clickable(onClick = onClick)
+            .padding(
+                horizontal = dimensionResource(R.dimen.spacing_large),
+                vertical = dimensionResource(R.dimen.spacing_medium)
+            ),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        items(items = links.keys.toList(), key = { item -> item }) { label ->
-            AssistChip(
-                onClick = { context.browse(links.getValue(label)) },
-                label = { Text(text = stringResource(label)) }
-            )
-        }
+        Icon(
+            painter = painterResource(iconRes),
+            contentDescription = null
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
+@PreviewWrapper(ThemePreviewProvider::class)
 @Preview
 @Composable
 private fun AccountsScreenPreview() {

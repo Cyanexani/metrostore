@@ -1,24 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Aurora Store
-  ~  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
-  ~  Copyright (C) 2022, The Calyx Institute
-  ~  Copyright (C) 2023, grrfe <grrfe@420blaze.it>
-  ~
-  ~  Aurora Store is free software: you can redistribute it and/or modify
-  ~  it under the terms of the GNU General Public License as published by
-  ~  the Free Software Foundation, either version 2 of the License, or
-  ~  (at your option) any later version.
-  ~
-  ~  Aurora Store is distributed in the hope that it will be useful,
-  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~  GNU General Public License for more details.
-  ~
-  ~  You should have received a copy of the GNU General Public License
-  ~  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
-  ~
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ SPDX-FileCopyrightText: 2021 Aurora OSS
+  ~ SPDX-FileCopyrightText: 2022 The Calyx Institute
+  ~ SPDX-FileCopyrightText: 2023 grrfe <grrfe@420blaze.it>
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -82,9 +68,9 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ComposeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -103,19 +89,48 @@
             <intent-filter>
                 <action android:name="android.intent.action.SHOW_APP_INFO" />
             </intent-filter>
-
-            <nav-graph android:value="@navigation/mobile_navigation" />
         </activity>
 
-        <!-- Activity to host composable screens -->
+        <!-- Confirmation gate for external app-listing deep links (market:// & play.google.com) -->
         <activity
-            android:name=".ComposeActivity"
-            android:exported="false" />
+            android:name=".DeepLinkConfirmActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/AppTheme.Translucent.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="market" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="market.android.com" />
+                <data android:host="play.google.com" />
+            </intent-filter>
+        </activity>
 
         <!-- Notification Action (Download Complete) -->
         <activity
             android:name=".data.activity.InstallActivity"
             android:exported="false"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".data.activity.MicroGInstallerActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.Translucent" />
 
         <!-- DownloadWorker -->
@@ -166,6 +181,11 @@
         <!-- Cancel Download Receiver-->
         <receiver
             android:name=".data.receiver.DownloadCancelReceiver"
+            android:exported="false" />
+
+        <!-- Retry Download Receiver-->
+        <receiver
+            android:name=".data.receiver.DownloadRetryReceiver"
             android:exported="false" />
 
         <!-- SessionInstaller (as device owner) -->

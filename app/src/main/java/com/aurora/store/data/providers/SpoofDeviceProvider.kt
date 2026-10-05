@@ -1,26 +1,13 @@
 /*
- * Aurora Store
- *  Copyright (C) 2021, Rahul Kumar Patel <whyorean@gmail.com>
- *
- *  Aurora Store is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  Aurora Store is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Aurora Store.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Aurora OSS
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.data.providers
 
 import android.content.Context
 import android.util.Log
+import com.aurora.extensions.TAG
 import com.aurora.store.BuildConfig
 import com.aurora.store.util.PathUtil
 import java.io.BufferedInputStream
@@ -40,17 +27,17 @@ import javax.inject.Singleton
 @Singleton
 open class SpoofDeviceProvider(private val context: Context) {
 
-    private val TAG = SpoofDeviceProvider::class.java.simpleName
+    companion object {
+        private const val SUFFIX = ".properties"
+    }
 
-    private val SUFFIX = ".properties"
-
-    val availableDeviceProperties: MutableList<Properties>
+    val availableDeviceProperties: List<Properties>
         get() {
             val propertiesList: MutableList<Properties> = ArrayList()
             propertiesList.addAll(spoofDevicesFromApk)
             propertiesList.addAll(spoofDevicesFromUser)
             propertiesList.sortBy { it.getProperty("UserReadableName") }
-            return propertiesList
+            return propertiesList.distinctBy { it.getProperty("Build.PRODUCT") }
         }
 
     private val spoofDevicesFromApk: List<Properties>
@@ -136,12 +123,9 @@ open class SpoofDeviceProvider(private val context: Context) {
                     return File(sourceDir)
                 }
             } catch (ignored: Exception) {
-
             }
             return null
         }
 
-    private fun filenameValid(filename: String): Boolean {
-        return filename.endsWith(SUFFIX)
-    }
+    private fun filenameValid(filename: String): Boolean = filename.endsWith(SUFFIX)
 }
