@@ -15,10 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.SecondaryScrollableTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -39,6 +36,8 @@ import com.aurora.gplayapi.data.models.App
 import com.aurora.gplayapi.data.models.StreamCluster
 import com.aurora.gplayapi.helpers.contracts.TopChartsContract
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroPivotHeader
+import com.aurora.store.compose.composable.MetroProgressDots
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ShimmerAppRow
 import com.aurora.store.compose.composable.app.LargeAppListItem
@@ -120,18 +119,14 @@ private fun TopChartsBody(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        SecondaryScrollableTabRow(
-            selectedTabIndex = selectedIndex,
-            edgePadding = dimensionResource(R.dimen.spacing_small)
-        ) {
-            chartTitles.forEachIndexed { index, titleRes ->
-                Tab(
-                    selected = selectedIndex == index,
-                    onClick = { onTabSelected(index) },
-                    text = { Text(stringResource(titleRes)) }
-                )
-            }
-        }
+        MetroPivotHeader(
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_small)),
+            titles = chartTitles.map { stringResource(it) },
+            selectedIndex = selectedIndex,
+            style = MaterialTheme.typography.titleLarge,
+            rotate = false,
+            onSelect = onTabSelected
+        )
 
         when {
             state is ViewState.Error -> Placeholder(
@@ -176,7 +171,7 @@ private fun TopChartsBody(
                                     .padding(dimensionResource(R.dimen.spacing_large)),
                                 contentAlignment = Alignment.Center
                             ) {
-                                CircularProgressIndicator()
+                                MetroProgressDots(modifier = Modifier.fillMaxWidth())
                             }
                         }
                     }

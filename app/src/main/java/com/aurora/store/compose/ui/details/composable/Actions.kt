@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
@@ -26,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.extensions.isWindowCompact
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -60,7 +60,7 @@ fun Actions(
             else -> Modifier.widthIn(min = dimensionResource(R.dimen.width_button))
         }
 
-        OutlinedButton(
+        MetroButton(
             modifier = buttonWidthModifier,
             onClick = onPrimaryAction,
             enabled = isPrimaryActionEnabled
@@ -72,7 +72,7 @@ fun Actions(
             )
         }
 
-        OutlinedButton(
+        MetroButton(
             modifier = buttonWidthModifier,
             onClick = onSecondaryAction,
             enabled = isSecondaryActionEnabled

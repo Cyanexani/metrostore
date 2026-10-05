@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +41,7 @@ import com.aurora.extensions.isWindowCompact
 import com.aurora.extensions.toast
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.MicroG
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TopAppBar
@@ -109,7 +108,7 @@ private fun ScreenContent(
                         dimensionResource(R.dimen.spacing_medium)
                     )
                 ) {
-                    FilledTonalButton(
+                    MetroButton(
                         modifier = Modifier.weight(1F),
                         onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                     ) {
@@ -120,7 +119,7 @@ private fun ScreenContent(
                         )
                     }
 
-                    Button(
+                    MetroButton(
                         modifier = Modifier.weight(1F),
                         onClick = onProceed,
                         enabled = !uiState.isInProgress

@@ -14,9 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.DownloadStatus
 import com.aurora.store.data.room.download.Download
@@ -100,25 +99,25 @@ fun AppUpdateItem(
         Spacer(Modifier.width(dimensionResource(R.dimen.spacing_small)))
         when {
             onUnignore != null -> {
-                OutlinedButton(onClick = onUnignore) {
+                MetroButton(onClick = onUnignore) {
                     Text(stringResource(R.string.action_unignore))
                 }
             }
 
             installing -> {
-                OutlinedButton(onClick = {}, enabled = false) {
+                MetroButton(onClick = {}, enabled = false) {
                     Text(stringResource(R.string.action_installing))
                 }
             }
 
             inProgress -> {
-                OutlinedButton(onClick = onCancel) {
+                MetroButton(onClick = onCancel) {
                     Text(stringResource(R.string.action_cancel))
                 }
             }
 
             else -> {
-                Button(onClick = onUpdate) {
+                MetroButton(onClick = onUpdate) {
                     Text(stringResource(R.string.action_update))
                 }
             }

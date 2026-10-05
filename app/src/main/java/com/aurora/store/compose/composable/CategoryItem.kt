@@ -59,8 +59,9 @@ fun CategoryItem(modifier: Modifier = Modifier, category: Category, onClick: () 
         )
 
         Text(
-            text = category.title,
-            style = MaterialTheme.typography.bodyLarge,
+            // Windows Phone category lists are plain lowercase light text.
+            text = category.title.lowercase(),
+            style = MaterialTheme.typography.titleLarge,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

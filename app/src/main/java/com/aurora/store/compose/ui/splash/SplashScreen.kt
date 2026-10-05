@@ -26,13 +26,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -59,6 +57,7 @@ import com.aurora.Constants.PACKAGE_NAME_PLAY_STORE
 import com.aurora.gplayapi.helpers.AuthHelper
 import com.aurora.store.BuildConfig
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composition.LocalNetworkStatus
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.data.model.AuthState
@@ -263,7 +262,7 @@ fun SplashScreen(
                             dimensionResource(R.dimen.spacing_small)
                         )
                     ) {
-                        Button(
+                        MetroButton(
                             modifier = Modifier.width(dimensionResource(R.dimen.width_button)),
                             enabled = !anonymousLoading && !googleLoading && isOnline,
                             onClick = {
@@ -288,7 +287,7 @@ fun SplashScreen(
                             Text(stringResource(R.string.account_google))
                         }
                         if (BuildConfig.SHOW_ANONYMOUS_LOGIN) {
-                            OutlinedButton(
+                            MetroButton(
                                 modifier = Modifier.width(dimensionResource(R.dimen.width_button)),
                                 enabled = !googleLoading && !anonymousLoading && isOnline,
                                 onClick = {

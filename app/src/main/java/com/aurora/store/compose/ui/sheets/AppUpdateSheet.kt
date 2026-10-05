@@ -25,7 +25,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,6 +55,7 @@ import com.aurora.extensions.openInfo
 import com.aurora.extensions.toast
 import com.aurora.store.AuroraApp
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.data.event.BusEvent
 import com.aurora.store.data.installer.AppInstaller
@@ -236,7 +236,7 @@ private fun AppHeader(update: Update, onShowDetails: () -> Unit) {
             )
         }
 
-        FilledTonalButton(onClick = onShowDetails) {
+        MetroButton(onClick = onShowDetails) {
             Text(stringResource(R.string.updates_app_details))
         }
     }

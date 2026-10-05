@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +26,7 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.Info
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -60,7 +60,7 @@ fun Testing(isSubscribed: Boolean, onTestingSubscriptionChange: (subscribe: Bool
             ),
             description = AnnotatedString(text = stringResource(R.string.details_beta_description))
         )
-        FilledTonalButton(onClick = { onTestingSubscriptionChange(!isSubscribed) }) {
+        MetroButton(onClick = { onTestingSubscriptionChange(!isSubscribed) }) {
             Text(
                 text = if (isSubscribed) {
                     stringResource(R.string.action_leave)

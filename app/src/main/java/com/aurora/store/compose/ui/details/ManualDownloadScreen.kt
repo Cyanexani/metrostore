@@ -19,10 +19,8 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ContainedLoadingIndicator
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -59,6 +57,7 @@ import com.aurora.extensions.isWindowCompact
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.Info
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -180,7 +179,7 @@ private fun ScreenContent(
                             coroutineScope.launch { snackBarHostState.showSnackbar(errorMessage) }
                         }
                     },
-                    shape = RoundedCornerShape(10.dp),
+                    shape = RoundedCornerShape(0.dp),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -194,7 +193,7 @@ private fun ScreenContent(
                     }
                 )
 
-                Button(
+                MetroButton(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !state.inProgress(),
                     colors = ButtonDefaults.buttonColors(
@@ -223,7 +222,7 @@ private fun ScreenContent(
                     dimensionResource(R.dimen.spacing_medium)
                 )
             ) {
-                FilledTonalButton(
+                MetroButton(
                     modifier = Modifier.weight(1F),
                     onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                 ) {
@@ -234,7 +233,7 @@ private fun ScreenContent(
                     )
                 }
 
-                Button(
+                MetroButton(
                     modifier = Modifier.weight(1F),
                     enabled = !state.inProgress() && versionCode.text.isNotBlank(),
                     onClick = {

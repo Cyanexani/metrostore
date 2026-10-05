@@ -7,20 +7,28 @@ package com.aurora.store.compose.ui.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,10 +38,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.extensions.requiresObbDir
@@ -172,10 +186,17 @@ fun MainScreen(
         )
     }
 
+    val currentTab = MainTab.entries[pagerState.currentPage]
     Scaffold(
         topBar = {
+            // Apps and games carry their own pivot header, so only updates needs a page title.
             TopAppBar(
-                title = stringResource(MainTab.entries[pagerState.currentPage].labelRes),
+                header = stringResource(currentTab.labelRes),
+                title = if (currentTab == MainTab.UPDATES) {
+                    stringResource(currentTab.labelRes)
+                } else {
+                    null
+                },
                 showNavigationIcon = false,
                 actions = {
                     IconButton(onClick = { onNavigateTo(Destination.Notifications) }) {
@@ -205,40 +226,24 @@ fun MainScreen(
                 }
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { onNavigateTo(Destination.Search) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_round_search),
-                    contentDescription = stringResource(R.string.action_search)
-                )
-            }
-        },
         bottomBar = {
-            NavigationBar {
+            MetroCommandBar {
                 MainTab.entries.forEachIndexed { index, tab ->
-                    NavigationBarItem(
+                    MetroCommandButton(
+                        iconRes = tab.iconRes,
+                        label = stringResource(tab.labelRes),
                         selected = pagerState.currentPage == index,
+                        badgeCount = if (tab == MainTab.UPDATES) updateCount else 0,
                         onClick = {
                             coroutineScope.launch { pagerState.animateScrollToPage(index) }
-                        },
-                        icon = {
-                            if (tab == MainTab.UPDATES && updateCount > 0) {
-                                BadgedBox(badge = { Badge { Text("$updateCount") } }) {
-                                    Icon(
-                                        painter = painterResource(tab.iconRes),
-                                        contentDescription = null
-                                    )
-                                }
-                            } else {
-                                Icon(
-                                    painter = painterResource(tab.iconRes),
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        label = { Text(stringResource(tab.labelRes)) }
+                        }
                     )
                 }
+                MetroCommandButton(
+                    iconRes = R.drawable.ic_round_search,
+                    label = stringResource(R.string.action_search),
+                    onClick = { onNavigateTo(Destination.Search) }
+                )
             }
         }
     ) { paddingValues ->
@@ -353,6 +358,76 @@ fun MainScreen(
                 StorageUtil.openFreeUpSpace(context)
             },
             onDismiss = { storageWarning = null }
+        )
+    }
+}
+
+/**
+ * Windows Phone application bar: a flat charcoal strip along the bottom edge holding circled
+ * icon buttons with small lowercase labels.
+ */
+@Composable
+private fun MetroCommandBar(content: @Composable () -> Unit) {
+    Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(vertical = dimensionResource(R.dimen.spacing_small)),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+private fun MetroCommandButton(
+    @DrawableRes iconRes: Int,
+    label: String,
+    selected: Boolean = false,
+    badgeCount: Int = 0,
+    onClick: () -> Unit
+) {
+    val color = if (selected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
+    Column(
+        modifier = Modifier
+            .semantics { this.selected = selected }
+            .clickable(role = Role.Tab, onClick = onClick)
+            .padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        BadgedBox(
+            badge = {
+                if (badgeCount > 0) Badge { Text(text = "$badgeCount") }
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .border(width = 2.dp, color = color, shape = CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(18.dp),
+                    painter = painterResource(iconRes),
+                    contentDescription = null,
+                    tint = color
+                )
+            }
+        }
+        Text(
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_xsmall)),
+            text = label.lowercase(),
+            style = MaterialTheme.typography.labelSmall,
+            color = color,
+            maxLines = 1
         )
     }
 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -42,6 +41,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.aurora.gplayapi.data.models.Review
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
@@ -248,7 +248,7 @@ private fun ReviewForm(
             shape = RoundedCornerShape(dimensionResource(R.dimen.radius_medium))
         )
 
-        Button(
+        MetroButton(
             modifier = Modifier.align(Alignment.End),
             onClick = { onSubmit(rating, title, comment) },
             enabled = rating > 0

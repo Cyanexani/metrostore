@@ -10,7 +10,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.aurora.extensions.isOneUI
 import com.aurora.store.BuildConfig
 
 object Preferences {
@@ -18,11 +17,11 @@ object Preferences {
     const val PREFERENCE_DEFAULT = "PREFERENCE_DEFAULT"
 
     /**
-     * Default for [PREFERENCE_DYNAMIC_COLORS]. Dynamic color is opt-out everywhere except One UI,
-     * where Samsung's palette extraction tends to look off, so it defaults off and users can opt in.
+     * Default for [PREFERENCE_DYNAMIC_COLORS]. Metro Store keeps its own accent by default;
+     * users can opt in to take the accent from their wallpaper instead.
      */
     val dynamicColorsDefault: Boolean
-        get() = !isOneUI
+        get() = false
 
     const val PREFERENCE_AUTH_DATA = "PREFERENCE_AUTH_DATA"
     const val PREFERENCE_INSTALLER_ID = "PREFERENCE_INSTALLER_ID"

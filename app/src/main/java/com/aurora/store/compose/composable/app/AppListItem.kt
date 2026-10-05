@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +37,8 @@ import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
- * Composable for displaying minimal app details in a horizontal-scrollable list
+ * Composable for displaying minimal app details in a horizontal-scrollable list, as a
+ * Windows Phone style square tile
  * @param modifier The modifier to be applied to the composable
  * @param app [App] to display
  * @param onClick Callback when the composable is clicked
@@ -49,12 +51,14 @@ fun AppListItem(modifier: Modifier = Modifier, app: App, onClick: () -> Unit = {
             .width(dimensionResource(R.dimen.icon_size_cluster))
             .clickable(onClick = onClick)
             .padding(all = dimensionResource(R.dimen.spacing_xsmall)),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(R.dimen.spacing_xsmall),
             Alignment.CenterVertically
         )
     ) {
+        val price = if (app.isFree) stringResource(R.string.details_free) else app.price
+
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,11 +75,20 @@ fun AppListItem(modifier: Modifier = Modifier, app: App, onClick: () -> Unit = {
         Text(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = app.displayName,
+            text = app.displayName.uppercase(),
             style = MaterialTheme.typography.labelMedium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Start
+        )
+        // Windows Phone tiles list the price and rating under the name in grey.
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "${price.lowercase()}  ${app.labeledRating}★",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

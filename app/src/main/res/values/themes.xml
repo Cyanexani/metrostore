@@ -10,6 +10,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Brand accent for devices without dynamic color (Android 11 and below) -->
         <item name="colorPrimary">@color/colorAccent</item>
+        <!-- Metro: plain white page behind the Compose UI, so launches never flash a tinted surface -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorBackground">@android:color/white</item>
     </style>
 
     <style name="AppTheme.Translucent" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">

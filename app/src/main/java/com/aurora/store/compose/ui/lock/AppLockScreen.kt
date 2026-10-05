@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -54,7 +54,7 @@ fun AppLockScreen(onUnlock: () -> Unit) {
                 modifier = Modifier.padding(bottom = 24.dp),
                 textAlign = TextAlign.Center
             )
-            Button(onClick = onUnlock) {
+            MetroButton(onClick = onUnlock) {
                 Text(stringResource(R.string.app_lock_unlock))
             }
         }

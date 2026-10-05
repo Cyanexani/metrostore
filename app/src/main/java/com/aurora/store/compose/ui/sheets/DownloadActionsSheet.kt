@@ -19,7 +19,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -34,6 +33,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.app.AnimatedAppIcon
 import com.aurora.store.data.room.download.Download
 import com.aurora.store.util.PackageUtil
@@ -159,7 +159,7 @@ private fun DownloadHeader(download: Download, onShowDetails: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
         }
-        FilledTonalButton(onClick = onShowDetails) {
+        MetroButton(onClick = onShowDetails) {
             Text(stringResource(R.string.updates_app_details))
         }
     }

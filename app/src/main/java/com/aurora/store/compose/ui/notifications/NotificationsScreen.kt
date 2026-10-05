@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.AuroraListItem
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.composable.app.AnimatedAppIcon
@@ -162,7 +162,7 @@ private fun PendingInstallItem(
                     Text(stringResource(R.string.action_clear))
                 }
                 if (!isInstalling) {
-                    FilledTonalButton(onClick = onInstall) {
+                    MetroButton(onClick = onInstall) {
                         Text(stringResource(R.string.action_install))
                     }
                 }

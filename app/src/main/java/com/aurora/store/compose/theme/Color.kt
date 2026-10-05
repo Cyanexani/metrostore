@@ -5,6 +5,7 @@
 
 package com.aurora.store.compose.theme
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -46,60 +47,97 @@ val colorRed: Color
     get() = if (isAppInDarkTheme()) Color(0xFFE57373) else Color(0xFFD32F2F)
 
 /**
- * Brand color schemes seeded from Aurora's accent (#6C63FF), used on devices that don't support
- * dynamic color (Android 11 and below) so the full palette stays on-brand instead of falling back
- * to Material's default purple baseline.
+ * Windows Phone Store palette: a single accent over a pure black (dark) or white (light)
+ * background, with a flat charcoal command bar and neutral greys for secondary text.
  */
-val BrandLightColorScheme = lightColorScheme(
-    primary = Color(0xFF6C63FF),
-    onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFE4DFFF),
-    onPrimaryContainer = Color(0xFF1A0066),
-    secondary = Color(0xFF5C5D72),
-    onSecondary = Color(0xFFFFFFFF),
-    secondaryContainer = Color(0xFFE1E0F9),
-    onSecondaryContainer = Color(0xFF191A2C),
-    tertiary = Color(0xFF78536B),
-    onTertiary = Color(0xFFFFFFFF),
-    tertiaryContainer = Color(0xFFFFD8EE),
-    onTertiaryContainer = Color(0xFF2E1126),
-    background = Color(0xFFFCF8FF),
-    onBackground = Color(0xFF1B1B21),
-    surface = Color(0xFFFCF8FF),
-    onSurface = Color(0xFF1B1B21),
-    surfaceVariant = Color(0xFFE4E1EC),
-    onSurfaceVariant = Color(0xFF47464F),
-    outline = Color(0xFF777680),
-    outlineVariant = Color(0xFFC8C5D0),
-    error = Color(0xFFBA1A1A),
-    onError = Color(0xFFFFFFFF),
-    errorContainer = Color(0xFFFFDAD6),
-    onErrorContainer = Color(0xFF410002)
+val MetroAccent = Color(0xFF00A300)
+private val MetroBlack = Color(0xFF000000)
+private val MetroWhite = Color(0xFFFFFFFF)
+private val MetroCommandBarDark = Color(0xFF1F1F1F)
+private val MetroCommandBarLight = Color(0xFFDDDDDD)
+private val MetroError = Color(0xFFE51400)
+
+/**
+ * Dark Metro scheme. Every container collapses onto black or the command bar grey, so
+ * Material components render as flat Metro surfaces instead of tinted tonal layers.
+ */
+fun metroDarkColorScheme(accent: Color = MetroAccent): ColorScheme = darkColorScheme(
+    primary = accent,
+    onPrimary = MetroWhite,
+    primaryContainer = accent,
+    onPrimaryContainer = MetroWhite,
+    inversePrimary = accent,
+    secondary = accent,
+    onSecondary = MetroWhite,
+    secondaryContainer = MetroCommandBarDark,
+    onSecondaryContainer = MetroWhite,
+    tertiary = accent,
+    onTertiary = MetroWhite,
+    tertiaryContainer = MetroCommandBarDark,
+    onTertiaryContainer = MetroWhite,
+    background = MetroBlack,
+    onBackground = MetroWhite,
+    surface = MetroBlack,
+    onSurface = MetroWhite,
+    surfaceVariant = MetroCommandBarDark,
+    onSurfaceVariant = Color(0xFF9A9A9A),
+    surfaceTint = Color.Transparent,
+    inverseSurface = MetroWhite,
+    inverseOnSurface = MetroBlack,
+    error = MetroError,
+    onError = MetroWhite,
+    errorContainer = MetroError,
+    onErrorContainer = MetroWhite,
+    outline = MetroWhite,
+    outlineVariant = Color(0xFF3A3A3A),
+    scrim = MetroBlack,
+    surfaceBright = MetroCommandBarDark,
+    surfaceDim = MetroBlack,
+    surfaceContainerLowest = MetroBlack,
+    surfaceContainerLow = MetroBlack,
+    surfaceContainer = MetroCommandBarDark,
+    surfaceContainerHigh = MetroCommandBarDark,
+    surfaceContainerHighest = Color(0xFF2B2B2B)
 )
 
-val BrandDarkColorScheme = darkColorScheme(
-    primary = Color(0xFFC8BFFF),
-    onPrimary = Color(0xFF31149C),
-    primaryContainer = Color(0xFF534BD6),
-    onPrimaryContainer = Color(0xFFE4DFFF),
-    secondary = Color(0xFFC5C4DD),
-    onSecondary = Color(0xFF2E2F42),
-    secondaryContainer = Color(0xFF444559),
-    onSecondaryContainer = Color(0xFFE1E0F9),
-    tertiary = Color(0xFFE8B9D5),
-    onTertiary = Color(0xFF46263B),
-    tertiaryContainer = Color(0xFF5E3C52),
-    onTertiaryContainer = Color(0xFFFFD8EE),
-    background = Color(0xFF131318),
-    onBackground = Color(0xFFE4E1E9),
-    surface = Color(0xFF131318),
-    onSurface = Color(0xFFE4E1E9),
-    surfaceVariant = Color(0xFF47464F),
-    onSurfaceVariant = Color(0xFFC8C5D0),
-    outline = Color(0xFF918F9A),
-    outlineVariant = Color(0xFF47464F),
-    error = Color(0xFFFFB4AB),
-    onError = Color(0xFF690005),
-    errorContainer = Color(0xFF93000A),
-    onErrorContainer = Color(0xFFFFDAD6)
+/**
+ * Light Metro scheme, the Windows Phone "light" background: black text on white.
+ */
+fun metroLightColorScheme(accent: Color = MetroAccent): ColorScheme = lightColorScheme(
+    primary = accent,
+    onPrimary = MetroWhite,
+    primaryContainer = accent,
+    onPrimaryContainer = MetroWhite,
+    inversePrimary = accent,
+    secondary = accent,
+    onSecondary = MetroWhite,
+    secondaryContainer = MetroCommandBarLight,
+    onSecondaryContainer = MetroBlack,
+    tertiary = accent,
+    onTertiary = MetroWhite,
+    tertiaryContainer = MetroCommandBarLight,
+    onTertiaryContainer = MetroBlack,
+    background = MetroWhite,
+    onBackground = MetroBlack,
+    surface = MetroWhite,
+    onSurface = MetroBlack,
+    surfaceVariant = MetroCommandBarLight,
+    onSurfaceVariant = Color(0xFF6B6B6B),
+    surfaceTint = Color.Transparent,
+    inverseSurface = MetroBlack,
+    inverseOnSurface = MetroWhite,
+    error = MetroError,
+    onError = MetroWhite,
+    errorContainer = MetroError,
+    onErrorContainer = MetroWhite,
+    outline = MetroBlack,
+    outlineVariant = Color(0xFFCCCCCC),
+    scrim = MetroBlack,
+    surfaceBright = MetroWhite,
+    surfaceDim = MetroCommandBarLight,
+    surfaceContainerLowest = MetroWhite,
+    surfaceContainerLow = MetroWhite,
+    surfaceContainer = MetroCommandBarLight,
+    surfaceContainerHigh = MetroCommandBarLight,
+    surfaceContainerHighest = Color(0xFFCFCFCF)
 )

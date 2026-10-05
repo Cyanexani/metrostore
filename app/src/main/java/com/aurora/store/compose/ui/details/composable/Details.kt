@@ -112,7 +112,7 @@ fun Details(
             .padding(dimensionResource(R.dimen.spacing_medium))
     ) {
         AnimatedAppIcon(
-            modifier = Modifier.requiredSize(dimensionResource(R.dimen.icon_size_large)),
+            modifier = Modifier.requiredSize(dimensionResource(R.dimen.icon_size_cluster)),
             iconUrl = app.iconArtwork.url,
             inProgress = state.inProgress(),
             progress = state.progress()
@@ -120,7 +120,7 @@ fun Details(
         Column(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small))) {
             Text(
                 text = app.displayName,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )

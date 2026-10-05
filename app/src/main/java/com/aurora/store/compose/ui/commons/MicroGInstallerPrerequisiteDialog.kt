@@ -13,7 +13,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.Constants.PACKAGE_NAME_GMS
 import com.aurora.extensions.TAG
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 private const val MICROG_SETTINGS_ACTIVITY = "org.microg.gms.ui.SettingsActivity"
@@ -47,7 +47,7 @@ fun MicroGInstallerPrerequisiteDialog(onConfirm: () -> Unit = {}, onDismiss: () 
                 )
             ) {
                 Text(text = stringResource(R.string.microg_installer_prerequisite_desc))
-                OutlinedButton(
+                MetroButton(
                     onClick = {
                         try {
                             context.startActivity(

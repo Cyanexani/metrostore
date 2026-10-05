@@ -9,19 +9,28 @@ package com.aurora.store.compose.ui.details
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AdaptStrategy
@@ -69,6 +78,7 @@ import com.aurora.store.R
 import com.aurora.store.compose.composable.ClusterRow
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
 import com.aurora.store.compose.composable.InsufficientStorageDialog
+import com.aurora.store.compose.composable.MetroPivotHeader
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.SectionHeader
@@ -599,154 +609,213 @@ private fun ScreenContentApp(
         }
     }
 
+    fun LazyListScope.overviewItems() {
+        item {
+            Details(
+                app = app,
+                state = state,
+                onNavigateToDetailsDevProfile = { showExtraPane(Screen.DevProfile(it)) }
+            )
+        }
+
+        item {
+            Tags(app = app)
+        }
+
+        item {
+            Changelog(changelog = app.changes)
+        }
+
+        item {
+            SectionHeader(
+                title = stringResource(R.string.details_more_about_app),
+                subtitle = app.shortDescription,
+                onClick = { showExtraPane(ExtraScreen.More) }
+            )
+        }
+
+        item {
+            Screenshots(
+                screenshots = app.screenshots,
+                onNavigateToScreenshot = { showExtraPane(ExtraScreen.Screenshot(it)) }
+            )
+        }
+    }
+
+    fun LazyListScope.reviewItems() {
+        item {
+            RatingAndReviews(
+                rating = app.rating,
+                featuredReviews = featuredReviews,
+                onNavigateToDetailsReview = { showExtraPane(ExtraScreen.Review) }
+            )
+        }
+
+        item {
+            // Reviews can only be submitted by personal accounts for installed apps.
+            if (!isAnonymous && app.isInstalled) {
+                UserReview(
+                    review = userReview,
+                    onSubmit = onSubmitReview,
+                    onDelete = onDeleteReview
+                )
+            }
+        }
+    }
+
+    fun LazyListScope.detailItems() {
+        item {
+            if (!isAnonymous && app.testingProgram?.isAvailable == true) {
+                Testing(
+                    isSubscribed = app.testingProgram!!.isSubscribed,
+                    onTestingSubscriptionChange = onTestingSubscriptionChange
+                )
+            }
+        }
+
+        item {
+            Compatibility(needsGms = app.requiresGMS(), plexusScores = plexusScores)
+        }
+
+        item {
+            SectionHeader(
+                title = stringResource(R.string.details_permission),
+                subtitle = if (app.permissions.isNotEmpty()) {
+                    stringResource(R.string.permissions_requested, app.permissions.size)
+                } else {
+                    stringResource(R.string.details_no_permission)
+                },
+                onClick = if (app.permissions.isNotEmpty()) {
+                    { showExtraPane(ExtraScreen.Permission) }
+                } else {
+                    null
+                }
+            )
+        }
+
+        item {
+            if (dataSafetyReport != null) {
+                DataSafety(
+                    report = dataSafetyReport,
+                    privacyPolicyUrl = app.privacyPolicyUrl
+                )
+            }
+        }
+
+        item {
+            Privacy(
+                report = exodusReport,
+                onNavigateToDetailsExodus = if (exodusReport != null &&
+                    exodusReport.id != -1
+                ) {
+                    { showExtraPane(ExtraScreen.Exodus) }
+                } else {
+                    null
+                }
+            )
+        }
+
+        item {
+            DeveloperDetails(
+                address = app.developerAddress,
+                website = app.developerWebsite,
+                email = app.developerEmail
+            )
+        }
+    }
+
+    fun LazyListScope.relatedItems() {
+        if (suggestionsBundle?.streamClusters?.isEmpty() == true) {
+            item(key = "suggestions-empty") {
+                Placeholder(
+                    painter = painterResource(R.drawable.ic_apps),
+                    message = stringResource(R.string.no_apps_available)
+                )
+            }
+        } else {
+            suggestionClusterItems(
+                suggestionsBundle = suggestionsBundle,
+                onAppClick = { onNavigateTo(Destination.AppDetails(it.packageName)) },
+                onClusterScrolled = onLoadMoreCluster
+            )
+        }
+    }
+
     @Composable
     fun MainPane() {
+        // Windows Phone app page: a pivot of overview / reviews / details / related, with the
+        // install actions pinned to the application bar at the bottom. Related apps move to the
+        // supporting pane instead when there is room for it.
+        val pivotPages = buildList {
+            add(DetailsPivot.OVERVIEW)
+            add(DetailsPivot.REVIEWS)
+            add(DetailsPivot.DETAILS)
+            if (shouldShowMenuOnMainPane) add(DetailsPivot.RELATED)
+        }
+        val pagerState = rememberPagerState { pivotPages.size }
+
         Scaffold(
             topBar = {
                 TopAppBar(
+                    header = app.displayName,
                     actions = { if (shouldShowMenuOnMainPane) SetupMenu() }
                 )
+            },
+            bottomBar = {
+                Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                            .padding(vertical = dimensionResource(R.dimen.spacing_small))
+                    ) {
+                        SetupActions()
+                    }
+                }
             }
         ) { paddingValues ->
-            val listState = rememberLazyListState()
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(R.dimen.spacing_medium)
-                    ),
-                    state = listState
-                ) {
-                    item {
-                        Details(
-                            app = app,
-                            state = state,
-                            onNavigateToDetailsDevProfile = { showExtraPane(Screen.DevProfile(it)) }
-                        )
+                MetroPivotHeader(
+                    titles = pivotPages.map { stringResource(it.titleRes) },
+                    selectedIndex = pagerState.currentPage,
+                    onSelect = { index ->
+                        coroutineScope.launch { pagerState.animateScrollToPage(index) }
                     }
-
-                    item {
-                        SetupActions()
-                    }
-
-                    item {
-                        Tags(app = app)
-                    }
-
-                    item {
-                        Changelog(changelog = app.changes)
-                    }
-
-                    item {
-                        SectionHeader(
-                            title = stringResource(R.string.details_more_about_app),
-                            subtitle = app.shortDescription,
-                            onClick = { showExtraPane(ExtraScreen.More) }
-                        )
-                    }
-
-                    item {
-                        Screenshots(
-                            screenshots = app.screenshots,
-                            onNavigateToScreenshot = { showExtraPane(ExtraScreen.Screenshot(it)) }
-                        )
-                    }
-
-                    item {
-                        RatingAndReviews(
-                            rating = app.rating,
-                            featuredReviews = featuredReviews,
-                            onNavigateToDetailsReview = { showExtraPane(ExtraScreen.Review) }
-                        )
-                    }
-
-                    item {
-                        // Reviews can only be submitted by personal accounts for installed apps.
-                        if (!isAnonymous && app.isInstalled) {
-                            UserReview(
-                                review = userReview,
-                                onSubmit = onSubmitReview,
-                                onDelete = onDeleteReview
-                            )
-                        }
-                    }
-
-                    item {
-                        if (!isAnonymous && app.testingProgram?.isAvailable == true) {
-                            Testing(
-                                isSubscribed = app.testingProgram!!.isSubscribed,
-                                onTestingSubscriptionChange = onTestingSubscriptionChange
-                            )
-                        }
-                    }
-
-                    item {
-                        Compatibility(needsGms = app.requiresGMS(), plexusScores = plexusScores)
-                    }
-
-                    item {
-                        SectionHeader(
-                            title = stringResource(R.string.details_permission),
-                            subtitle = if (app.permissions.isNotEmpty()) {
-                                stringResource(R.string.permissions_requested, app.permissions.size)
-                            } else {
-                                stringResource(R.string.details_no_permission)
-                            },
-                            onClick = if (app.permissions.isNotEmpty()) {
-                                { showExtraPane(ExtraScreen.Permission) }
-                            } else {
-                                null
+                )
+                HorizontalPager(
+                    modifier = Modifier.fillMaxSize(),
+                    state = pagerState,
+                    verticalAlignment = Alignment.Top
+                ) { page ->
+                    val listState = rememberLazyListState()
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(
+                                dimensionResource(R.dimen.spacing_medium)
+                            ),
+                            contentPadding = PaddingValues(
+                                bottom = dimensionResource(R.dimen.spacing_medium)
+                            ),
+                            state = listState
+                        ) {
+                            when (pivotPages[page]) {
+                                DetailsPivot.OVERVIEW -> overviewItems()
+                                DetailsPivot.REVIEWS -> reviewItems()
+                                DetailsPivot.DETAILS -> detailItems()
+                                DetailsPivot.RELATED -> relatedItems()
                             }
-                        )
-                    }
-
-                    item {
-                        if (dataSafetyReport != null) {
-                            DataSafety(
-                                report = dataSafetyReport,
-                                privacyPolicyUrl = app.privacyPolicyUrl
-                            )
                         }
-                    }
-
-                    item {
-                        Privacy(
-                            report = exodusReport,
-                            onNavigateToDetailsExodus = if (exodusReport != null &&
-                                exodusReport.id != -1
-                            ) {
-                                { showExtraPane(ExtraScreen.Exodus) }
-                            } else {
-                                null
-                            }
-                        )
-                    }
-
-                    item {
-                        DeveloperDetails(
-                            address = app.developerAddress,
-                            website = app.developerWebsite,
-                            email = app.developerEmail
-                        )
-                    }
-
-                    if (shouldShowMenuOnMainPane) {
-                        suggestionClusterItems(
-                            suggestionsBundle = suggestionsBundle,
-                            onAppClick = { onNavigateTo(Destination.AppDetails(it.packageName)) },
-                            onClusterScrolled = onLoadMoreCluster
+                        ScrollHint(
+                            listState = listState,
+                            modifier = Modifier.align(Alignment.BottomCenter)
                         )
                     }
                 }
-                ScrollHint(
-                    listState = listState,
-                    modifier = Modifier.align(Alignment.BottomCenter)
-                )
             }
         }
     }
@@ -840,6 +909,16 @@ private fun ScreenContentApp(
             }
         }
     )
+}
+
+/**
+ * Pages of the Windows Phone style pivot on the app details screen.
+ */
+private enum class DetailsPivot(@StringRes val titleRes: Int) {
+    OVERVIEW(R.string.metro_overview),
+    REVIEWS(R.string.metro_reviews),
+    DETAILS(R.string.metro_details),
+    RELATED(R.string.metro_related)
 }
 
 /**

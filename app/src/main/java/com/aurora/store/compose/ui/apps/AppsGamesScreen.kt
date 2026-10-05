@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,6 +22,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.gplayapi.helpers.contracts.StreamContract
 import com.aurora.gplayapi.helpers.contracts.TopChartsContract
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroPivotHeader
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.util.Preferences
 import com.aurora.store.viewmodel.category.CategoryViewModel
@@ -71,28 +69,21 @@ fun AppsGamesScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
-        PrimaryTabRow(
+        MetroPivotHeader(
             modifier = Modifier.fillMaxWidth(),
-            selectedTabIndex = pagerState.currentPage
-        ) {
-            tabs.forEachIndexed { index, tab ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                    text = { Text(stringResource(tab.titleRes)) }
-                )
+            titles = tabs.map { stringResource(it.titleRes) },
+            selectedIndex = pagerState.currentPage,
+            onSelect = { index ->
+                coroutineScope.launch { pagerState.animateScrollToPage(index) }
             }
-        }
+        )
 
+        // Like the Windows Phone pivot, sections can be swiped as well as tapped; nested
+        // carousels still scroll first and hand the gesture over once they reach their end.
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
-            verticalAlignment = Alignment.Top,
-            userScrollEnabled = false
+            verticalAlignment = Alignment.Top
         ) { page ->
             when (tabs[page]) {
                 AppsTab.FOR_YOU -> ForYouContent(

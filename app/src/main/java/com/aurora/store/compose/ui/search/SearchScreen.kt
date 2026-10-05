@@ -12,9 +12,11 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarValue
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
@@ -51,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -185,14 +189,31 @@ private fun ScreenContent(
             )
         }
 
-        AppBarWithSearch(
+        // Windows Phone "STORE SEARCH" page: a small caption over a square search box.
+        Column(modifier = Modifier.statusBarsPadding()) {
+            Text(
+                modifier = Modifier.padding(
+                    start = dimensionResource(R.dimen.spacing_medium),
+                    top = dimensionResource(R.dimen.spacing_small)
+                ),
+                text = stringResource(R.string.metro_store_search),
+                style = MaterialTheme.typography.titleSmall
+            )
+            AppBarWithSearch(
+                state = searchBarState,
+                inputField = inputField,
+                shape = RectangleShape,
+                colors = SearchBarDefaults.appBarWithSearchColors(
+                    appBarContainerColor = Color.Transparent
+                ),
+                windowInsets = WindowInsets(0)
+            )
+        }
+        ExpandedDockedSearchBar(
             state = searchBarState,
             inputField = inputField,
-            colors = SearchBarDefaults.appBarWithSearchColors(
-                appBarContainerColor = Color.Transparent
-            )
-        )
-        ExpandedDockedSearchBar(state = searchBarState, inputField = inputField) {
+            shape = RectangleShape
+        ) {
             suggestions.forEach { suggestion ->
                 SearchSuggestionListItem(
                     searchSuggestEntry = suggestion,

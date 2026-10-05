@@ -36,7 +36,7 @@ fun LargeAppListItem(modifier: Modifier = Modifier, app: App, onClick: () -> Uni
         headline = app.displayName,
         supporting = app.developerName,
         tertiary = buildAppExtras(app),
-        headlineStyle = MaterialTheme.typography.bodyMedium,
+        headlineStyle = MaterialTheme.typography.titleLarge,
         onClick = onClick,
         leading = {
             AsyncImage(

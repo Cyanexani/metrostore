@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -41,6 +40,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.extensions.isWindowCompact
 import com.aurora.store.R
 import com.aurora.store.compose.composable.Logo
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.PageIndicator
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.onboarding.navigation.OnboardingPage
@@ -141,7 +141,7 @@ private fun ScreenContent(
                         )
                     }
 
-                    Button(
+                    MetroButton(
                         modifier = buttonWidthModifier,
                         enabled = !isFinalPage() ||
                             (!uiState.isMicroBundleChecked || uiState.isMicroGBundleInstalled),

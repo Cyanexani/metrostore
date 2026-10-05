@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -156,7 +155,7 @@ fun MicroG(
 
             if (!uiState.isInProgress && !uiState.isInstalled) {
                 val isRetry = uiState.hasFailed
-                Button(
+                MetroButton(
                     onClick = if (isRetry) onRetry else onInstall,
                     enabled = uiState.isOnline && (isRetry || isChecked),
                     colors = if (isRetry) {

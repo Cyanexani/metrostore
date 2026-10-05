@@ -29,7 +29,8 @@ import com.aurora.store.R
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
- * Section header row used throughout the app. Title with optional subtitle, an optional
+ * Section header row used throughout the app, styled as a Windows Phone all-caps caption.
+ * Title with optional subtitle, an optional
  * trailing slot, and the whole row becomes clickable when [onClick] is non-null. When
  * [trailing] is null and [onClick] is set, a default right-chevron is shown.
  */
@@ -46,16 +47,18 @@ fun SectionHeader(
             .fillMaxWidth()
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(
-                horizontal = dimensionResource(R.dimen.spacing_medium),
-                vertical = dimensionResource(R.dimen.spacing_xsmall)
+                start = dimensionResource(R.dimen.spacing_medium),
+                end = dimensionResource(R.dimen.spacing_medium),
+                top = dimensionResource(R.dimen.spacing_small),
+                bottom = dimensionResource(R.dimen.spacing_xsmall)
             ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
+                text = title.uppercase(),
+                style = MaterialTheme.typography.titleSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -75,7 +78,7 @@ fun SectionHeader(
                 painter = painterResource(R.drawable.ic_arrow_right),
                 contentDescription = null,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_size_default)),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
