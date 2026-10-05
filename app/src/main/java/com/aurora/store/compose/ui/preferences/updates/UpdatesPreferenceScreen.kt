@@ -19,13 +19,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -50,7 +47,11 @@ import com.aurora.extensions.isIgnoringBatteryOptimizations
 import com.aurora.extensions.isTAndAbove
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroCheckbox
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.preferences.network.SingleChoiceDialog
@@ -250,7 +251,7 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { showAutoDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_updates_auto).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_updates_auto).metroLowercase()) },
                     supportingContent = { Text(autoEntries.getOrElse(autoMode) { "" }) }
                 )
             }
@@ -259,7 +260,7 @@ private fun ScreenContent(
                     ListItem(
                         modifier = Modifier.clickable { showFrequencyDialog = true },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_updates_check_frequency).lowercase())
+                            Text(stringResource(R.string.pref_updates_check_frequency).metroLowercase())
                         },
                         supportingContent = {
                             Text(frequencyEntries[selectedFrequencyIndex(checkInterval)])
@@ -270,7 +271,7 @@ private fun ScreenContent(
                     ListItem(
                         modifier = Modifier.clickable { showRestrictionsDialog = true },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_updates_restrictions_title).lowercase())
+                            Text(stringResource(R.string.pref_updates_restrictions_title).metroLowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_updates_restrictions_desc))
@@ -281,7 +282,7 @@ private fun ScreenContent(
             item { HorizontalDivider() }
             item {
                 ListItem(headlineContent = {
-                    Text(stringResource(R.string.pref_updates_app_source).lowercase())
+                    Text(stringResource(R.string.pref_updates_app_source).metroLowercase())
                 })
             }
             item {
@@ -290,7 +291,7 @@ private fun ScreenContent(
                         onNavigateTo(Destination.SourceFilters)
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.pref_source_filters_title).lowercase())
+                        Text(stringResource(R.string.pref_source_filters_title).metroLowercase())
                     },
                     supportingContent = {
                         Text(sourceFiltersSummary(filterAuroraOnly, installerCount))
@@ -299,7 +300,7 @@ private fun ScreenContent(
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_advanced).lowercase()) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_advanced).metroLowercase()) })
             }
             item {
                 ListItem(
@@ -308,12 +309,12 @@ private fun ScreenContent(
                         context.save(PREFERENCE_FILTER_FDROID, filterFDroid)
                         onCheckUpdatesNow()
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_filter_fdroid_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_filter_fdroid_title).metroLowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_filter_fdroid_summary))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = filterFDroid,
                             onCheckedChange = { checked ->
                                 filterFDroid = checked
@@ -331,12 +332,12 @@ private fun ScreenContent(
                         context.save(PREFERENCE_UPDATES_EXTENDED, updatesExtended)
                         onCheckUpdatesNow()
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_updates_incompatible).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_updates_incompatible).metroLowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_updates_incompatible_desc))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = updatesExtended,
                             onCheckedChange = { checked ->
                                 updatesExtended = checked
@@ -354,13 +355,13 @@ private fun ScreenContent(
                         context.save(PREFERENCE_UPDATES_WARN_TRACKERS, warnTrackers)
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.pref_updates_warn_trackers).lowercase())
+                        Text(stringResource(R.string.pref_updates_warn_trackers).metroLowercase())
                     },
                     supportingContent = {
                         Text(stringResource(R.string.pref_updates_warn_trackers_desc))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = warnTrackers,
                             onCheckedChange = { checked ->
                                 warnTrackers = checked
@@ -381,12 +382,12 @@ private fun ScreenContent(
                         modifier = Modifier.clickable {
                             onSelfUpdateChanged(!selfUpdateEnabled)
                         },
-                        headlineContent = { Text(stringResource(R.string.pref_self_update).lowercase()) },
+                        headlineContent = { Text(stringResource(R.string.pref_self_update).metroLowercase()) },
                         supportingContent = {
                             Text(stringResource(R.string.pref_self_update_desc))
                         },
                         trailingContent = {
-                            Switch(
+                            MetroSwitch(
                                 checked = selfUpdateEnabled,
                                 onCheckedChange = ::onSelfUpdateChanged
                             )
@@ -439,7 +440,7 @@ private fun UpdatesRestrictionsDialog(onUpdateAutomatedCheck: () -> Unit, onDism
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(
+                    MetroCheckbox(
                         checked = metered,
                         onCheckedChange = { checked ->
                             metered = checked
@@ -465,7 +466,7 @@ private fun UpdatesRestrictionsDialog(onUpdateAutomatedCheck: () -> Unit, onDism
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(
+                    MetroCheckbox(
                         checked = idle,
                         onCheckedChange = { checked ->
                             idle = checked
@@ -491,7 +492,7 @@ private fun UpdatesRestrictionsDialog(onUpdateAutomatedCheck: () -> Unit, onDism
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(
+                    MetroCheckbox(
                         checked = battery,
                         onCheckedChange = { checked ->
                             battery = checked
@@ -507,8 +508,8 @@ private fun UpdatesRestrictionsDialog(onUpdateAutomatedCheck: () -> Unit, onDism
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(android.R.string.ok).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.ok).metroLowercase())
             }
         }
     )

@@ -28,6 +28,7 @@ import com.aurora.store.R
 import com.aurora.store.compose.composable.Info
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
@@ -66,7 +67,7 @@ fun Testing(isSubscribed: Boolean, onTestingSubscriptionChange: (subscribe: Bool
                     stringResource(R.string.action_leave)
                 } else {
                     stringResource(R.string.action_join)
-                }).lowercase(),
+                }).metroLowercase(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

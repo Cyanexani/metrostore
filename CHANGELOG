@@ -5,7 +5,8 @@ Changelog : v0.9.0-beta (78)
 • Apps and games open as one pivot (for you, top free, top grossing, trending, top paid, categories); updates live under "my apps"
 • Windows Phone application bar on every main page: circled buttons, with a "…" menu that holds everything the old toolbar icons and "more" sheet did
 • App details is a pivot again (overview, reviews, details, related) with install/update buttons in the application bar
-• Windows Phone casing everywhere: lowercase buttons, menus and list items, all-caps page captions; message boxes open full-width at the top
+• Windows Phone casing everywhere: lowercase buttons, menus and list items (brand names keep their capitals), all-caps page captions; message boxes open full-width at the top
+• Windows Phone controls: outlined square buttons everywhere (dialogs too), rectangular toggle switches, square check boxes, thin radio buttons and text-style filters; no back arrows, all page actions live in the application bar
 • Black or white Metro backgrounds with the Store's green (#008A00); wallpaper colors (Android 12+) only change the accent and are off by default
 • Debug and nightly builds, and phones older than Android 8, now show the Metro tote icon
 

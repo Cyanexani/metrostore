@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +39,8 @@ import com.aurora.extensions.emptyPagingItems
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroAppBarButton
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TopAppBar
@@ -96,15 +96,17 @@ private fun ScreenContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = stringResource(R.string.title_apps_games),
-                actions = {
-                    IconButton(onClick = { sheetVisible = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_tune),
-                            contentDescription = stringResource(R.string.installed_sort_filter)
-                        )
-                    }
-                }
+                title = stringResource(R.string.title_apps_games)
+            )
+        },
+        bottomBar = {
+            MetroAppBar(
+                buttons = listOf(
+                    MetroAppBarButton(
+                        iconRes = R.drawable.ic_tune,
+                        label = stringResource(R.string.installed_sort_filter)
+                    ) { sheetVisible = true }
+                )
             )
         }
     ) { paddingValues ->

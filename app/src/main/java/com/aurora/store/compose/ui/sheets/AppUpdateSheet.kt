@@ -56,6 +56,7 @@ import com.aurora.extensions.toast
 import com.aurora.store.AuroraApp
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.data.event.BusEvent
 import com.aurora.store.data.installer.AppInstaller
@@ -237,7 +238,7 @@ private fun AppHeader(update: Update, onShowDetails: () -> Unit) {
         }
 
         MetroButton(onClick = onShowDetails) {
-            Text(stringResource(R.string.updates_app_details).lowercase())
+            Text(stringResource(R.string.updates_app_details).metroLowercase())
         }
     }
 }

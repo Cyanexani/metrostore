@@ -20,11 +20,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,7 +41,11 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroRadioButton
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.commons.ForceRestartDialog
@@ -162,20 +163,20 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { onNavigateTo(Destination.Dispenser) },
-                    headlineContent = { Text(stringResource(R.string.pref_dispenser_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_dispenser_title).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_dispenser_summary)) }
                 )
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showProxyDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_network_proxy_url).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_network_proxy_url).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_network_proxy_desc)) }
                 )
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).metroLowercase()) })
             }
             if (hasMicroG) {
                 item {
@@ -185,13 +186,13 @@ private fun ScreenContent(
                             context.save(PREFERENCE_MICROG_AUTH, microGAuth)
                         },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_network_microg_login_title).lowercase())
+                            Text(stringResource(R.string.pref_network_microg_login_title).metroLowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_network_microg_login_desc))
                         },
                         trailingContent = {
-                            Switch(
+                            MetroSwitch(
                                 checked = microGAuth,
                                 onCheckedChange = { checked ->
                                     microGAuth = checked
@@ -205,7 +206,7 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { showVendingDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_vending_version_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_vending_version_title).metroLowercase()) },
                     supportingContent = { Text(vendingEntries.getOrElse(vendingVersion) { "" }) }
                 )
             }
@@ -241,23 +242,23 @@ private fun ProxyURLDialog(
             }
         },
         confirmButton = {
-            TextButton(
+            MetroButton(
                 enabled = url.isNotBlank(),
                 onClick = { onSave(url.trim()) }
             ) {
-                Text(stringResource(R.string.set).lowercase())
+                Text(stringResource(R.string.set).metroLowercase())
             }
         },
         dismissButton = {
             Row {
                 if (currentUrl.isNotBlank()) {
-                    TextButton(onClick = onDelete) {
-                        Text(stringResource(R.string.disable).lowercase())
+                    MetroButton(onClick = onDelete) {
+                        Text(stringResource(R.string.disable).metroLowercase())
                     }
                 }
                 Spacer(Modifier.width(dimensionResource(R.dimen.spacing_small)))
-                TextButton(onClick = onDismiss) {
-                    Text(stringResource(android.R.string.cancel).lowercase())
+                MetroButton(onClick = onDismiss) {
+                    Text(stringResource(android.R.string.cancel).metroLowercase())
                 }
             }
         }
@@ -289,7 +290,7 @@ internal fun SingleChoiceDialog(
                             .padding(vertical = dimensionResource(R.dimen.spacing_small)),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RadioButton(
+                        MetroRadioButton(
                             selected = index == selected,
                             onClick = null
                         )
@@ -301,8 +302,8 @@ internal fun SingleChoiceDialog(
         },
         confirmButton = {},
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(android.R.string.cancel).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.cancel).metroLowercase())
             }
         }
     )

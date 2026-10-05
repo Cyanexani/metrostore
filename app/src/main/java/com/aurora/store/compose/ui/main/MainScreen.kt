@@ -46,6 +46,7 @@ import com.aurora.store.compose.composable.MetroAppBarButton
 import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.MetroTile
 import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.composition.LocalNetworkStatus
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.ui.apps.CategoriesContent
@@ -228,7 +229,7 @@ private fun StorePanorama(
                                         horizontal = dimensionResource(R.dimen.spacing_medium),
                                         vertical = dimensionResource(R.dimen.spacing_small)
                                     ),
-                                text = stringResource(R.string.title_games).lowercase(),
+                                text = stringResource(R.string.title_games).metroLowercase(),
                                 style = MaterialTheme.typography.titleLarge
                             )
                         }

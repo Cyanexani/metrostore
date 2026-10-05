@@ -86,7 +86,7 @@ fun MetroPivotHeader(
                 modifier = Modifier
                     .semantics { selected = isSelected }
                     .clickable(role = Role.Tab) { onSelect(index) },
-                text = titles[index].lowercase(),
+                text = titles[index].metroLowercase(),
                 style = style,
                 color = if (isSelected) {
                     MaterialTheme.colorScheme.onBackground

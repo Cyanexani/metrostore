@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -55,7 +56,7 @@ fun AppLockScreen(onUnlock: () -> Unit) {
                 textAlign = TextAlign.Center
             )
             MetroButton(onClick = onUnlock) {
-                Text(stringResource(R.string.app_lock_unlock).lowercase())
+                Text(stringResource(R.string.app_lock_unlock).metroLowercase())
             }
         }
     }

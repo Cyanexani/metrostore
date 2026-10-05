@@ -45,6 +45,7 @@ import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.MicroG
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.PermissionType
@@ -113,7 +114,7 @@ private fun ScreenContent(
                         onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                     ) {
                         Text(
-                            text = stringResource(R.string.action_cancel).lowercase(),
+                            text = stringResource(R.string.action_cancel).metroLowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -129,7 +130,7 @@ private fun ScreenContent(
                                 stringResource(R.string.action_install)
                             } else {
                                 stringResource(R.string.action_ignore)
-                            }).lowercase(),
+                            }).metroLowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

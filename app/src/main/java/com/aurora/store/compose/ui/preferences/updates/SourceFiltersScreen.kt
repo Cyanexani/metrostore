@@ -18,9 +18,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -36,7 +34,10 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.util.Preferences
 import com.aurora.store.util.Preferences.PREFERENCE_FILTER_AURORA_ONLY
@@ -93,12 +94,12 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                         auroraOnly = !auroraOnly
                         context.save(PREFERENCE_FILTER_AURORA_ONLY, auroraOnly)
                     },
-                    headlineContent = { Text(stringResource(R.string.source_filters_all).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.source_filters_all).metroLowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_source_filters_desc_all))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = auroraOnly,
                             onCheckedChange = { checked ->
                                 auroraOnly = checked
@@ -112,7 +113,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
             item {
                 ListItem(
                     headlineContent = {
-                        Text(stringResource(R.string.source_filters_installers_header).lowercase())
+                        Text(stringResource(R.string.source_filters_installers_header).metroLowercase())
                     }
                 )
             }
@@ -121,7 +122,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                     ListItem(
                         headlineContent = {
                             Text(
-                                text = stringResource(R.string.source_filters_installers_empty).lowercase(),
+                                text = stringResource(R.string.source_filters_installers_empty).metroLowercase(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -159,7 +160,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.source_filters_add).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.source_filters_add).metroLowercase()) }
                 )
             }
         }
@@ -190,13 +191,13 @@ private fun AddInstallerDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = { onAdd(trimmed) }, enabled = canAdd) {
-                Text(stringResource(android.R.string.ok).lowercase())
+            MetroButton(onClick = { onAdd(trimmed) }, enabled = canAdd) {
+                Text(stringResource(android.R.string.ok).metroLowercase())
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_cancel).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(stringResource(R.string.action_cancel).metroLowercase())
             }
         }
     )

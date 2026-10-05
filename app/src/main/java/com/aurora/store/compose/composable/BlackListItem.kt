@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,7 +54,7 @@ fun BlackListItem(
             )
         },
         trailing = {
-            Checkbox(checked = isChecked, enabled = isEnabled, onCheckedChange = { onClick() })
+            MetroCheckbox(checked = isChecked, enabled = isEnabled, onCheckedChange = { onClick() })
         }
     )
 }

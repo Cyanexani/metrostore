@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.extensions.toast
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.util.AppLockAuthenticator
 import com.aurora.store.util.Preferences
@@ -76,10 +77,10 @@ private fun ScreenContent() {
             item {
                 ListItem(
                     modifier = Modifier.clickable { setAppLock(!appLockEnabled) },
-                    headlineContent = { Text(stringResource(R.string.app_lock_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.app_lock_title).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.app_lock_summary)) },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = appLockEnabled,
                             onCheckedChange = { setAppLock(it) }
                         )
@@ -90,10 +91,10 @@ private fun ScreenContent() {
             item {
                 ListItem(
                     modifier = Modifier.clickable { setConfirmDeepLink(!confirmDeepLink) },
-                    headlineContent = { Text(stringResource(R.string.confirm_deeplink_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.confirm_deeplink_title).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.confirm_deeplink_summary)) },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = confirmDeepLink,
                             onCheckedChange = { setConfirmDeepLink(it) }
                         )

@@ -5,7 +5,6 @@
 
 package com.aurora.store.compose.composable.app
 
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroFilterChip
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -33,7 +33,7 @@ fun TagListItem(
     painter: Painter,
     onClick: () -> Unit = {}
 ) {
-    FilterChip(
+    MetroFilterChip(
         modifier = modifier,
         onClick = onClick,
         label = { Text(text = label, style = MaterialTheme.typography.bodySmall) },

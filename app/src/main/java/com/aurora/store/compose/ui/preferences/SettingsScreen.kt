@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.PermissionType
@@ -58,7 +59,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                         )
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.onboarding_title_permissions).lowercase())
+                        Text(stringResource(R.string.onboarding_title_permissions).metroLowercase())
                     }
                 )
             }
@@ -73,7 +74,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_installation).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.title_installation).metroLowercase()) }
                 )
             }
             item {
@@ -85,7 +86,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_title).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.pref_ui_title).metroLowercase()) }
                 )
             }
             item {
@@ -99,7 +100,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_notifications).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.title_notifications).metroLowercase()) }
                 )
             }
             item {
@@ -111,7 +112,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_network_title).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.pref_network_title).metroLowercase()) }
                 )
             }
             item {
@@ -123,7 +124,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_updates).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.title_updates).metroLowercase()) }
                 )
             }
             item {
@@ -135,7 +136,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_security).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.title_security).metroLowercase()) }
                 )
             }
         }

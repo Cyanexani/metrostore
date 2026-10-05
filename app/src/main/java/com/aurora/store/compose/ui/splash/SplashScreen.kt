@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,7 +55,10 @@ import com.aurora.Constants.PACKAGE_NAME_PLAY_STORE
 import com.aurora.gplayapi.helpers.AuthHelper
 import com.aurora.store.BuildConfig
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAppBar
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroMenuItem
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.composition.LocalNetworkStatus
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.data.model.AuthState
@@ -167,23 +168,21 @@ fun SplashScreen(
         topBar = {
             TopAppBar(
                 title = {},
-                actions = {
-                    IconButton(onClick = { onNavigateTo(Destination.Settings) }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_menu_settings),
-                            contentDescription = stringResource(R.string.title_settings)
-                        )
-                    }
-                    IconButton(onClick = { onNavigateTo(Destination.About) }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_menu_about),
-                            contentDescription = stringResource(R.string.title_about)
-                        )
-                    }
-                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent
+                )
+            )
+        },
+        bottomBar = {
+            MetroAppBar(
+                menuItems = listOf(
+                    MetroMenuItem(stringResource(R.string.title_settings)) {
+                        onNavigateTo(Destination.Settings)
+                    },
+                    MetroMenuItem(stringResource(R.string.title_about)) {
+                        onNavigateTo(Destination.About)
+                    }
                 )
             )
         }
@@ -295,7 +294,7 @@ fun SplashScreen(
                                     viewModel.buildAnonymousAuthData()
                                 }
                             ) {
-                                Text(stringResource(R.string.account_anonymous).lowercase())
+                                Text(stringResource(R.string.account_anonymous).metroLowercase())
                             }
                         }
                         if (googleLoading || anonymousLoading) {

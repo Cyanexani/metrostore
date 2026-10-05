@@ -7,7 +7,6 @@ package com.aurora.store.compose.composable
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -31,9 +30,9 @@ fun DispenserListItem(
             Icon(painter = painterResource(R.drawable.ic_server), contentDescription = null)
         },
         trailing = {
-            TextButton(onClick = onClear) {
+            MetroButton(onClick = onClear) {
                 Text(
-                    text = stringResource(R.string.remove).lowercase(),
+                    text = stringResource(R.string.remove).metroLowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

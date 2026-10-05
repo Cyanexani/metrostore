@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,10 +23,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composable.ShimmerUpdateItem
 import com.aurora.store.compose.composable.app.AppUpdateItem
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.data.model.DownloadStatus
 import com.aurora.store.data.room.download.Download
@@ -156,7 +157,7 @@ fun UpdatesScreen(
                             SectionHeader(
                                 title = title,
                                 trailing = {
-                                    TextButton(
+                                    MetroButton(
                                         onClick = {
                                             if (mainAnyActive) {
                                                 onCancelAll()
@@ -164,7 +165,7 @@ fun UpdatesScreen(
                                                 onRequestUpdateAll(mainEntries.map { it.key })
                                             }
                                         }
-                                    ) { Text(actionLabel.lowercase()) }
+                                    ) { Text(actionLabel.metroLowercase()) }
                                 }
                             )
                         }
@@ -191,7 +192,7 @@ fun UpdatesScreen(
                                 title = stringResource(R.string.updates_approval_header),
                                 subtitle = stringResource(R.string.updates_approval_desc),
                                 trailing = {
-                                    TextButton(
+                                    MetroButton(
                                         onClick = {
                                             if (approvalAnyActive) {
                                                 onCancelAll()
@@ -201,7 +202,7 @@ fun UpdatesScreen(
                                                 )
                                             }
                                         }
-                                    ) { Text(actionLabel.lowercase()) }
+                                    ) { Text(actionLabel.metroLowercase()) }
                                 }
                             )
                         }

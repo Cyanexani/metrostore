@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import kotlinx.coroutines.android.awaitFrame
 
 /**
@@ -73,16 +74,16 @@ fun InputDispenserDialog(onAdd: (url: String) -> Unit = {}, onDismiss: () -> Uni
         },
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(
+            MetroButton(
                 onClick = { onAdd(url.text) },
                 enabled = Patterns.WEB_URL.matcher(url.text).matches()
             ) {
-                Text(text = stringResource(R.string.add).lowercase())
+                Text(text = stringResource(R.string.add).metroLowercase())
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(android.R.string.cancel).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(text = stringResource(android.R.string.cancel).metroLowercase())
             }
         }
     )

@@ -21,7 +21,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,6 +38,7 @@ import com.aurora.extensions.toast
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,16 +94,16 @@ fun InstallErrorSheet(
                     ),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(
+                MetroButton(
                     onClick = {
                         context.copyToClipBoard(listOfNotNull(error, extra).joinToString("\n\n"))
                         context.toast(R.string.toast_clipboard_copied)
                     }
                 ) {
-                    Text(text = stringResource(R.string.action_copy).lowercase())
+                    Text(text = stringResource(R.string.action_copy).metroLowercase())
                 }
-                TextButton(onClick = onDismiss) {
-                    Text(text = stringResource(R.string.action_ok).lowercase())
+                MetroButton(onClick = onDismiss) {
+                    Text(text = stringResource(R.string.action_ok).metroLowercase())
                 }
             }
 
@@ -152,7 +152,7 @@ private fun Header(app: App, showBuy: Boolean = false, onBuy: () -> Unit = {}) {
         if (showBuy) {
             MetroButton(onClick = onBuy) {
                 Text(
-                    text = stringResource(R.string.action_buy, app.price).lowercase(),
+                    text = stringResource(R.string.action_buy, app.price).metroLowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

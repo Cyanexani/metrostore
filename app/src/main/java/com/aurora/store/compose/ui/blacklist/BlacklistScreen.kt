@@ -7,8 +7,6 @@
 package com.aurora.store.compose.ui.blacklist
 
 import android.net.Uri
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -60,11 +58,12 @@ import com.aurora.extensions.toast
 import com.aurora.store.R
 import com.aurora.store.compose.composable.BlackListItem
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroAppBarButton
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TextDividerComposable
 import com.aurora.store.compose.preview.ThemePreviewProvider
-import com.aurora.store.compose.ui.blacklist.menu.BlacklistMenu
-import com.aurora.store.compose.ui.blacklist.menu.MenuItem
 import com.aurora.store.compose.ui.commons.SortFilterSheet
 import com.aurora.store.compose.ui.commons.SortFilterState
 import com.aurora.store.data.model.BlacklistAppItem
@@ -117,7 +116,6 @@ private fun ScreenContent(
     onSearch: (query: String) -> Unit = {},
     onSortFilterStateChange: (SortFilterState) -> Unit = {}
 ) {
-    val activity = LocalActivity.current as? ComponentActivity
     val context = LocalContext.current
     val textFieldState = rememberTextFieldState()
     val searchBarState = rememberSearchBarState()
@@ -149,27 +147,6 @@ private fun ScreenContent(
     LaunchedEffect(key1 = textFieldState) {
         snapshotFlow { textFieldState.text.toString() }
             .collectLatest { query -> onSearch(query) }
-    }
-
-    @Composable
-    fun SetupMenu() {
-        BlacklistMenu { menuItem ->
-            when (menuItem) {
-                MenuItem.SELECT_ALL -> onBlacklistAll()
-
-                MenuItem.REMOVE_ALL -> onWhitelistAll()
-
-                MenuItem.IMPORT -> {
-                    docImportLauncher.launch(arrayOf(Constants.JSON_MIME_TYPE))
-                }
-
-                MenuItem.EXPORT -> {
-                    docExportLauncher.launch(
-                        "aurora_store_apps_${Calendar.getInstance().time.time}.json"
-                    )
-                }
-            }
-        }
     }
 
     fun onRequestSearch(query: String) {
@@ -224,23 +201,6 @@ private fun ScreenContent(
         AppBarWithSearch(
             state = searchBarState,
             inputField = inputField,
-            navigationIcon = {
-                IconButton(onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(R.string.action_back)
-                    )
-                }
-            },
-            actions = {
-                IconButton(onClick = { sheetVisible = true }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_tune),
-                        contentDescription = stringResource(R.string.installed_sort_filter)
-                    )
-                }
-                SetupMenu()
-            },
             colors = SearchBarDefaults.appBarWithSearchColors(
                 appBarContainerColor = Color.Transparent
             )
@@ -267,7 +227,29 @@ private fun ScreenContent(
     }
 
     Scaffold(
-        topBar = { SearchBar() }
+        topBar = { SearchBar() },
+        bottomBar = {
+            MetroAppBar(
+                buttons = listOf(
+                    MetroAppBarButton(
+                        iconRes = R.drawable.ic_tune,
+                        label = stringResource(R.string.installed_sort_filter)
+                    ) { sheetVisible = true }
+                ),
+                menuItems = listOf(
+                    MetroMenuItem(stringResource(R.string.action_select_all)) { onBlacklistAll() },
+                    MetroMenuItem(stringResource(R.string.action_remove_all)) { onWhitelistAll() },
+                    MetroMenuItem(stringResource(R.string.action_import)) {
+                        docImportLauncher.launch(arrayOf(Constants.JSON_MIME_TYPE))
+                    },
+                    MetroMenuItem(stringResource(R.string.action_export)) {
+                        docExportLauncher.launch(
+                            "aurora_store_apps_${Calendar.getInstance().time.time}.json"
+                        )
+                    }
+                )
+            )
+        }
     ) { paddingValues ->
         val listState = rememberLazyListState()
         Box(

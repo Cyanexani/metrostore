@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.DownloadStatus
 import com.aurora.store.data.room.download.Download
@@ -100,25 +101,25 @@ fun AppUpdateItem(
         when {
             onUnignore != null -> {
                 MetroButton(onClick = onUnignore) {
-                    Text(stringResource(R.string.action_unignore).lowercase())
+                    Text(stringResource(R.string.action_unignore).metroLowercase())
                 }
             }
 
             installing -> {
                 MetroButton(onClick = {}, enabled = false) {
-                    Text(stringResource(R.string.action_installing).lowercase())
+                    Text(stringResource(R.string.action_installing).metroLowercase())
                 }
             }
 
             inProgress -> {
                 MetroButton(onClick = onCancel) {
-                    Text(stringResource(R.string.action_cancel).lowercase())
+                    Text(stringResource(R.string.action_cancel).metroLowercase())
                 }
             }
 
             else -> {
                 MetroButton(onClick = onUpdate) {
-                    Text(stringResource(R.string.action_update).lowercase())
+                    Text(stringResource(R.string.action_update).metroLowercase())
                 }
             }
         }

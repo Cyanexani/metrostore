@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -49,10 +48,12 @@ import com.aurora.extensions.isWindowCompact
 import com.aurora.gplayapi.data.models.Review
 import com.aurora.store.R
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.MetroFilterChip
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.composable.details.ReviewListItem
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ReviewPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.viewmodel.details.AppDetailsViewModel
@@ -174,12 +175,12 @@ private fun FilterHeader(onClick: (filter: Review.Filter) -> Unit) {
     ) {
         items(items = filters.keys.toList(), key = { item -> item }) { filter ->
             val selected = activeFilter == filter
-            FilterChip(
+            MetroFilterChip(
                 onClick = {
                     activeFilter = filter
                     onClick(filter)
                 },
-                label = { Text(text = stringResource(filters.getValue(filter))) },
+                label = { Text(text = (stringResource(filters.getValue(filter))).metroLowercase()) },
                 selected = selected,
                 leadingIcon = {
                     if (selected) {

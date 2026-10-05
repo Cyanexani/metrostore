@@ -26,7 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
@@ -55,12 +54,14 @@ import com.aurora.extensions.isWindowCompact
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.MetroProgressDots
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.composable.details.ExodusListItem
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.data.model.ExodusTracker
@@ -257,13 +258,13 @@ private fun ExodusReportDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_close).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(stringResource(R.string.action_close).metroLowercase())
             }
         },
         dismissButton = {
-            TextButton(onClick = onViewReport) {
-                Text(stringResource(R.string.exodus_view_report).lowercase())
+            MetroButton(onClick = onViewReport) {
+                Text(stringResource(R.string.exodus_view_report).metroLowercase())
             }
         }
     )

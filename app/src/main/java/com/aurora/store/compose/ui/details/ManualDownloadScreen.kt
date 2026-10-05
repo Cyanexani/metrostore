@@ -59,6 +59,7 @@ import com.aurora.store.compose.composable.Info
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.MetroProgressDots
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.sheets.VersionPickerSheet
@@ -209,7 +210,7 @@ private fun ScreenContent(
                     }
                 ) {
                     Text(
-                        text = stringResource(R.string.manual_download_lookup).lowercase(),
+                        text = stringResource(R.string.manual_download_lookup).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -227,7 +228,7 @@ private fun ScreenContent(
                     onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                 ) {
                     Text(
-                        text = stringResource(R.string.action_close).lowercase(),
+                        text = stringResource(R.string.action_close).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -242,7 +243,7 @@ private fun ScreenContent(
                     }
                 ) {
                     Text(
-                        text = stringResource(R.string.action_install).lowercase(),
+                        text = stringResource(R.string.action_install).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

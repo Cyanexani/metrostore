@@ -13,7 +13,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -25,6 +24,7 @@ import com.aurora.extensions.TAG
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 private const val MICROG_SETTINGS_ACTIVITY = "org.microg.gms.ui.SettingsActivity"
@@ -64,19 +64,19 @@ fun MicroGInstallerPrerequisiteDialog(onConfirm: () -> Unit = {}, onDismiss: () 
                         }
                     }
                 ) {
-                    Text(text = stringResource(R.string.microg_installer_open_settings).lowercase())
+                    Text(text = stringResource(R.string.microg_installer_open_settings).metroLowercase())
                 }
             }
         },
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(text = stringResource(R.string.action_ok).lowercase())
+            MetroButton(onClick = onConfirm) {
+                Text(text = stringResource(R.string.action_ok).metroLowercase())
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.action_cancel).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.action_cancel).metroLowercase())
             }
         }
     )

@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,7 +31,9 @@ import com.aurora.Constants
 import com.aurora.extensions.areNotificationsEnabled
 import com.aurora.extensions.isOAndAbove
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.util.Preferences
 import com.aurora.store.util.Preferences.PREFERENCE_NOTIFICATION_PROGRESS
@@ -85,7 +86,7 @@ private fun ScreenContent() {
                     ListItem(
                         modifier = Modifier.clickable { openAppNotificationSettings(context) },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_notification_disabled).lowercase())
+                            Text(stringResource(R.string.pref_notification_disabled).metroLowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_notification_disabled_desc))
@@ -102,13 +103,13 @@ private fun ScreenContent() {
                         context.save(PREFERENCE_NOTIFICATION_PROGRESS, showProgress)
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.pref_notification_progress).lowercase())
+                        Text(stringResource(R.string.pref_notification_progress).metroLowercase())
                     },
                     supportingContent = {
                         Text(stringResource(R.string.pref_notification_progress_desc))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = showProgress,
                             onCheckedChange = { checked ->
                                 showProgress = checked
@@ -126,7 +127,7 @@ private fun ScreenContent() {
                 item {
                     ListItem(
                         headlineContent = {
-                            Text(stringResource(R.string.pref_notification_categories).lowercase())
+                            Text(stringResource(R.string.pref_notification_categories).metroLowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_notification_categories_desc))
@@ -139,7 +140,7 @@ private fun ScreenContent() {
                             modifier = Modifier.clickable {
                                 openChannelSettings(context, channelId)
                             },
-                            headlineContent = { Text(stringResource(nameRes).lowercase()) }
+                            headlineContent = { Text(stringResource(nameRes).metroLowercase()) }
                         )
                     }
                 }

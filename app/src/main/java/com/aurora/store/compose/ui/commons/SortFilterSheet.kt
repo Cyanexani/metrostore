@@ -17,16 +17,10 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -37,7 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroCheckbox
+import com.aurora.store.compose.composable.MetroFilterChip
+import com.aurora.store.compose.composable.MetroRadioButton
 import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -151,19 +149,14 @@ private fun <T> SortOptions(
                 vertical = dimensionResource(R.dimen.spacing_xsmall)
             )
     ) {
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            SortOrder.entries.forEachIndexed { index, order ->
-                SegmentedButton(
-                    selected = sortOrder == order,
-                    onClick = { onSortOrderChange(order) },
-                    shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = SortOrder.entries.size
-                    )
-                ) {
-                    Text(text = stringResource(order.labelRes()))
-                }
-            }
+        // Windows Phone has no segmented buttons: the order is a pair of text toggles, the
+        // selected one bright and the other grey.
+        SortOrder.entries.forEach { order ->
+            MetroFilterChip(
+                selected = sortOrder == order,
+                onClick = { onSortOrderChange(order) },
+                label = { Text(text = stringResource(order.labelRes()).metroLowercase()) }
+            )
         }
     }
 }
@@ -202,20 +195,20 @@ private fun FilterSection(
                 .padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xsmall))
         ) {
-            FilterChip(
+            MetroFilterChip(
                 selected = state.installer == null,
                 onClick = { onStateChange(state.copy(installer = null)) },
-                label = { Text(text = stringResource(R.string.installed_filter_all)) }
+                label = { Text(text = stringResource(R.string.installed_filter_all).metroLowercase()) }
             )
             installers.entries.sortedBy { it.value.lowercase() }.forEach { (pkg, label) ->
-                FilterChip(
+                MetroFilterChip(
                     selected = state.installer == pkg,
                     onClick = {
                         onStateChange(
                             state.copy(installer = if (state.installer == pkg) null else pkg)
                         )
                     },
-                    label = { Text(text = label) }
+                    label = { Text(text = label.metroLowercase()) }
                 )
             }
         }
@@ -235,7 +228,7 @@ private fun SelectableRow(label: String, selected: Boolean, onClick: () -> Unit)
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
     ) {
-        RadioButton(selected = selected, onClick = onClick)
+        MetroRadioButton(selected = selected, onClick = onClick)
         Text(text = label, style = MaterialTheme.typography.bodyLarge)
     }
 }
@@ -253,7 +246,7 @@ private fun CheckableRow(label: String, checked: Boolean, onCheckedChange: (Bool
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
     ) {
-        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+        MetroCheckbox(checked = checked, onCheckedChange = onCheckedChange)
         Text(text = label, style = MaterialTheme.typography.bodyLarge)
     }
 }

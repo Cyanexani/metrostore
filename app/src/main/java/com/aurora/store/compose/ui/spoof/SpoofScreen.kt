@@ -35,10 +35,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.Constants
 import com.aurora.extensions.toast
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.navigation.Destination
-import com.aurora.store.compose.ui.spoof.menu.MenuItem
-import com.aurora.store.compose.ui.spoof.menu.SpoofMenu
 import com.aurora.store.compose.ui.spoof.navigation.SpoofPage
 import com.aurora.store.viewmodel.spoof.SpoofViewModel
 import kotlinx.coroutines.launch
@@ -105,31 +105,27 @@ private fun ScreenContent(
         }
     }
 
-    @Composable
-    fun SetupMenu() {
-        SpoofMenu { menuItem ->
-            when (menuItem) {
-                MenuItem.IMPORT -> {
-                    docImportLauncher.launch(arrayOf(Constants.PROPERTIES_IMPORT_MIME_TYPE))
-                }
-
-                MenuItem.EXPORT -> {
-                    docExportLauncher.launch(
-                        "aurora_store_${Build.BRAND}_${Build.DEVICE}.properties"
-                    )
-                }
-            }
-        }
-    }
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },
         topBar = {
             TopAppBar(
-                title = stringResource(R.string.title_spoof_manager),
-                actions = { SetupMenu() }
+                title = stringResource(R.string.title_spoof_manager)
+            )
+        },
+        bottomBar = {
+            MetroAppBar(
+                menuItems = listOf(
+                    MetroMenuItem(stringResource(R.string.action_import)) {
+                        docImportLauncher.launch(arrayOf(Constants.PROPERTIES_IMPORT_MIME_TYPE))
+                    },
+                    MetroMenuItem(stringResource(R.string.action_export)) {
+                        docExportLauncher.launch(
+                            "aurora_store_${Build.BRAND}_${Build.DEVICE}.properties"
+                        )
+                    }
+                )
             )
         }
     ) { paddingValues ->

@@ -12,7 +12,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,17 +21,13 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -61,8 +56,12 @@ import com.aurora.store.BuildConfig
 import com.aurora.store.R
 import com.aurora.store.compose.composable.AccountListItem
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.commons.LoadingDialog
@@ -196,19 +195,19 @@ fun AccountsScreen(
             title = { Text(text = stringResource(R.string.account_set_default_title)) },
             text = { Text(text = stringResource(R.string.account_set_default_message)) },
             confirmButton = {
-                TextButton(
+                MetroButton(
                     onClick = {
                         accountToSetDefault = null
                         isSwitchingDefault = true
                         viewModel.setDefault(account)
                     }
                 ) {
-                    Text(text = stringResource(R.string.action_restart).lowercase())
+                    Text(text = stringResource(R.string.action_restart).metroLowercase())
                 }
             },
             dismissButton = {
-                TextButton(onClick = { accountToSetDefault = null }) {
-                    Text(text = stringResource(R.string.action_cancel).lowercase())
+                MetroButton(onClick = { accountToSetDefault = null }) {
+                    Text(text = stringResource(R.string.action_cancel).metroLowercase())
                 }
             }
         )
@@ -246,18 +245,18 @@ fun AccountsScreen(
                 )
             },
             confirmButton = {
-                TextButton(
+                MetroButton(
                     onClick = {
                         accountToRemove = null
                         viewModel.remove(account)
                     }
                 ) {
-                    Text(text = stringResource(R.string.account_remove).lowercase())
+                    Text(text = stringResource(R.string.account_remove).metroLowercase())
                 }
             },
             dismissButton = {
-                TextButton(onClick = { accountToRemove = null }) {
-                    Text(text = stringResource(R.string.action_cancel).lowercase())
+                MetroButton(onClick = { accountToRemove = null }) {
+                    Text(text = stringResource(R.string.action_cancel).metroLowercase())
                 }
             }
         )
@@ -363,8 +362,20 @@ private fun ScreenContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = stringResource(R.string.title_account_manager),
-                actions = { OverflowMenu(onRefreshAll = onRefreshAll) }
+                title = stringResource(R.string.title_account_manager)
+            )
+        },
+        bottomBar = {
+            val context = LocalContext.current
+            MetroAppBar(
+                menuItems = listOf(
+                    MetroMenuItem(stringResource(R.string.account_refresh_all)) { onRefreshAll() },
+                    MetroMenuItem(stringResource(R.string.menu_terms)) { context.browse(URL_TOS) },
+                    MetroMenuItem(stringResource(R.string.menu_disclaimer)) {
+                        context.browse(URL_DISCLAIMER)
+                    },
+                    MetroMenuItem(stringResource(R.string.menu_license)) { context.browse(URL_LICENSE) }
+                )
             )
         }
     ) { paddingValues ->
@@ -376,8 +387,8 @@ private fun ScreenContent(
             SectionHeader(
                 title = pluralStringResource(R.plurals.account_count, accounts.size, accounts.size),
                 trailing = {
-                    TextButton(onClick = onAddAccount) {
-                        Text(text = stringResource(R.string.account_add).lowercase())
+                    MetroButton(onClick = onAddAccount) {
+                        Text(text = stringResource(R.string.account_add).metroLowercase())
                     }
                 }
             )
@@ -430,45 +441,6 @@ private fun AddOptionRow(iconRes: Int, label: String, onClick: () -> Unit) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-    }
-}
-
-@Composable
-private fun OverflowMenu(onRefreshAll: () -> Unit) {
-    val context = LocalContext.current
-    var expanded by remember { mutableStateOf(false) }
-    val links = mapOf(
-        R.string.menu_terms to URL_TOS,
-        R.string.menu_disclaimer to URL_DISCLAIMER,
-        R.string.menu_license to URL_LICENSE
-    )
-
-    Box {
-        IconButton(onClick = { expanded = true }) {
-            Icon(
-                painter = painterResource(R.drawable.ic_more_vert),
-                contentDescription = stringResource(R.string.menu)
-            )
-        }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.account_refresh_all).lowercase()) },
-                onClick = {
-                    expanded = false
-                    onRefreshAll()
-                }
-            )
-            HorizontalDivider()
-            links.forEach { (label, url) ->
-                DropdownMenuItem(
-                    text = { Text(text = stringResource(label).lowercase()) },
-                    onClick = {
-                        expanded = false
-                        context.browse(url)
-                    }
-                )
-            }
-        }
     }
 }
 

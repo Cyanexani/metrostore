@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,7 +33,9 @@ import com.aurora.extensions.isSAndAbove
 import com.aurora.extensions.isTAndAbove
 import com.aurora.extensions.setAppTheme
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.preferences.network.SingleChoiceDialog
 import com.aurora.store.util.Preferences
@@ -127,19 +128,19 @@ private fun ScreenContent() {
                                 }
                             )
                         },
-                        headlineContent = { Text(stringResource(R.string.app_language).lowercase()) },
+                        headlineContent = { Text(stringResource(R.string.app_language).metroLowercase()) },
                         supportingContent = { Text(LocalLocale.current.platformLocale.displayName) }
                     )
                 }
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_theme).lowercase()) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_theme).metroLowercase()) })
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showThemeDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_theme).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_theme).metroLowercase()) },
                     supportingContent = { Text(themeEntries.getOrElse(themeStyle) { "" }) }
                 )
             }
@@ -150,12 +151,12 @@ private fun ScreenContent() {
                             dynamicColors = !dynamicColors
                             context.save(PREFERENCE_DYNAMIC_COLORS, dynamicColors)
                         },
-                        headlineContent = { Text(stringResource(R.string.pref_ui_dynamic_color).lowercase()) },
+                        headlineContent = { Text(stringResource(R.string.pref_ui_dynamic_color).metroLowercase()) },
                         supportingContent = {
                             Text(stringResource(R.string.pref_ui_dynamic_color_desc))
                         },
                         trailingContent = {
-                            Switch(
+                            MetroSwitch(
                                 checked = dynamicColors,
                                 onCheckedChange = { checked ->
                                     dynamicColors = checked
@@ -168,18 +169,18 @@ private fun ScreenContent() {
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_layout).lowercase()) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_layout).metroLowercase()) })
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showTabDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_layout_tab).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_layout_tab).metroLowercase()) },
                     supportingContent = { Text(tabEntries.getOrElse(selectedTab) { "" }) }
                 )
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).metroLowercase()) })
             }
             item {
                 ListItem(
@@ -187,10 +188,10 @@ private fun ScreenContent() {
                         forYou = !forYou
                         context.save(PREFERENCE_FOR_YOU, forYou)
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_no_for_you).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_no_for_you).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_ui_no_for_you_desc)) },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = forYou,
                             onCheckedChange = { checked ->
                                 forYou = checked

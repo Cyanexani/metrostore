@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.app.AnimatedAppIcon
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.data.room.download.Download
 import com.aurora.store.util.PackageUtil
 
@@ -160,7 +161,7 @@ private fun DownloadHeader(download: Download, onShowDetails: () -> Unit) {
             )
         }
         MetroButton(onClick = onShowDetails) {
-            Text(stringResource(R.string.updates_app_details).lowercase())
+            Text(stringResource(R.string.updates_app_details).metroLowercase())
         }
     }
 }

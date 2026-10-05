@@ -33,6 +33,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
@@ -96,7 +97,7 @@ fun AppTile(modifier: Modifier = Modifier, app: App, onClick: () -> Unit = {}) {
         // Windows Phone tiles list the price and rating under the name in grey.
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "${price.lowercase()}  ${app.labeledRating}★",
+            text = "${price.metroLowercase()}  ${app.labeledRating}★",
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,

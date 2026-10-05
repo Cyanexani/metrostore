@@ -65,7 +65,7 @@ fun Placeholder(
         if (actionLabel != null && onAction != null) {
             MetroButton(onClick = onAction) {
                 Text(
-                    text = actionLabel.lowercase(),
+                    text = actionLabel.metroLowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

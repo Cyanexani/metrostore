@@ -31,7 +31,7 @@ fun CategoryItem(modifier: Modifier = Modifier, category: Category, onClick: () 
                 horizontal = dimensionResource(R.dimen.spacing_medium),
                 vertical = dimensionResource(R.dimen.spacing_small)
             ),
-        text = category.title.lowercase().replace(" & ", " + "),
+        text = category.title.metroLowercase().replace(" & ", " + "),
         style = MaterialTheme.typography.titleLarge,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis

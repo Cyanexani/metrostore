@@ -9,7 +9,6 @@ import android.text.format.Formatter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -67,13 +66,13 @@ fun InsufficientStorageDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onFreeUpSpace) {
-                Text(text = stringResource(R.string.action_free_up_space).lowercase())
+            MetroButton(onClick = onFreeUpSpace) {
+                Text(text = stringResource(R.string.action_free_up_space).metroLowercase())
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.action_cancel).lowercase())
+            MetroButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.action_cancel).metroLowercase())
             }
         }
     )

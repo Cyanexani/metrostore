@@ -20,7 +20,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
@@ -42,6 +41,7 @@ import com.aurora.store.R
 import com.aurora.store.compose.composable.Logo
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.PageIndicator
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.onboarding.navigation.OnboardingPage
 import com.aurora.store.viewmodel.onboarding.OnboardingUiState
@@ -117,7 +117,7 @@ private fun ScreenContent(
                         else -> Modifier.widthIn(min = dimensionResource(R.dimen.width_button))
                     }
 
-                    TextButton(
+                    MetroButton(
                         modifier = buttonWidthModifier,
                         onClick = {
                             when (pagerState.currentPage) {
@@ -135,7 +135,7 @@ private fun ScreenContent(
                             text = (when (pagerState.currentPage) {
                                 0 -> stringResource(R.string.action_skip)
                                 else -> stringResource(R.string.action_back)
-                            }).lowercase(),
+                            }).metroLowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -161,7 +161,7 @@ private fun ScreenContent(
                             text = (when {
                                 isFinalPage() -> stringResource(R.string.action_finish)
                                 else -> stringResource(R.string.action_next)
-                            }).lowercase(),
+                            }).metroLowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

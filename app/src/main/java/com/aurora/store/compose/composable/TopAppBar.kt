@@ -46,7 +46,8 @@ import com.aurora.store.compose.preview.ThemePreviewProvider
  * @param title Title of the screen, shown large and lowercase; omitted when null
  * @param header Caption above the title; defaults to the store name
  * @param navigationIcon Icon for the navigation button
- * @param showNavigationIcon Whether to show the navigation (back) icon button
+ * @param showNavigationIcon Whether to show the navigation (back) icon button. Off by default:
+ * like Windows Phone, the system back button/gesture is the way back.
  * @param actions Actions to display on the top app bar (for e.g. menu)
  */
 @Composable
@@ -55,7 +56,7 @@ fun TopAppBar(
     title: String? = null,
     header: String? = null,
     navigationIcon: Painter = painterResource(R.drawable.ic_arrow_back),
-    showNavigationIcon: Boolean = true,
+    showNavigationIcon: Boolean = false,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     actions: @Composable (RowScope.() -> Unit) = {}
 ) {
@@ -98,7 +99,7 @@ fun TopAppBar(
                     end = dimensionResource(R.dimen.spacing_medium),
                     bottom = dimensionResource(R.dimen.spacing_small)
                 ),
-                text = title.lowercase(),
+                text = title.metroLowercase(),
                 style = MaterialTheme.typography.displaySmall,
                 maxLines = 1,
                 softWrap = false

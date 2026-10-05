@@ -6,7 +6,6 @@
 package com.aurora.store.compose.composable
 
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,13 +28,13 @@ fun PermissionListItem(
         headline = permission.title,
         supporting = permission.subtitle,
         trailing = {
-            TextButton(onClick = onAction, enabled = !permission.isGranted) {
+            MetroButton(onClick = onAction, enabled = !permission.isGranted) {
                 Text(
                     text = (if (permission.isGranted) {
                         stringResource(R.string.action_granted)
                     } else {
                         stringResource(R.string.action_grant)
-                    }).lowercase(),
+                    }).metroLowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

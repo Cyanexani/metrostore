@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.aurora.extensions.isQAndAbove
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 private const val TAG = "NetworkScreen"
@@ -97,7 +98,7 @@ fun NetworkScreen() {
                         }
                     }
                 ) {
-                    Text(stringResource(R.string.action_check).lowercase())
+                    Text(stringResource(R.string.action_check).metroLowercase())
                 }
             }
         }

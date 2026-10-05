@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -36,6 +35,7 @@ import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.composable.app.AnimatedAppIcon
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -114,8 +114,8 @@ private fun ScreenContent(
                         tertiary = relativeTime(entry.timestamp),
                         onClick = { onClick(entry) },
                         trailing = {
-                            TextButton(onClick = { onDismiss(entry) }) {
-                                Text(stringResource(R.string.action_clear).lowercase())
+                            MetroButton(onClick = { onDismiss(entry) }) {
+                                Text(stringResource(R.string.action_clear).metroLowercase())
                             }
                         }
                     )
@@ -158,12 +158,12 @@ private fun PendingInstallItem(
                     dimensionResource(R.dimen.spacing_xsmall)
                 )
             ) {
-                TextButton(onClick = onDismiss) {
-                    Text(stringResource(R.string.action_clear).lowercase())
+                MetroButton(onClick = onDismiss) {
+                    Text(stringResource(R.string.action_clear).metroLowercase())
                 }
                 if (!isInstalling) {
                     MetroButton(onClick = onInstall) {
-                        Text(stringResource(R.string.action_install).lowercase())
+                        Text(stringResource(R.string.action_install).metroLowercase())
                     }
                 }
             }

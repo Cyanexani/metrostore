@@ -172,7 +172,7 @@ fun MetroAppBar(
                                     horizontal = dimensionResource(R.dimen.spacing_large),
                                     vertical = dimensionResource(R.dimen.spacing_small)
                                 ),
-                            text = item.label.lowercase(),
+                            text = item.label.metroLowercase(),
                             style = MaterialTheme.typography.titleLarge,
                             color = if (item.enabled) {
                                 MaterialTheme.colorScheme.onSurface
@@ -223,7 +223,7 @@ private fun MetroAppBarIconButton(
         AnimatedVisibility(visible = showLabel) {
             Text(
                 modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_xsmall)),
-                text = button.label.lowercase(),
+                text = button.label.metroLowercase(),
                 style = MaterialTheme.typography.labelSmall,
                 color = color,
                 maxLines = 1

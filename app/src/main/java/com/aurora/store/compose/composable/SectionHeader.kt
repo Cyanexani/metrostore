@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
@@ -79,7 +78,7 @@ fun SectionHeader(
                 text = when (headerStyle) {
                     SectionHeaderStyle.CAPTION -> title.uppercase()
                     SectionHeaderStyle.GROUP -> title
-                    SectionHeaderStyle.SUBHEADER -> title.lowercase()
+                    SectionHeaderStyle.SUBHEADER -> title.metroLowercase()
                 },
                 style = when (headerStyle) {
                     SectionHeaderStyle.CAPTION -> MaterialTheme.typography.titleSmall
@@ -136,6 +135,6 @@ private fun SectionHeaderWithSubtitlePreview() {
 private fun SectionHeaderWithActionPreview() {
     SectionHeader(
         title = "3 updates available",
-        trailing = { TextButton(onClick = {}) { Text("Update all".lowercase()) } }
+        trailing = { MetroButton(onClick = {}) { Text("Update all".metroLowercase()) } }
     )
 }

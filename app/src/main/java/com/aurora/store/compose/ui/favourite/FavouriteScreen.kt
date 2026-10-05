@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -48,16 +47,18 @@ import com.aurora.store.R
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
 import com.aurora.store.compose.composable.FavouriteListItem
 import com.aurora.store.compose.composable.InsufficientStorageDialog
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.FavouritePreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.commons.InstallFavouritesDialog
-import com.aurora.store.compose.ui.favourite.menu.FavouriteMenu
-import com.aurora.store.compose.ui.favourite.menu.MenuItem
 import com.aurora.store.data.model.StorageRequirement
 import com.aurora.store.data.room.download.Download
 import com.aurora.store.data.room.favourite.Favourite
@@ -184,21 +185,24 @@ private fun ScreenContent(
         )
     }
 
-    @Composable
-    fun SetupMenu() {
-        FavouriteMenu(items = favourites.itemCount) { menuItem ->
-            when (menuItem) {
-                MenuItem.IMPORT -> onImportFavourites()
-                MenuItem.EXPORT -> onExportFavourites()
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
-                title = stringResource(R.string.title_favourites_manager),
-                actions = { SetupMenu() }
+                title = stringResource(R.string.title_favourites_manager)
+            )
+        },
+        bottomBar = {
+            MetroAppBar(
+                menuItems = buildList {
+                    add(MetroMenuItem(stringResource(R.string.action_import)) { onImportFavourites() })
+                    if (favourites.itemCount > 0) {
+                        add(
+                            MetroMenuItem(stringResource(R.string.action_export)) {
+                                onExportFavourites()
+                            }
+                        )
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -237,12 +241,12 @@ private fun ScreenContent(
                                         ),
                                         trailing = if (showInstallAll) {
                                             {
-                                                TextButton(
+                                                MetroButton(
                                                     onClick = { showInstallDialog = true },
                                                     enabled = !isEnqueuing
                                                 ) {
                                                     Text(
-                                                        stringResource(R.string.action_install_all).lowercase()
+                                                        stringResource(R.string.action_install_all).metroLowercase()
                                                     )
                                                 }
                                             }

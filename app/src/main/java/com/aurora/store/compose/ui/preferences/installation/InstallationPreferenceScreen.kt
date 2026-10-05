@@ -13,9 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +27,10 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.core.content.getSystemService
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroAlertDialog
+import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroSwitch
 import com.aurora.store.compose.composable.TopAppBar
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.util.Preferences
@@ -70,16 +71,16 @@ private fun ScreenContent(
             title = { Text(stringResource(R.string.pref_clear_device_owner_title)) },
             text = { Text(stringResource(R.string.pref_clear_device_owner_desc)) },
             confirmButton = {
-                TextButton(onClick = {
+                MetroButton(onClick = {
                     showClearOwnerDialog = false
                     onClearDeviceOwner()
                 }) {
-                    Text(stringResource(android.R.string.ok).lowercase())
+                    Text(stringResource(android.R.string.ok).metroLowercase())
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showClearOwnerDialog = false }) {
-                    Text(stringResource(android.R.string.cancel).lowercase())
+                MetroButton(onClick = { showClearOwnerDialog = false }) {
+                    Text(stringResource(android.R.string.cancel).metroLowercase())
                 }
             }
         )
@@ -100,14 +101,14 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { onNavigateTo(Destination.Installer) },
-                    headlineContent = { Text(stringResource(R.string.pref_install_mode_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_install_mode_title).metroLowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_install_mode_summary)) }
                 )
             }
             item { HorizontalDivider() }
             item {
                 ListItem(
-                    headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) }
+                    headlineContent = { Text(stringResource(R.string.pref_common_extra).metroLowercase()) }
                 )
             }
             item {
@@ -116,12 +117,12 @@ private fun ScreenContent(
                         autoDelete = !autoDelete
                         context.save(PREFERENCE_AUTO_DELETE, autoDelete)
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_install_delete_title).lowercase()) },
+                    headlineContent = { Text(stringResource(R.string.pref_install_delete_title).metroLowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_install_delete_summary))
                     },
                     trailingContent = {
-                        Switch(
+                        MetroSwitch(
                             checked = autoDelete,
                             onCheckedChange = { checked ->
                                 autoDelete = checked
@@ -136,7 +137,7 @@ private fun ScreenContent(
                     ListItem(
                         modifier = Modifier.clickable { showClearOwnerDialog = true },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_clear_device_owner_title).lowercase())
+                            Text(stringResource(R.string.pref_clear_device_owner_title).metroLowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_clear_device_owner_summary))

@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -53,7 +54,7 @@ fun Actions(
             enabled = isPrimaryActionEnabled
         ) {
             Text(
-                text = primaryActionDisplayName.lowercase(),
+                text = primaryActionDisplayName.metroLowercase(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -65,7 +66,7 @@ fun Actions(
             enabled = isSecondaryActionEnabled
         ) {
             Text(
-                text = secondaryActionDisplayName.lowercase(),
+                text = secondaryActionDisplayName.metroLowercase(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -129,7 +128,7 @@ fun MicroG(
                         dimensionResource(R.dimen.spacing_small)
                     )
                 ) {
-                    Checkbox(
+                    MetroCheckbox(
                         checked = isChecked,
                         onCheckedChange = {
                             isChecked = it
@@ -173,7 +172,7 @@ fun MicroG(
                             stringResource(R.string.action_retry)
                         } else {
                             stringResource(R.string.action_install_microG)
-                        }).lowercase()
+                        }).metroLowercase()
                     )
                 }
             }

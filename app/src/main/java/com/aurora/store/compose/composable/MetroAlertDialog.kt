@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -64,7 +63,7 @@ private fun AnchorDialogToTop() {
 private fun MetroAlertDialogPreview() {
     MetroAlertDialog(
         onDismissRequest = {},
-        confirmButton = { TextButton(onClick = {}) { Text(text = "sign in") } },
+        confirmButton = { MetroButton(onClick = {}) { Text(text = "sign in") } },
         title = { Text(text = "Account required") },
         text = { Text(text = "To use this feature, you'll need to sign in.") }
     )

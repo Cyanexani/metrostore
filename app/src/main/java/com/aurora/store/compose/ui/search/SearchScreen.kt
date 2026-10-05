@@ -6,8 +6,6 @@
 
 package com.aurora.store.compose.ui.search
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +26,6 @@ import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExpandedDockedSearchBar
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -74,10 +71,12 @@ import com.aurora.gplayapi.SearchSuggestEntry
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
+import com.aurora.store.compose.composable.MetroFilterChip
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.SearchSuggestionListItem
 import com.aurora.store.compose.composable.app.LargeAppListItem
+import com.aurora.store.compose.composable.metroLowercase
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -118,7 +117,6 @@ private fun ScreenContent(
     onFilter: (filter: SearchFilter) -> Unit = {},
     isAnonymous: Boolean = true
 ) {
-    val activity = LocalActivity.current as? ComponentActivity
     val textFieldState = rememberTextFieldState()
     val searchBarState = rememberSearchBarState(initialValue = SearchBarValue.Expanded)
     var isSearching by rememberSaveable { mutableStateOf(false) }
@@ -163,18 +161,10 @@ private fun ScreenContent(
                 onSearch = { query -> onRequestSearch(query) },
                 placeholder = {
                     Text(
-                        text = stringResource(R.string.search_hint).lowercase(),
+                        text = stringResource(R.string.search_hint).metroLowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                },
-                leadingIcon = {
-                    IconButton(onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.action_back)
-                        )
-                    }
                 },
                 trailingIcon = {
                     if (textFieldState.text.isNotBlank()) {
@@ -348,7 +338,7 @@ private fun FilterHeader(
 
     @Composable
     fun NonExpandableFilterChip(@StringRes filter: Int, isSelected: Boolean) {
-        FilterChip(
+        MetroFilterChip(
             enabled = isEnabled,
             onClick = {
                 activeFilter = when (filter) {
@@ -358,7 +348,7 @@ private fun FilterHeader(
                 }
                 onFilter(activeFilter)
             },
-            label = { Text(text = stringResource(filter)) },
+            label = { Text(text = stringResource(filter).metroLowercase()) },
             selected = isSelected,
             leadingIcon = {
                 if (isSelected) {
@@ -376,10 +366,10 @@ private fun FilterHeader(
         var isExpanded by rememberSaveable { mutableStateOf(false) }
 
         Box {
-            FilterChip(
+            MetroFilterChip(
                 enabled = isEnabled,
                 onClick = { isExpanded = !isExpanded },
-                label = { Text(text = stringResource(filter)) },
+                label = { Text(text = stringResource(filter).metroLowercase()) },
                 selected = isSelected,
                 leadingIcon = {
                     if (isSelected) {
@@ -411,7 +401,7 @@ private fun FilterHeader(
 
                 options.forEach { (key, value) ->
                     DropdownMenuItem(
-                        text = { Text(text = key.lowercase()) },
+                        text = { Text(text = key.metroLowercase()) },
                         onClick = {
                             activeFilter = when (filter) {
                                 R.string.action_filter_rating -> {

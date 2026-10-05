@@ -5,7 +5,6 @@
 
 package com.aurora.store.compose.composable
 
-import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,7 +28,7 @@ fun DeviceListItem(
         tertiary = platforms.replace(",\\s*".toRegex(), ", "),
         onClick = { if (!isChecked) onClick() },
         trailing = {
-            Checkbox(checked = isChecked, onCheckedChange = { if (!isChecked) onClick() })
+            MetroCheckbox(checked = isChecked, onCheckedChange = { if (!isChecked) onClick() })
         }
     )
 }

@@ -5,7 +5,6 @@
 
 package com.aurora.store.compose.composable
 
-import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,7 +33,7 @@ fun InstallerListItem(
             ?.let { stringResource(R.string.installer_provider, description, it) }
             ?: description,
         onClick = onClick,
-        trailing = { RadioButton(selected = isSelected, onClick = onClick) }
+        trailing = { MetroRadioButton(selected = isSelected, onClick = onClick) }
     )
 }
 
