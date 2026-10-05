@@ -8,7 +8,6 @@ package com.aurora.store.compose.composable
 import android.text.format.Formatter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,7 +31,7 @@ fun InsufficientStorageDialog(
     val required = Formatter.formatShortFileSize(context, requirement.required)
     val available = Formatter.formatShortFileSize(context, requirement.available)
 
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = stringResource(R.string.insufficient_storage_title)) },
         text = {
@@ -69,12 +68,12 @@ fun InsufficientStorageDialog(
         },
         confirmButton = {
             TextButton(onClick = onFreeUpSpace) {
-                Text(text = stringResource(R.string.action_free_up_space))
+                Text(text = stringResource(R.string.action_free_up_space).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.action_cancel))
+                Text(text = stringResource(R.string.action_cancel).lowercase())
             }
         }
     )

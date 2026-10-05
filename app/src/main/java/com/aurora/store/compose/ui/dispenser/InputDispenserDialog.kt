@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,6 +30,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import kotlinx.coroutines.android.awaitFrame
 
 /**
@@ -49,7 +49,7 @@ fun InputDispenserDialog(onAdd: (url: String) -> Unit = {}, onDismiss: () -> Uni
         focusRequester.requestFocus()
     }
 
-    AlertDialog(
+    MetroAlertDialog(
         title = { Text(text = stringResource(R.string.add_dispenser_title)) },
         text = {
             Column(
@@ -77,12 +77,12 @@ fun InputDispenserDialog(onAdd: (url: String) -> Unit = {}, onDismiss: () -> Uni
                 onClick = { onAdd(url.text) },
                 enabled = Patterns.WEB_URL.matcher(url.text).matches()
             ) {
-                Text(text = stringResource(R.string.add))
+                Text(text = stringResource(R.string.add).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(android.R.string.cancel))
+                Text(text = stringResource(android.R.string.cancel).lowercase())
             }
         }
     )

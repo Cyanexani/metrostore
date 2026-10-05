@@ -76,7 +76,7 @@ private fun ScreenContent() {
             item {
                 ListItem(
                     modifier = Modifier.clickable { setAppLock(!appLockEnabled) },
-                    headlineContent = { Text(stringResource(R.string.app_lock_title)) },
+                    headlineContent = { Text(stringResource(R.string.app_lock_title).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.app_lock_summary)) },
                     trailingContent = {
                         Switch(
@@ -90,7 +90,7 @@ private fun ScreenContent() {
             item {
                 ListItem(
                     modifier = Modifier.clickable { setConfirmDeepLink(!confirmDeepLink) },
-                    headlineContent = { Text(stringResource(R.string.confirm_deeplink_title)) },
+                    headlineContent = { Text(stringResource(R.string.confirm_deeplink_title).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.confirm_deeplink_summary)) },
                     trailingContent = {
                         Switch(

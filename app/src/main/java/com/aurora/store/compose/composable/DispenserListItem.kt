@@ -33,7 +33,7 @@ fun DispenserListItem(
         trailing = {
             TextButton(onClick = onClear) {
                 Text(
-                    text = stringResource(R.string.remove),
+                    text = stringResource(R.string.remove).lowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
@@ -44,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -162,20 +162,20 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { onNavigateTo(Destination.Dispenser) },
-                    headlineContent = { Text(stringResource(R.string.pref_dispenser_title)) },
+                    headlineContent = { Text(stringResource(R.string.pref_dispenser_title).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_dispenser_summary)) }
                 )
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showProxyDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_network_proxy_url)) },
+                    headlineContent = { Text(stringResource(R.string.pref_network_proxy_url).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_network_proxy_desc)) }
                 )
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra)) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) })
             }
             if (hasMicroG) {
                 item {
@@ -185,7 +185,7 @@ private fun ScreenContent(
                             context.save(PREFERENCE_MICROG_AUTH, microGAuth)
                         },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_network_microg_login_title))
+                            Text(stringResource(R.string.pref_network_microg_login_title).lowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_network_microg_login_desc))
@@ -205,7 +205,7 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { showVendingDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_vending_version_title)) },
+                    headlineContent = { Text(stringResource(R.string.pref_vending_version_title).lowercase()) },
                     supportingContent = { Text(vendingEntries.getOrElse(vendingVersion) { "" }) }
                 )
             }
@@ -221,7 +221,7 @@ private fun ProxyURLDialog(
     onDismiss: () -> Unit
 ) {
     var url by remember { mutableStateOf(currentUrl) }
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.pref_network_proxy_url)) },
         text = {
@@ -245,19 +245,19 @@ private fun ProxyURLDialog(
                 enabled = url.isNotBlank(),
                 onClick = { onSave(url.trim()) }
             ) {
-                Text(stringResource(R.string.set))
+                Text(stringResource(R.string.set).lowercase())
             }
         },
         dismissButton = {
             Row {
                 if (currentUrl.isNotBlank()) {
                     TextButton(onClick = onDelete) {
-                        Text(stringResource(R.string.disable))
+                        Text(stringResource(R.string.disable).lowercase())
                     }
                 }
                 Spacer(Modifier.width(dimensionResource(R.dimen.spacing_small)))
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(android.R.string.cancel))
+                    Text(stringResource(android.R.string.cancel).lowercase())
                 }
             }
         }
@@ -272,7 +272,7 @@ internal fun SingleChoiceDialog(
     onSelect: (Int) -> Unit,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
@@ -302,7 +302,7 @@ internal fun SingleChoiceDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(android.R.string.cancel))
+                Text(stringResource(android.R.string.cancel).lowercase())
             }
         }
     )

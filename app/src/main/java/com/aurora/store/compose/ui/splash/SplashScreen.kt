@@ -295,7 +295,7 @@ fun SplashScreen(
                                     viewModel.buildAnonymousAuthData()
                                 }
                             ) {
-                                Text(stringResource(R.string.account_anonymous))
+                                Text(stringResource(R.string.account_anonymous).lowercase())
                             }
                         }
                         if (googleLoading || anonymousLoading) {

@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,6 +43,9 @@ import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
 import com.aurora.store.compose.composable.DownloadListItem
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroAppBarButton
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.TopAppBar
@@ -52,8 +53,7 @@ import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.compose.ui.commons.SortSheet
-import com.aurora.store.compose.ui.downloads.menu.DownloadsMenu
-import com.aurora.store.compose.ui.downloads.menu.MenuItem
+import com.aurora.store.compose.ui.main.storeMenuItems
 import com.aurora.store.compose.ui.sheets.DownloadActionsSheet
 import com.aurora.store.data.model.DownloadSortBy
 import com.aurora.store.data.model.DownloadStatus
@@ -153,31 +153,38 @@ private fun ScreenContent(
         )
     }
 
-    @Composable
-    fun SetupMenu() {
-        DownloadsMenu { menuItem ->
-            when (menuItem) {
-                MenuItem.CANCEL_ALL -> onCancelAll()
-                MenuItem.FORCE_CLEAR_ALL -> onForceClearAll()
-                MenuItem.CLEAR_FINISHED -> onClearFinished()
-            }
-        }
-    }
-
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = stringResource(R.string.title_download_manager),
-                actions = {
-                    if (downloads.itemCount != 0) {
-                        IconButton(onClick = { sortSheetVisible = true }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_tune),
-                                contentDescription = stringResource(R.string.installed_sort_by)
+        topBar = { TopAppBar(title = stringResource(R.string.title_download_manager)) },
+        bottomBar = {
+            val hasDownloads = downloads.itemCount != 0
+            MetroAppBar(
+                buttons = if (hasDownloads) {
+                    listOf(
+                        MetroAppBarButton(
+                            iconRes = R.drawable.ic_tune,
+                            label = stringResource(R.string.installed_sort_by)
+                        ) { sortSheetVisible = true }
+                    )
+                } else {
+                    emptyList()
+                },
+                menuItems = buildList {
+                    if (hasDownloads) {
+                        add(MetroMenuItem(stringResource(R.string.download_cancel_all), onClick = onCancelAll))
+                        add(
+                            MetroMenuItem(
+                                stringResource(R.string.download_clear_finished),
+                                onClick = onClearFinished
                             )
-                        }
-                        SetupMenu()
+                        )
+                        add(
+                            MetroMenuItem(
+                                stringResource(R.string.download_force_clear_all),
+                                onClick = onForceClearAll
+                            )
+                        )
                     }
+                    addAll(storeMenuItems(onNavigateTo))
                 }
             )
         }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import com.aurora.store.util.Preferences
@@ -93,7 +93,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                         auroraOnly = !auroraOnly
                         context.save(PREFERENCE_FILTER_AURORA_ONLY, auroraOnly)
                     },
-                    headlineContent = { Text(stringResource(R.string.source_filters_all)) },
+                    headlineContent = { Text(stringResource(R.string.source_filters_all).lowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_source_filters_desc_all))
                     },
@@ -112,7 +112,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
             item {
                 ListItem(
                     headlineContent = {
-                        Text(stringResource(R.string.source_filters_installers_header))
+                        Text(stringResource(R.string.source_filters_installers_header).lowercase())
                     }
                 )
             }
@@ -121,7 +121,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                     ListItem(
                         headlineContent = {
                             Text(
-                                text = stringResource(R.string.source_filters_installers_empty),
+                                text = stringResource(R.string.source_filters_installers_empty).lowercase(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -159,7 +159,7 @@ private fun ScreenContent(onCheckUpdatesNow: () -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.source_filters_add)) }
+                    headlineContent = { Text(stringResource(R.string.source_filters_add).lowercase()) }
                 )
             }
         }
@@ -176,7 +176,7 @@ private fun AddInstallerDialog(
     val trimmed = value.trim()
     val canAdd = trimmed.isNotEmpty() && trimmed !in existing
 
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.source_filters_add)) },
         text = {
@@ -191,12 +191,12 @@ private fun AddInstallerDialog(
         },
         confirmButton = {
             TextButton(onClick = { onAdd(trimmed) }, enabled = canAdd) {
-                Text(stringResource(android.R.string.ok))
+                Text(stringResource(android.R.string.ok).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_cancel))
+                Text(stringResource(R.string.action_cancel).lowercase())
             }
         }
     )

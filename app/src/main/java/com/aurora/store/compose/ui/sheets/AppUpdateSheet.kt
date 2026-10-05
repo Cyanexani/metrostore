@@ -237,7 +237,7 @@ private fun AppHeader(update: Update, onShowDetails: () -> Unit) {
         }
 
         MetroButton(onClick = onShowDetails) {
-            Text(stringResource(R.string.updates_app_details))
+            Text(stringResource(R.string.updates_app_details).lowercase())
         }
     }
 }

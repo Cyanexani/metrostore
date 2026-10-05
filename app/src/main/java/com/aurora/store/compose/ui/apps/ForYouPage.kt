@@ -26,7 +26,8 @@ internal fun ForYouContent(
     onAppClick: (App) -> Unit,
     onHeaderClick: (StreamCluster) -> Unit,
     onClusterScrolled: (StreamCluster) -> Unit,
-    onScrolledToEnd: () -> Unit
+    onScrolledToEnd: () -> Unit,
+    tiles: Boolean = false
 ) {
     val category = category(pageType)
     val state by viewModel.liveData.observeAsState()
@@ -40,6 +41,7 @@ internal fun ForYouContent(
     StreamCarousel(
         modifier = Modifier.fillMaxSize(),
         streamBundle = streamBundle?.get(category),
+        tiles = tiles,
         onHeaderClick = onHeaderClick,
         onAppClick = onAppClick,
         onClusterScrolled = onClusterScrolled,

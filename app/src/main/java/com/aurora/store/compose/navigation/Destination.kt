@@ -17,6 +17,8 @@ import com.aurora.store.data.room.update.Update
 sealed class Destination {
     data class Splash(val packageName: String? = null) : Destination()
     data class Main(val initialTab: Int) : Destination()
+    data class StoreSection(val pageType: Int, val page: Int = 0) : Destination()
+    data object MyApps : Destination()
 
     data class AppDetails(val packageName: String) : Destination()
     data class DevProfile(val devId: String) : Destination()

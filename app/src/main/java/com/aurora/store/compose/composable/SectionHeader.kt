@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,7 +30,24 @@ import com.aurora.store.R
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
- * Section header row used throughout the app, styled as a Windows Phone all-caps caption.
+ * How [SectionHeader] titles are set. Windows Phone cases headings by where they appear, so a
+ * screen picks the style once through [LocalSectionHeaderStyle] for every header inside it.
+ */
+enum class SectionHeaderStyle {
+    /** Store hub captions: small and all caps ("QUICK LINKS"). */
+    CAPTION,
+
+    /** Groups on a detail page: sentence case in large grey ("Information"). */
+    GROUP,
+
+    /** List group titles: lowercase in grey ("action needed"). */
+    SUBHEADER
+}
+
+val LocalSectionHeaderStyle = staticCompositionLocalOf { SectionHeaderStyle.CAPTION }
+
+/**
+ * Section header row used throughout the app, cased per [LocalSectionHeaderStyle].
  * Title with optional subtitle, an optional
  * trailing slot, and the whole row becomes clickable when [onClick] is non-null. When
  * [trailing] is null and [onClick] is set, a default right-chevron is shown.
@@ -42,6 +60,7 @@ fun SectionHeader(
     onClick: (() -> Unit)? = null,
     trailing: (@Composable () -> Unit)? = null
 ) {
+    val headerStyle = LocalSectionHeaderStyle.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -57,8 +76,21 @@ fun SectionHeader(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = title.uppercase(),
-                style = MaterialTheme.typography.titleSmall,
+                text = when (headerStyle) {
+                    SectionHeaderStyle.CAPTION -> title.uppercase()
+                    SectionHeaderStyle.GROUP -> title
+                    SectionHeaderStyle.SUBHEADER -> title.lowercase()
+                },
+                style = when (headerStyle) {
+                    SectionHeaderStyle.CAPTION -> MaterialTheme.typography.titleSmall
+                    SectionHeaderStyle.GROUP -> MaterialTheme.typography.titleLarge
+                    SectionHeaderStyle.SUBHEADER -> MaterialTheme.typography.titleMedium
+                },
+                color = if (headerStyle == SectionHeaderStyle.CAPTION) {
+                    MaterialTheme.colorScheme.onBackground
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -104,6 +136,6 @@ private fun SectionHeaderWithSubtitlePreview() {
 private fun SectionHeaderWithActionPreview() {
     SectionHeader(
         title = "3 updates available",
-        trailing = { TextButton(onClick = {}) { Text("Update all") } }
+        trailing = { TextButton(onClick = {}) { Text("Update all".lowercase()) } }
     )
 }

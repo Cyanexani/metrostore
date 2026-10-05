@@ -5,13 +5,13 @@
 
 package com.aurora.store.compose.ui.dispenser
 
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 
 /**
  * Dialog for removing a token dispenser
@@ -20,7 +20,7 @@ import com.aurora.store.R
  */
 @Composable
 fun RemoveDispenserDialog(url: String, onRemove: () -> Unit = {}, onDismiss: () -> Unit = {}) {
-    AlertDialog(
+    MetroAlertDialog(
         title = { Text(text = stringResource(R.string.remove_dispenser_title)) },
         text = {
             Text(text = stringResource(R.string.remove_dispenser_summary, url))
@@ -28,12 +28,12 @@ fun RemoveDispenserDialog(url: String, onRemove: () -> Unit = {}, onDismiss: () 
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onRemove) {
-                Text(text = stringResource(R.string.remove))
+                Text(text = stringResource(R.string.remove).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(android.R.string.cancel))
+                Text(text = stringResource(android.R.string.cancel).lowercase())
             }
         }
     )

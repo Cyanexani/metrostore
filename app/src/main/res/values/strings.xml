@@ -727,4 +727,11 @@
     <string name="metro_details" translatable="false">details</string>
     <string name="metro_related" translatable="false">related</string>
     <string name="metro_store_search" translatable="false">STORE SEARCH</string>
+    <string name="metro_home" translatable="false">home</string>
+    <string name="metro_my_apps" translatable="false">my apps</string>
+    <string name="metro_loading" translatable="false">Loading…</string>
+    <string name="metro_quick_links" translatable="false">quick links</string>
+    <string name="metro_see_more" translatable="false">see more</string>
+    <string name="metro_more_options" translatable="false">more options</string>
+    <string name="metro_unfavourite" translatable="false">remove favourite</string>
 </resources>

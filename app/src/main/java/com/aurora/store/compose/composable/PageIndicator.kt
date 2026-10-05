@@ -14,13 +14,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -58,9 +56,9 @@ fun PageIndicator(modifier: Modifier = Modifier, totalPages: Int, currentPage: I
             )
             val size by animateDpAsState(
                 targetValue = if (isSelected) {
-                    dimensionResource(R.dimen.radius_medium)
+                    dimensionResource(R.dimen.page_indicator_size_selected)
                 } else {
-                    dimensionResource(R.dimen.radius_small)
+                    dimensionResource(R.dimen.page_indicator_size)
                 },
                 animationSpec = tween()
             )
@@ -68,7 +66,6 @@ fun PageIndicator(modifier: Modifier = Modifier, totalPages: Int, currentPage: I
             Box(
                 modifier = modifier
                     .size(size)
-                    .clip(CircleShape)
                     .background(color = color)
                     .semantics { stateDescription = page }
             )

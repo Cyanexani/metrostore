@@ -85,7 +85,7 @@ private fun ScreenContent() {
                     ListItem(
                         modifier = Modifier.clickable { openAppNotificationSettings(context) },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_notification_disabled))
+                            Text(stringResource(R.string.pref_notification_disabled).lowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_notification_disabled_desc))
@@ -102,7 +102,7 @@ private fun ScreenContent() {
                         context.save(PREFERENCE_NOTIFICATION_PROGRESS, showProgress)
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.pref_notification_progress))
+                        Text(stringResource(R.string.pref_notification_progress).lowercase())
                     },
                     supportingContent = {
                         Text(stringResource(R.string.pref_notification_progress_desc))
@@ -126,7 +126,7 @@ private fun ScreenContent() {
                 item {
                     ListItem(
                         headlineContent = {
-                            Text(stringResource(R.string.pref_notification_categories))
+                            Text(stringResource(R.string.pref_notification_categories).lowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_notification_categories_desc))
@@ -139,7 +139,7 @@ private fun ScreenContent() {
                             modifier = Modifier.clickable {
                                 openChannelSettings(context, channelId)
                             },
-                            headlineContent = { Text(stringResource(nameRes)) }
+                            headlineContent = { Text(stringResource(nameRes).lowercase()) }
                         )
                     }
                 }

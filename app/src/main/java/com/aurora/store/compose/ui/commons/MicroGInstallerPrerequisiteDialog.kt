@@ -12,7 +12,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.Constants.PACKAGE_NAME_GMS
 import com.aurora.extensions.TAG
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
@@ -38,7 +38,7 @@ private const val MICROG_SETTINGS_ACTIVITY = "org.microg.gms.ui.SettingsActivity
 fun MicroGInstallerPrerequisiteDialog(onConfirm: () -> Unit = {}, onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
 
-    AlertDialog(
+    MetroAlertDialog(
         title = { Text(text = stringResource(R.string.microg_installer_prerequisite_title)) },
         text = {
             Column(
@@ -64,19 +64,19 @@ fun MicroGInstallerPrerequisiteDialog(onConfirm: () -> Unit = {}, onDismiss: () 
                         }
                     }
                 ) {
-                    Text(text = stringResource(R.string.microg_installer_open_settings))
+                    Text(text = stringResource(R.string.microg_installer_open_settings).lowercase())
                 }
             }
         },
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text(text = stringResource(R.string.action_ok))
+                Text(text = stringResource(R.string.action_ok).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.action_cancel))
+                Text(text = stringResource(R.string.action_cancel).lowercase())
             }
         }
     )

@@ -50,7 +50,7 @@ val colorRed: Color
  * Windows Phone Store palette: a single accent over a pure black (dark) or white (light)
  * background, with a flat charcoal command bar and neutral greys for secondary text.
  */
-val MetroAccent = Color(0xFF00A300)
+val MetroAccent = Color(0xFF008A00)
 private val MetroBlack = Color(0xFF000000)
 private val MetroWhite = Color(0xFFFFFFFF)
 private val MetroCommandBarDark = Color(0xFF1F1F1F)
@@ -80,7 +80,7 @@ fun metroDarkColorScheme(accent: Color = MetroAccent): ColorScheme = darkColorSc
     surface = MetroBlack,
     onSurface = MetroWhite,
     surfaceVariant = MetroCommandBarDark,
-    onSurfaceVariant = Color(0xFF9A9A9A),
+    onSurfaceVariant = Color(0xFF979797),
     surfaceTint = Color.Transparent,
     inverseSurface = MetroWhite,
     inverseOnSurface = MetroBlack,

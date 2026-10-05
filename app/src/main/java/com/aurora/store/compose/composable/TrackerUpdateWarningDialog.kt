@@ -8,7 +8,6 @@ package com.aurora.store.compose.composable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -27,7 +26,7 @@ fun TrackerUpdateWarningDialog(
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.tracker_warning_title)) },
         text = {
@@ -41,12 +40,12 @@ fun TrackerUpdateWarningDialog(
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text(stringResource(R.string.action_update_anyway))
+                Text(stringResource(R.string.action_update_anyway).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_cancel))
+                Text(stringResource(R.string.action_cancel).lowercase())
             }
         }
     )

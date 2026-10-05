@@ -30,7 +30,8 @@ import com.aurora.store.viewmodel.category.CategoryViewModel
 internal fun CategoriesContent(
     pageType: Int,
     viewModel: CategoryViewModel,
-    onCategoryClick: (Category) -> Unit
+    onCategoryClick: (Category) -> Unit,
+    header: (@Composable () -> Unit)? = null
 ) {
     val categoryType = if (pageType == 1) Category.Type.GAME else Category.Type.APPLICATION
     val state by viewModel.liveData.observeAsState()
@@ -54,17 +55,23 @@ internal fun CategoriesContent(
     val categories = (state as? ViewState.Success<*>)?.data as? CategoryStash
     val list = categories?.get(categoryType)
 
-    CategoriesBody(list = list, onCategoryClick = onCategoryClick)
+    CategoriesBody(list = list, onCategoryClick = onCategoryClick, header = header)
 }
 
 @Composable
-private fun CategoriesBody(list: List<Category>?, onCategoryClick: (Category) -> Unit = {}) {
+private fun CategoriesBody(
+    list: List<Category>?,
+    onCategoryClick: (Category) -> Unit = {},
+    header: (@Composable () -> Unit)? = null
+) {
     if (list.isNullOrEmpty()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
+            if (header != null) item(key = "header") { header() }
             items(10) { ShimmerCategoryRow() }
         }
     } else {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
+            if (header != null) item(key = "header") { header() }
             items(count = list.size, key = { list[it].title }) { index ->
                 CategoryItem(
                     category = list[index],

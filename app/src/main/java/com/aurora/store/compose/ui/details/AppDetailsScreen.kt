@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -30,7 +29,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AdaptStrategy
@@ -42,6 +40,7 @@ import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.NavigableSupportingPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -78,10 +77,14 @@ import com.aurora.store.R
 import com.aurora.store.compose.composable.ClusterRow
 import com.aurora.store.compose.composable.ContainedLoadingIndicator
 import com.aurora.store.compose.composable.InsufficientStorageDialog
+import com.aurora.store.compose.composable.LocalSectionHeaderStyle
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroMenuItem
 import com.aurora.store.compose.composable.MetroPivotHeader
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
 import com.aurora.store.compose.composable.SectionHeader
+import com.aurora.store.compose.composable.SectionHeaderStyle
 import com.aurora.store.compose.composable.ShimmerCarouselSection
 import com.aurora.store.compose.composable.StreamCarousel
 import com.aurora.store.compose.composable.TopAppBar
@@ -104,8 +107,6 @@ import com.aurora.store.compose.ui.details.composable.Screenshots
 import com.aurora.store.compose.ui.details.composable.Tags
 import com.aurora.store.compose.ui.details.composable.Testing
 import com.aurora.store.compose.ui.details.composable.UserReview
-import com.aurora.store.compose.ui.details.menu.AppDetailsMenu
-import com.aurora.store.compose.ui.details.menu.MenuItem
 import com.aurora.store.compose.ui.details.navigation.ExtraScreen
 import com.aurora.store.compose.ui.dev.DevProfileScreen
 import com.aurora.store.compose.ui.sheets.AccountPickerSheet
@@ -494,34 +495,47 @@ private fun ScreenContentApp(
         )
     }
 
+    /**
+     * The details page's application bar menu. Like Windows Phone, entries that don't apply to
+     * the app right now are left out rather than shown disabled.
+     */
     @Composable
-    fun SetupMenu() {
-        AppDetailsMenu(
-            isFavorite = isFavorite,
-            state = state,
-            canManualDownload = canAcquire,
-            canUseOtherAccount = accounts.size > 1
-        ) { menuItem ->
-            when (menuItem) {
-                MenuItem.FAVORITE -> onFavorite()
-
-                MenuItem.MANUAL_DOWNLOAD -> {
+    fun detailsMenuItems(): List<MetroMenuItem> {
+        val isInstalled = state is AppState.Installed || state is AppState.Updatable
+        val idle = !state.inProgress()
+        return buildList {
+            add(
+                MetroMenuItem(
+                    stringResource(
+                        if (isFavorite) R.string.metro_unfavourite else R.string.action_favourite
+                    )
+                ) { onFavorite() }
+            )
+            add(MetroMenuItem(stringResource(R.string.action_share)) {
+                context.share(app.displayName, app.packageName)
+            })
+            if (canAcquire && idle) {
+                add(MetroMenuItem(stringResource(R.string.title_manual_download)) {
                     showExtraPane(ExtraScreen.ManualDownload)
-                }
-
-                MenuItem.INSTALL_OTHER_ACCOUNT -> {
+                })
+            }
+            if (accounts.size > 1 && idle) {
+                add(MetroMenuItem(stringResource(R.string.action_switch_account)) {
                     showAccountPicker = true
-                }
-
-                MenuItem.SHARE -> context.share(app.displayName, app.packageName)
-
-                MenuItem.APP_INFO -> context.appInfo(app.packageName)
-
-                MenuItem.ADD_TO_HOME -> {
+                })
+            }
+            if (isInstalled) {
+                add(MetroMenuItem(stringResource(R.string.action_info)) {
+                    context.appInfo(app.packageName)
+                })
+                add(MetroMenuItem(stringResource(R.string.action_home_screen)) {
                     ShortcutManagerUtil.requestPinShortcut(context, app.packageName)
-                }
-
-                MenuItem.PLAY_STORE -> openPlayStore(context, app.packageName)
+                })
+            }
+            if (PackageUtil.isInstalled(context, Constants.PACKAGE_NAME_PLAY_STORE)) {
+                add(MetroMenuItem(stringResource(R.string.action_view_on_play)) {
+                    openPlayStore(context, app.packageName)
+                })
             }
         }
     }
@@ -756,22 +770,13 @@ private fun ScreenContentApp(
 
         Scaffold(
             topBar = {
-                TopAppBar(
-                    header = app.displayName,
-                    actions = { if (shouldShowMenuOnMainPane) SetupMenu() }
-                )
+                TopAppBar(header = app.displayName)
             },
             bottomBar = {
-                Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .navigationBarsPadding()
-                            .padding(vertical = dimensionResource(R.dimen.spacing_small))
-                    ) {
-                        SetupActions()
-                    }
-                }
+                MetroAppBar(
+                    leading = { SetupActions() },
+                    menuItems = detailsMenuItems()
+                )
             }
         ) { paddingValues ->
             Column(
@@ -792,28 +797,36 @@ private fun ScreenContentApp(
                     verticalAlignment = Alignment.Top
                 ) { page ->
                     val listState = rememberLazyListState()
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(
-                                dimensionResource(R.dimen.spacing_medium)
-                            ),
-                            contentPadding = PaddingValues(
-                                bottom = dimensionResource(R.dimen.spacing_medium)
-                            ),
-                            state = listState
-                        ) {
-                            when (pivotPages[page]) {
-                                DetailsPivot.OVERVIEW -> overviewItems()
-                                DetailsPivot.REVIEWS -> reviewItems()
-                                DetailsPivot.DETAILS -> detailItems()
-                                DetailsPivot.RELATED -> relatedItems()
-                            }
+                    CompositionLocalProvider(
+                        LocalSectionHeaderStyle provides if (pivotPages[page] == DetailsPivot.RELATED) {
+                            SectionHeaderStyle.CAPTION
+                        } else {
+                            SectionHeaderStyle.GROUP
                         }
-                        ScrollHint(
-                            listState = listState,
-                            modifier = Modifier.align(Alignment.BottomCenter)
-                        )
+                    ) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    dimensionResource(R.dimen.spacing_medium)
+                                ),
+                                contentPadding = PaddingValues(
+                                    bottom = dimensionResource(R.dimen.spacing_medium)
+                                ),
+                                state = listState
+                            ) {
+                                when (pivotPages[page]) {
+                                    DetailsPivot.OVERVIEW -> overviewItems()
+                                    DetailsPivot.REVIEWS -> reviewItems()
+                                    DetailsPivot.DETAILS -> detailItems()
+                                    DetailsPivot.RELATED -> relatedItems()
+                                }
+                            }
+                            ScrollHint(
+                                listState = listState,
+                                modifier = Modifier.align(Alignment.BottomCenter)
+                            )
+                        }
                     }
                 }
             }
@@ -824,10 +837,7 @@ private fun ScreenContentApp(
     fun SupportingPane() {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    showNavigationIcon = false,
-                    actions = { if (!shouldShowMenuOnMainPane) SetupMenu() }
-                )
+                TopAppBar(showNavigationIcon = false)
             }
         ) { paddingValues ->
             val hasContent = suggestionsBundle == null ||

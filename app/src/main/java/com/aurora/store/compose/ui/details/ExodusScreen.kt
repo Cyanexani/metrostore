@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -55,6 +54,7 @@ import com.aurora.extensions.browse
 import com.aurora.extensions.isWindowCompact
 import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.MetroProgressDots
 import com.aurora.store.compose.composable.Placeholder
 import com.aurora.store.compose.composable.ScrollHint
@@ -235,7 +235,7 @@ private fun ExodusReportDialog(
         value = onResolveTrackers(report)
     }
 
-    AlertDialog(
+    MetroAlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(report.version) },
         text = {
@@ -258,12 +258,12 @@ private fun ExodusReportDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_close))
+                Text(stringResource(R.string.action_close).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onViewReport) {
-                Text(stringResource(R.string.exodus_view_report))
+                Text(stringResource(R.string.exodus_view_report).lowercase())
             }
         }
     )

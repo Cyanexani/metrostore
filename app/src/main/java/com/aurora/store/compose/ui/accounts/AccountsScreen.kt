@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +60,7 @@ import com.aurora.extensions.browse
 import com.aurora.store.BuildConfig
 import com.aurora.store.R
 import com.aurora.store.compose.composable.AccountListItem
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.navigation.Destination
@@ -191,7 +191,7 @@ fun AccountsScreen(
     }
 
     accountToSetDefault?.let { account ->
-        AlertDialog(
+        MetroAlertDialog(
             onDismissRequest = { accountToSetDefault = null },
             title = { Text(text = stringResource(R.string.account_set_default_title)) },
             text = { Text(text = stringResource(R.string.account_set_default_message)) },
@@ -203,12 +203,12 @@ fun AccountsScreen(
                         viewModel.setDefault(account)
                     }
                 ) {
-                    Text(text = stringResource(R.string.action_restart))
+                    Text(text = stringResource(R.string.action_restart).lowercase())
                 }
             },
             dismissButton = {
                 TextButton(onClick = { accountToSetDefault = null }) {
-                    Text(text = stringResource(R.string.action_cancel))
+                    Text(text = stringResource(R.string.action_cancel).lowercase())
                 }
             }
         )
@@ -233,7 +233,7 @@ fun AccountsScreen(
         } else {
             account.displayName ?: account.email
         }
-        AlertDialog(
+        MetroAlertDialog(
             onDismissRequest = { accountToRemove = null },
             title = { Text(text = stringResource(R.string.account_remove_title)) },
             text = {
@@ -252,12 +252,12 @@ fun AccountsScreen(
                         viewModel.remove(account)
                     }
                 ) {
-                    Text(text = stringResource(R.string.account_remove))
+                    Text(text = stringResource(R.string.account_remove).lowercase())
                 }
             },
             dismissButton = {
                 TextButton(onClick = { accountToRemove = null }) {
-                    Text(text = stringResource(R.string.action_cancel))
+                    Text(text = stringResource(R.string.action_cancel).lowercase())
                 }
             }
         )
@@ -377,7 +377,7 @@ private fun ScreenContent(
                 title = pluralStringResource(R.plurals.account_count, accounts.size, accounts.size),
                 trailing = {
                     TextButton(onClick = onAddAccount) {
-                        Text(text = stringResource(R.string.account_add))
+                        Text(text = stringResource(R.string.account_add).lowercase())
                     }
                 }
             )
@@ -452,7 +452,7 @@ private fun OverflowMenu(onRefreshAll: () -> Unit) {
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.account_refresh_all)) },
+                text = { Text(text = stringResource(R.string.account_refresh_all).lowercase()) },
                 onClick = {
                     expanded = false
                     onRefreshAll()
@@ -461,7 +461,7 @@ private fun OverflowMenu(onRefreshAll: () -> Unit) {
             HorizontalDivider()
             links.forEach { (label, url) ->
                 DropdownMenuItem(
-                    text = { Text(text = stringResource(label)) },
+                    text = { Text(text = stringResource(label).lowercase()) },
                     onClick = {
                         expanded = false
                         context.browse(url)

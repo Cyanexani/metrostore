@@ -113,7 +113,7 @@ private fun ScreenContent(
                         onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                     ) {
                         Text(
-                            text = stringResource(R.string.action_cancel),
+                            text = stringResource(R.string.action_cancel).lowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -125,11 +125,11 @@ private fun ScreenContent(
                         enabled = !uiState.isInProgress
                     ) {
                         Text(
-                            text = if (uiState.isInstalled) {
+                            text = (if (uiState.isInstalled) {
                                 stringResource(R.string.action_install)
                             } else {
                                 stringResource(R.string.action_ignore)
-                            },
+                            }).lowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

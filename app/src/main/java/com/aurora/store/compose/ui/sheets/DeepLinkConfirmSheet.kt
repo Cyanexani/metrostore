@@ -127,10 +127,10 @@ fun DeepLinkConfirmSheet(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text(text = stringResource(R.string.action_cancel))
+                    Text(text = stringResource(R.string.action_cancel).lowercase())
                 }
                 TextButton(onClick = onOpen) {
-                    Text(text = stringResource(R.string.action_open))
+                    Text(text = stringResource(R.string.action_open).lowercase())
                 }
             }
 

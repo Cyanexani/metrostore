@@ -51,19 +51,19 @@ fun BlacklistMenu(
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_select_all)) },
+                text = { Text(text = stringResource(R.string.action_select_all).lowercase()) },
                 onClick = { onClick(MenuItem.SELECT_ALL) }
             )
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_remove_all)) },
+                text = { Text(text = stringResource(R.string.action_remove_all).lowercase()) },
                 onClick = { onClick(MenuItem.REMOVE_ALL) }
             )
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_import)) },
+                text = { Text(text = stringResource(R.string.action_import).lowercase()) },
                 onClick = { onClick(MenuItem.IMPORT) }
             )
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_export)) },
+                text = { Text(text = stringResource(R.string.action_export).lowercase()) },
                 onClick = { onClick(MenuItem.EXPORT) }
             )
         }

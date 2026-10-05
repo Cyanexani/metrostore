@@ -112,4 +112,10 @@ sealed class Screen : NavKey, Parcelable {
 
     @Serializable
     data class Main(val initialTab: Int = 0) : Screen()
+
+    @Serializable
+    data class StoreSection(val pageType: Int, val page: Int = 0) : Screen()
+
+    @Serializable
+    data object MyApps : Screen()
 }

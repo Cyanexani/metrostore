@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
@@ -29,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.core.content.getSystemService
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.navigation.Destination
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -65,7 +65,7 @@ private fun ScreenContent(
     var showClearOwnerDialog by remember { mutableStateOf(false) }
 
     if (showClearOwnerDialog) {
-        AlertDialog(
+        MetroAlertDialog(
             onDismissRequest = { showClearOwnerDialog = false },
             title = { Text(stringResource(R.string.pref_clear_device_owner_title)) },
             text = { Text(stringResource(R.string.pref_clear_device_owner_desc)) },
@@ -74,12 +74,12 @@ private fun ScreenContent(
                     showClearOwnerDialog = false
                     onClearDeviceOwner()
                 }) {
-                    Text(stringResource(android.R.string.ok))
+                    Text(stringResource(android.R.string.ok).lowercase())
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showClearOwnerDialog = false }) {
-                    Text(stringResource(android.R.string.cancel))
+                    Text(stringResource(android.R.string.cancel).lowercase())
                 }
             }
         )
@@ -100,14 +100,14 @@ private fun ScreenContent(
             item {
                 ListItem(
                     modifier = Modifier.clickable { onNavigateTo(Destination.Installer) },
-                    headlineContent = { Text(stringResource(R.string.pref_install_mode_title)) },
+                    headlineContent = { Text(stringResource(R.string.pref_install_mode_title).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_install_mode_summary)) }
                 )
             }
             item { HorizontalDivider() }
             item {
                 ListItem(
-                    headlineContent = { Text(stringResource(R.string.pref_common_extra)) }
+                    headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) }
                 )
             }
             item {
@@ -116,7 +116,7 @@ private fun ScreenContent(
                         autoDelete = !autoDelete
                         context.save(PREFERENCE_AUTO_DELETE, autoDelete)
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_install_delete_title)) },
+                    headlineContent = { Text(stringResource(R.string.pref_install_delete_title).lowercase()) },
                     supportingContent = {
                         Text(stringResource(R.string.pref_install_delete_summary))
                     },
@@ -136,7 +136,7 @@ private fun ScreenContent(
                     ListItem(
                         modifier = Modifier.clickable { showClearOwnerDialog = true },
                         headlineContent = {
-                            Text(stringResource(R.string.pref_clear_device_owner_title))
+                            Text(stringResource(R.string.pref_clear_device_owner_title).lowercase())
                         },
                         supportingContent = {
                             Text(stringResource(R.string.pref_clear_device_owner_summary))

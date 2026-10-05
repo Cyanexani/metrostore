@@ -31,10 +31,10 @@ import androidx.compose.material3.ExpandedDockedSearchBar
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarValue
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
@@ -163,7 +163,7 @@ private fun ScreenContent(
                 onSearch = { query -> onRequestSearch(query) },
                 placeholder = {
                     Text(
-                        text = stringResource(R.string.search_hint),
+                        text = stringResource(R.string.search_hint).lowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -411,7 +411,7 @@ private fun FilterHeader(
 
                 options.forEach { (key, value) ->
                     DropdownMenuItem(
-                        text = { Text(text = key) },
+                        text = { Text(text = key.lowercase()) },
                         onClick = {
                             activeFilter = when (filter) {
                                 R.string.action_filter_rating -> {

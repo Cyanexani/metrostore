@@ -5,12 +5,14 @@
 
 package com.aurora.store.compose.composable.details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,12 +45,19 @@ fun RatingListItem(modifier: Modifier = Modifier, label: String, rating: Float) 
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold
         )
-        LinearProgressIndicator(
+        // Windows Phone rating breakdown: a solid accent bar per star, with no track behind it.
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.radius_small)),
-            progress = { rating }
-        )
+                .weight(1f)
+                .height(dimensionResource(R.dimen.rating_bar_height))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(rating.coerceIn(0f, 1f))
+                    .background(MaterialTheme.colorScheme.primary)
+            )
+        }
     }
 }
 

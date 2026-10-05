@@ -7,8 +7,12 @@ package com.aurora.store.compose.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -30,17 +34,21 @@ import com.aurora.gplayapi.data.models.StreamBundle
 import com.aurora.gplayapi.data.models.StreamCluster
 import com.aurora.store.R
 import com.aurora.store.compose.composable.app.AppListItem
+import com.aurora.store.compose.composable.app.AppTile
 import com.aurora.store.compose.composable.app.LargeAppListItem
 import com.aurora.store.compose.preview.ThemePreviewProvider
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 private const val LOAD_MORE_THRESHOLD = 2
+private const val TILE_COLUMNS = 2
+private const val MAX_TILES = 6
 
 @Composable
 fun StreamCarousel(
     modifier: Modifier = Modifier,
     streamBundle: StreamBundle?,
     filterSingleAppClusters: Boolean = true,
+    tiles: Boolean = false,
     lazyListState: LazyListState = rememberLazyListState(),
     onHeaderClick: (StreamCluster) -> Unit = {},
     onAppClick: (App) -> Unit = {},
@@ -109,6 +117,14 @@ fun StreamCarousel(
                     onClick = { onAppClick(apps[index]) }
                 )
             }
+        } else if (tiles) {
+            clusters.forEach { cluster ->
+                clusterTileItems(
+                    cluster = cluster,
+                    onHeaderClick = onHeaderClick,
+                    onAppClick = onAppClick
+                )
+            }
         } else {
             clusters.forEach { cluster ->
                 item(key = "header_${cluster.id}") {
@@ -133,6 +149,59 @@ fun StreamCarousel(
 
         if (streamBundle.hasNext()) {
             item(key = "shimmer_footer") { ShimmerCarouselSection() }
+        }
+    }
+}
+
+/**
+ * Windows Phone Store hub section: the cluster's all-caps caption over a 2-column grid of app
+ * tiles, closed by an accent "see more" tile when the cluster can be browsed in full.
+ */
+private fun LazyListScope.clusterTileItems(
+    cluster: StreamCluster,
+    onHeaderClick: (StreamCluster) -> Unit,
+    onAppClick: (App) -> Unit
+) {
+    val canBrowse = cluster.clusterBrowseUrl.isNotBlank()
+    val apps = cluster.clusterAppList.take(if (canBrowse) MAX_TILES - 1 else MAX_TILES)
+    val cells: List<App?> = if (canBrowse) apps + null else apps
+
+    item(key = "header_${cluster.id}") {
+        SectionHeader(
+            title = cluster.clusterTitle,
+            onClick = if (canBrowse) {
+                { onHeaderClick(cluster) }
+            } else {
+                null
+            },
+            trailing = {}
+        )
+    }
+    cells.chunked(TILE_COLUMNS).forEachIndexed { row, rowCells ->
+        item(key = "tiles_${cluster.id}_$row") {
+            Row(
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
+            ) {
+                rowCells.forEach { app ->
+                    if (app != null) {
+                        AppTile(
+                            modifier = Modifier.weight(1f),
+                            app = app,
+                            onClick = { onAppClick(app) }
+                        )
+                    } else {
+                        MetroTile(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(dimensionResource(R.dimen.spacing_xsmall)),
+                            label = stringResource(R.string.metro_see_more),
+                            onClick = { onHeaderClick(cluster) }
+                        )
+                    }
+                }
+                repeat(TILE_COLUMNS - rowCells.size) { Spacer(modifier = Modifier.weight(1f)) }
+            }
         }
     }
 }

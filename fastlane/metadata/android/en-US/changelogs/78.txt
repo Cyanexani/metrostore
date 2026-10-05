@@ -1,1 +1,1 @@
-Rebased on Aurora Store 4.8.4 (Compose rewrite, multiple accounts, reviews, app lock and many fixes) with the Metro UI rebuilt on the new screens: pivot headers, square tiles and buttons, and a Windows Phone command bar.
+Rebased on Aurora Store 4.8.4 (Compose rewrite, multiple accounts, reviews, app lock and many fixes). The Windows Phone Store look is back: the Store panorama, pivots, square tiles, the application bar and Windows Phone casing.

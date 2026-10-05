@@ -169,11 +169,11 @@ fun MicroG(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = if (isRetry) {
+                        text = (if (isRetry) {
                             stringResource(R.string.action_retry)
                         } else {
                             stringResource(R.string.action_install_microG)
-                        }
+                        }).lowercase()
                     )
                 }
             }

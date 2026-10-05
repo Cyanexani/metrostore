@@ -127,19 +127,19 @@ private fun ScreenContent() {
                                 }
                             )
                         },
-                        headlineContent = { Text(stringResource(R.string.app_language)) },
+                        headlineContent = { Text(stringResource(R.string.app_language).lowercase()) },
                         supportingContent = { Text(LocalLocale.current.platformLocale.displayName) }
                     )
                 }
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_theme)) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_theme).lowercase()) })
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showThemeDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_theme)) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_theme).lowercase()) },
                     supportingContent = { Text(themeEntries.getOrElse(themeStyle) { "" }) }
                 )
             }
@@ -150,7 +150,7 @@ private fun ScreenContent() {
                             dynamicColors = !dynamicColors
                             context.save(PREFERENCE_DYNAMIC_COLORS, dynamicColors)
                         },
-                        headlineContent = { Text(stringResource(R.string.pref_ui_dynamic_color)) },
+                        headlineContent = { Text(stringResource(R.string.pref_ui_dynamic_color).lowercase()) },
                         supportingContent = {
                             Text(stringResource(R.string.pref_ui_dynamic_color_desc))
                         },
@@ -168,18 +168,18 @@ private fun ScreenContent() {
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_layout)) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_ui_layout).lowercase()) })
             }
             item {
                 ListItem(
                     modifier = Modifier.clickable { showTabDialog = true },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_layout_tab)) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_layout_tab).lowercase()) },
                     supportingContent = { Text(tabEntries.getOrElse(selectedTab) { "" }) }
                 )
             }
             item { HorizontalDivider() }
             item {
-                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra)) })
+                ListItem(headlineContent = { Text(stringResource(R.string.pref_common_extra).lowercase()) })
             }
             item {
                 ListItem(
@@ -187,7 +187,7 @@ private fun ScreenContent() {
                         forYou = !forYou
                         context.save(PREFERENCE_FOR_YOU, forYou)
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_no_for_you)) },
+                    headlineContent = { Text(stringResource(R.string.pref_ui_no_for_you).lowercase()) },
                     supportingContent = { Text(stringResource(R.string.pref_ui_no_for_you_desc)) },
                     trailingContent = {
                         Switch(

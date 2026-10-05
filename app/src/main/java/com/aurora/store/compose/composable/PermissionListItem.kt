@@ -31,11 +31,11 @@ fun PermissionListItem(
         trailing = {
             TextButton(onClick = onAction, enabled = !permission.isGranted) {
                 Text(
-                    text = if (permission.isGranted) {
+                    text = (if (permission.isGranted) {
                         stringResource(R.string.action_granted)
                     } else {
                         stringResource(R.string.action_grant)
-                    },
+                    }).lowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

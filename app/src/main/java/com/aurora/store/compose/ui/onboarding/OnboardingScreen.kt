@@ -132,10 +132,10 @@ private fun ScreenContent(
                         }
                     ) {
                         Text(
-                            text = when (pagerState.currentPage) {
+                            text = (when (pagerState.currentPage) {
                                 0 -> stringResource(R.string.action_skip)
                                 else -> stringResource(R.string.action_back)
-                            },
+                            }).lowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -158,10 +158,10 @@ private fun ScreenContent(
                         }
                     ) {
                         Text(
-                            text = when {
+                            text = (when {
                                 isFinalPage() -> stringResource(R.string.action_finish)
                                 else -> stringResource(R.string.action_next)
-                            },
+                            }).lowercase(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

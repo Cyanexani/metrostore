@@ -55,7 +55,7 @@ fun AppLockScreen(onUnlock: () -> Unit) {
                 textAlign = TextAlign.Center
             )
             MetroButton(onClick = onUnlock) {
-                Text(stringResource(R.string.app_lock_unlock))
+                Text(stringResource(R.string.app_lock_unlock).lowercase())
             }
         }
     }

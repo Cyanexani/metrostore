@@ -115,7 +115,7 @@ private fun ScreenContent(
                         onClick = { onClick(entry) },
                         trailing = {
                             TextButton(onClick = { onDismiss(entry) }) {
-                                Text(stringResource(R.string.action_clear))
+                                Text(stringResource(R.string.action_clear).lowercase())
                             }
                         }
                     )
@@ -159,11 +159,11 @@ private fun PendingInstallItem(
                 )
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(R.string.action_clear))
+                    Text(stringResource(R.string.action_clear).lowercase())
                 }
                 if (!isInstalling) {
                     MetroButton(onClick = onInstall) {
-                        Text(stringResource(R.string.action_install))
+                        Text(stringResource(R.string.action_install).lowercase())
                     }
                 }
             }

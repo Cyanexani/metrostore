@@ -100,25 +100,25 @@ fun AppUpdateItem(
         when {
             onUnignore != null -> {
                 MetroButton(onClick = onUnignore) {
-                    Text(stringResource(R.string.action_unignore))
+                    Text(stringResource(R.string.action_unignore).lowercase())
                 }
             }
 
             installing -> {
                 MetroButton(onClick = {}, enabled = false) {
-                    Text(stringResource(R.string.action_installing))
+                    Text(stringResource(R.string.action_installing).lowercase())
                 }
             }
 
             inProgress -> {
                 MetroButton(onClick = onCancel) {
-                    Text(stringResource(R.string.action_cancel))
+                    Text(stringResource(R.string.action_cancel).lowercase())
                 }
             }
 
             else -> {
                 MetroButton(onClick = onUpdate) {
-                    Text(stringResource(R.string.action_update))
+                    Text(stringResource(R.string.action_update).lowercase())
                 }
             }
         }

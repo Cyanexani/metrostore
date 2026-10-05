@@ -62,11 +62,11 @@ fun Testing(isSubscribed: Boolean, onTestingSubscriptionChange: (subscribe: Bool
         )
         MetroButton(onClick = { onTestingSubscriptionChange(!isSubscribed) }) {
             Text(
-                text = if (isSubscribed) {
+                text = (if (isSubscribed) {
                     stringResource(R.string.action_leave)
                 } else {
                     stringResource(R.string.action_join)
-                },
+                }).lowercase(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

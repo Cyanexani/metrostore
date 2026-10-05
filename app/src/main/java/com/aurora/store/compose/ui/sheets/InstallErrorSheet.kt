@@ -100,10 +100,10 @@ fun InstallErrorSheet(
                         context.toast(R.string.toast_clipboard_copied)
                     }
                 ) {
-                    Text(text = stringResource(R.string.action_copy))
+                    Text(text = stringResource(R.string.action_copy).lowercase())
                 }
                 TextButton(onClick = onDismiss) {
-                    Text(text = stringResource(R.string.action_ok))
+                    Text(text = stringResource(R.string.action_ok).lowercase())
                 }
             }
 
@@ -152,7 +152,7 @@ private fun Header(app: App, showBuy: Boolean = false, onBuy: () -> Unit = {}) {
         if (showBuy) {
             MetroButton(onClick = onBuy) {
                 Text(
-                    text = stringResource(R.string.action_buy, app.price),
+                    text = stringResource(R.string.action_buy, app.price).lowercase(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

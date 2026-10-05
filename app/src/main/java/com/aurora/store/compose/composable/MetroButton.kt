@@ -6,6 +6,7 @@
 package com.aurora.store.compose.composable
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +24,7 @@ import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
  * Windows Phone style button: square, transparent, with a solid foreground-colored border.
+ * Pass labels in lowercase, as Windows Phone does for push buttons.
  * Used for every filled, tonal and outlined button in the app so actions read consistently.
  * @param colors Optional colors, e.g. [ButtonDefaults.buttonColors] for an accent-filled action
  */
@@ -42,6 +44,7 @@ fun MetroButton(
         shape = RectangleShape,
         colors = colors,
         border = BorderStroke(2.dp, borderColor),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
         content = content
     )
 }

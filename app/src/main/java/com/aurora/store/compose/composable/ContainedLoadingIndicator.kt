@@ -12,15 +12,16 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -40,22 +41,27 @@ private const val DOT_STAGGER = 0.08f
 private const val DOT_TRAVEL = 0.6f
 
 /**
- * Composable to display an indeterminate loading indicator that fills all available screen.
- * Drawn as the Windows Phone progress dots: a train of accent dots that rushes in, drifts
- * slowly through the middle and rushes out again.
+ * Composable to display an indeterminate loading state that fills all available screen, the
+ * Windows Phone way: the accent progress dots run along the top and a grey "Loading…" sits
+ * top-left where the content will appear.
  * @param modifier The modifier to be applied to the composable
  */
 @Composable
 fun ContainedLoadingIndicator(modifier: Modifier = Modifier) {
     val description = stringResource(R.string.loading)
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(dimensionResource(R.dimen.spacing_small))
             .semantics { stateDescription = description },
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
     ) {
         MetroProgressDots(modifier = Modifier.fillMaxWidth())
+        Text(
+            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
+            text = stringResource(R.string.metro_loading),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

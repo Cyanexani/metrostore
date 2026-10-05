@@ -15,12 +15,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -58,6 +57,7 @@ import com.aurora.gplayapi.data.models.App
 import com.aurora.store.R
 import com.aurora.store.compose.composable.Info
 import com.aurora.store.compose.composable.MetroButton
+import com.aurora.store.compose.composable.MetroProgressDots
 import com.aurora.store.compose.composable.TopAppBar
 import com.aurora.store.compose.preview.AppPreviewProvider
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -185,9 +185,9 @@ private fun ScreenContent(
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                     trailingIcon = {
                         if (state.inProgress()) {
-                            ContainedLoadingIndicator(
+                            MetroProgressDots(
                                 modifier = Modifier
-                                    .requiredSize(dimensionResource(R.dimen.icon_size_default))
+                                    .requiredWidth(dimensionResource(R.dimen.icon_size_small))
                             )
                         }
                     }
@@ -209,7 +209,7 @@ private fun ScreenContent(
                     }
                 ) {
                     Text(
-                        text = stringResource(R.string.manual_download_lookup),
+                        text = stringResource(R.string.manual_download_lookup).lowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -227,7 +227,7 @@ private fun ScreenContent(
                     onClick = { activity?.onBackPressedDispatcher?.onBackPressed() }
                 ) {
                     Text(
-                        text = stringResource(R.string.action_close),
+                        text = stringResource(R.string.action_close).lowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -242,7 +242,7 @@ private fun ScreenContent(
                     }
                 ) {
                     Text(
-                        text = stringResource(R.string.action_install),
+                        text = stringResource(R.string.action_install).lowercase(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

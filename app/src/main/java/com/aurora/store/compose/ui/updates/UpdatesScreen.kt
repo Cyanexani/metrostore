@@ -164,7 +164,7 @@ fun UpdatesScreen(
                                                 onRequestUpdateAll(mainEntries.map { it.key })
                                             }
                                         }
-                                    ) { Text(actionLabel) }
+                                    ) { Text(actionLabel.lowercase()) }
                                 }
                             )
                         }
@@ -201,7 +201,7 @@ fun UpdatesScreen(
                                                 )
                                             }
                                         }
-                                    ) { Text(actionLabel) }
+                                    ) { Text(actionLabel.lowercase()) }
                                 }
                             )
                         }

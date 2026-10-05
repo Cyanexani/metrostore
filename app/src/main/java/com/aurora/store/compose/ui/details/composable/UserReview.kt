@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -41,6 +40,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.aurora.gplayapi.data.models.Review
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -86,7 +86,7 @@ private fun ReviewSummary(review: Review, onEdit: () -> Unit, onDelete: () -> Un
     var showDeleteDialog by rememberSaveable { mutableStateOf(false) }
 
     if (showDeleteDialog) {
-        AlertDialog(
+        MetroAlertDialog(
             title = { Text(text = stringResource(R.string.details_review_delete_title)) },
             text = { Text(text = stringResource(R.string.details_review_delete_message)) },
             onDismissRequest = { showDeleteDialog = false },
@@ -97,12 +97,12 @@ private fun ReviewSummary(review: Review, onEdit: () -> Unit, onDelete: () -> Un
                         onDelete()
                     }
                 ) {
-                    Text(text = stringResource(R.string.details_review_delete))
+                    Text(text = stringResource(R.string.details_review_delete).lowercase())
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text(text = stringResource(android.R.string.cancel))
+                    Text(text = stringResource(android.R.string.cancel).lowercase())
                 }
             }
         )
@@ -186,10 +186,10 @@ private fun ReviewSummary(review: Review, onEdit: () -> Unit, onDelete: () -> Un
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
         ) {
             TextButton(onClick = { showDeleteDialog = true }) {
-                Text(text = stringResource(R.string.details_review_delete))
+                Text(text = stringResource(R.string.details_review_delete).lowercase())
             }
             TextButton(onClick = onEdit) {
-                Text(text = stringResource(R.string.details_review_edit))
+                Text(text = stringResource(R.string.details_review_edit).lowercase())
             }
         }
     }
@@ -253,7 +253,7 @@ private fun ReviewForm(
             onClick = { onSubmit(rating, title, comment) },
             enabled = rating > 0
         ) {
-            Text(text = stringResource(R.string.action_post))
+            Text(text = stringResource(R.string.action_post).lowercase())
         }
     }
 }

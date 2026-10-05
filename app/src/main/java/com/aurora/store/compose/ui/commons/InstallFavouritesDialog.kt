@@ -7,7 +7,6 @@ package com.aurora.store.compose.ui.commons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -16,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import com.aurora.store.R
+import com.aurora.store.compose.composable.MetroAlertDialog
 import com.aurora.store.compose.preview.ThemePreviewProvider
 
 /**
@@ -30,7 +30,7 @@ fun InstallFavouritesDialog(
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
-    AlertDialog(
+    MetroAlertDialog(
         title = { Text(text = stringResource(R.string.title_install_favourites)) },
         text = {
             Column(
@@ -45,12 +45,12 @@ fun InstallFavouritesDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text(text = stringResource(R.string.action_install))
+                Text(text = stringResource(R.string.action_install).lowercase())
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.action_cancel))
+                Text(text = stringResource(R.string.action_cancel).lowercase())
             }
         }
     )

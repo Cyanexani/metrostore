@@ -58,7 +58,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                         )
                     },
                     headlineContent = {
-                        Text(stringResource(R.string.onboarding_title_permissions))
+                        Text(stringResource(R.string.onboarding_title_permissions).lowercase())
                     }
                 )
             }
@@ -73,7 +73,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_installation)) }
+                    headlineContent = { Text(stringResource(R.string.title_installation).lowercase()) }
                 )
             }
             item {
@@ -85,7 +85,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_ui_title)) }
+                    headlineContent = { Text(stringResource(R.string.pref_ui_title).lowercase()) }
                 )
             }
             item {
@@ -99,7 +99,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_notifications)) }
+                    headlineContent = { Text(stringResource(R.string.title_notifications).lowercase()) }
                 )
             }
             item {
@@ -111,7 +111,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.pref_network_title)) }
+                    headlineContent = { Text(stringResource(R.string.pref_network_title).lowercase()) }
                 )
             }
             item {
@@ -123,7 +123,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_updates)) }
+                    headlineContent = { Text(stringResource(R.string.title_updates).lowercase()) }
                 )
             }
             item {
@@ -135,7 +135,7 @@ private fun ScreenContent(onNavigateTo: (Destination) -> Unit = {}) {
                             contentDescription = null
                         )
                     },
-                    headlineContent = { Text(stringResource(R.string.title_security)) }
+                    headlineContent = { Text(stringResource(R.string.title_security).lowercase()) }
                 )
             }
         }

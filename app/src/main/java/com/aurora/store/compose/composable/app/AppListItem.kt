@@ -46,9 +46,21 @@ import com.aurora.store.compose.preview.ThemePreviewProvider
  */
 @Composable
 fun AppListItem(modifier: Modifier = Modifier, app: App, onClick: () -> Unit = {}) {
+    AppTile(
+        modifier = modifier.width(dimensionResource(R.dimen.icon_size_cluster)),
+        app = app,
+        onClick = onClick
+    )
+}
+
+/**
+ * Windows Phone Store app tile that fills the width it is given: square icon, all-caps name,
+ * then price and rating in grey. Used in the 2-column grids of the Store hub.
+ */
+@Composable
+fun AppTile(modifier: Modifier = Modifier, app: App, onClick: () -> Unit = {}) {
     Column(
         modifier = modifier
-            .width(dimensionResource(R.dimen.icon_size_cluster))
             .clickable(onClick = onClick)
             .padding(all = dimensionResource(R.dimen.spacing_xsmall)),
         horizontalAlignment = Alignment.Start,

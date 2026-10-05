@@ -1,98 +1,92 @@
 /*
  * SPDX-FileCopyrightText: 2026 Aurora OSS
+ * SPDX-FileCopyrightText: 2026 Metro Store
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 package com.aurora.store.compose.ui.main
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aurora.extensions.requiresObbDir
+import com.aurora.gplayapi.helpers.contracts.StreamContract
 import com.aurora.store.MainViewModel
 import com.aurora.store.R
-import com.aurora.store.compose.composable.InsufficientStorageDialog
-import com.aurora.store.compose.composable.TopAppBar
-import com.aurora.store.compose.composable.TrackerUpdateWarningDialog
+import com.aurora.store.compose.composable.MetroAppBar
+import com.aurora.store.compose.composable.MetroAppBarButton
+import com.aurora.store.compose.composable.MetroMenuItem
+import com.aurora.store.compose.composable.MetroTile
+import com.aurora.store.compose.composable.SectionHeader
 import com.aurora.store.compose.composition.LocalNetworkStatus
 import com.aurora.store.compose.navigation.Destination
-import com.aurora.store.compose.ui.apps.AppsGamesScreen
-import com.aurora.store.compose.ui.commons.MoreSheet
+import com.aurora.store.compose.ui.apps.CategoriesContent
+import com.aurora.store.compose.ui.apps.ForYouContent
+import com.aurora.store.compose.ui.apps.StorePage
 import com.aurora.store.compose.ui.commons.NetworkScreen
-import com.aurora.store.compose.ui.sheets.AppUpdateSheet
-import com.aurora.store.compose.ui.updates.UpdatesScreen
-import com.aurora.store.data.model.ExodusTracker
 import com.aurora.store.data.model.NetworkStatus
-import com.aurora.store.data.model.PermissionType
-import com.aurora.store.data.model.StorageRequirement
-import com.aurora.store.data.providers.PermissionProvider.Companion.isGranted
-import com.aurora.store.data.room.update.Update
-import com.aurora.store.util.PackageUtil
 import com.aurora.store.util.Preferences
-import com.aurora.store.util.Preferences.PREFERENCE_UPDATES_WARN_TRACKERS
-import com.aurora.store.util.StorageUtil
-import com.aurora.store.viewmodel.all.UpdatesViewModel
+import com.aurora.store.viewmodel.category.CategoryViewModel
+import com.aurora.store.viewmodel.homestream.StreamViewModel
 import com.aurora.store.viewmodel.notifications.NotificationsViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
-private enum class MainTab(
-    @StringRes val labelRes: Int,
-    @DrawableRes val iconRes: Int
-) {
-    APPS(R.string.title_apps, R.drawable.ic_apps),
-    GAMES(R.string.title_games, R.drawable.ic_games),
-    UPDATES(R.string.title_updates, R.drawable.ic_updates)
+private const val PAGE_TYPE_APPS = 0
+private const val PAGE_TYPE_GAMES = 1
+
+/** Laps of the panorama on either side of the start, so it can be swiped round and round. */
+private const val PANORAMA_LAPS = 500
+
+/**
+ * Sections of the Store panorama, left to right.
+ */
+private enum class HubSection(@StringRes val captionRes: Int? = null) {
+    FEATURED,
+    QUICK_LINKS(R.string.metro_quick_links),
+    CATEGORIES(R.string.tab_categories)
 }
 
+/**
+ * The Windows Phone Store hub: a looping panorama under a giant "Store" title that drifts
+ * slower than the content, with each section peeking in from the right edge. Featured apps
+ * come as tile grids, quick links as accent tiles into the apps/games pivots, then categories.
+ * @param initialTab The pre-panorama default tab (0 apps, 1 games, 2 updates); games and
+ * updates open their page on top of the hub so back still returns here
+ */
 @Composable
 fun MainScreen(
     initialTab: Int = 0,
     mainViewModel: MainViewModel = hiltViewModel(),
-    updatesViewModel: UpdatesViewModel = hiltViewModel(),
     notificationsViewModel: NotificationsViewModel = hiltViewModel(),
+    streamViewModel: StreamViewModel = hiltViewModel(key = "stream_$PAGE_TYPE_APPS"),
+    categoryViewModel: CategoryViewModel = hiltViewModel(key = "category_$PAGE_TYPE_APPS"),
     onNavigateTo: (Destination) -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -102,61 +96,14 @@ fun MainScreen(
     )
     val updateCount = updates?.size ?: 0
     val notificationCount by notificationsViewModel.unreadCount.collectAsStateWithLifecycle()
-    val downloads by updatesViewModel.downloadsList.collectAsStateWithLifecycle()
 
-    val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(
-        initialPage = initialTab.coerceIn(
-            0,
-            MainTab.entries.size - 1
-        )
-    ) {
-        MainTab.entries.size
-    }
-
-    var showMoreSheet by remember { mutableStateOf(false) }
-    var appUpdateTarget by remember { mutableStateOf<Update?>(null) }
-    var trackerWarning by remember {
-        mutableStateOf<Pair<Update, List<ExodusTracker>>?>(null)
-    }
-    var storageWarning by remember { mutableStateOf<StorageRequirement?>(null) }
-    val checkingJobs = remember { mutableStateMapOf<String, Job>() }
-
-    // A blocked update never produces a download, so the effect below can't clear its marker.
+    var initialTabHandled by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        updatesViewModel.storageWarning.collect {
-            storageWarning = it
-            checkingJobs.clear()
-        }
-    }
-
-    // Once the download a check kicked off actually appears, drop the "checking" marker so the
-    // item's in-progress state is driven purely by the download (no flash back to "Update").
-    LaunchedEffect(downloads) {
-        checkingJobs.keys.toList().forEach { pkg ->
-            if (downloads.any { it.packageName == pkg && !it.isFinished }) {
-                checkingJobs.remove(pkg)
-            }
-        }
-    }
-
-    fun handleNavigation(destination: Destination) {
-        when (destination) {
-            is Destination.AppUpdate -> appUpdateTarget = destination.update
-            else -> onNavigateTo(destination)
-        }
-    }
-
-    fun performUpdate(update: Update) {
-        if (update.fileList.requiresObbDir() &&
-            !isGranted(context, PermissionType.STORAGE_MANAGER)
-        ) {
-            checkingJobs.remove(update.packageName)
-            onNavigateTo(
-                Destination.PermissionRationale(setOf(PermissionType.STORAGE_MANAGER))
-            )
-        } else {
-            updatesViewModel.download(update)
+        if (initialTabHandled) return@LaunchedEffect
+        initialTabHandled = true
+        when (initialTab) {
+            PAGE_TYPE_GAMES -> onNavigateTo(Destination.StoreSection(PAGE_TYPE_GAMES))
+            2 -> onNavigateTo(Destination.MyApps)
         }
     }
 
@@ -165,269 +112,236 @@ fun MainScreen(
         return
     }
 
-    if (showMoreSheet) {
-        MoreSheet(
-            onDismiss = { showMoreSheet = false },
-            onNavigateTo = { destination ->
-                showMoreSheet = false
-                onNavigateTo(destination)
-            }
-        )
-    }
+    val isForYouEnabled = Preferences.getBoolean(context, Preferences.PREFERENCE_FOR_YOU)
+    val sections = HubSection.entries.filter { it != HubSection.FEATURED || isForYouEnabled }
 
-    appUpdateTarget?.let { app ->
-        AppUpdateSheet(
-            update = app,
-            onDismiss = { appUpdateTarget = null },
-            onNavigateTo = { destination ->
-                appUpdateTarget = null
-                onNavigateTo(destination)
-            }
-        )
-    }
-
-    val currentTab = MainTab.entries[pagerState.currentPage]
     Scaffold(
-        topBar = {
-            // Apps and games carry their own pivot header, so only updates needs a page title.
-            TopAppBar(
-                header = stringResource(currentTab.labelRes),
-                title = if (currentTab == MainTab.UPDATES) {
-                    stringResource(currentTab.labelRes)
-                } else {
-                    null
-                },
-                showNavigationIcon = false,
-                actions = {
-                    IconButton(onClick = { onNavigateTo(Destination.Notifications) }) {
-                        BadgedBox(
-                            badge = {
-                                if (notificationCount > 0) Badge { Text("$notificationCount") }
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_notifications),
-                                contentDescription = stringResource(R.string.title_notifications)
-                            )
-                        }
-                    }
-                    IconButton(onClick = { onNavigateTo(Destination.Downloads) }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_download_manager),
-                            contentDescription = stringResource(R.string.title_download_manager)
-                        )
-                    }
-                    IconButton(onClick = { showMoreSheet = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_settings_account),
-                            contentDescription = stringResource(R.string.title_more)
-                        )
-                    }
-                }
-            )
-        },
         bottomBar = {
-            MetroCommandBar {
-                MainTab.entries.forEachIndexed { index, tab ->
-                    MetroCommandButton(
-                        iconRes = tab.iconRes,
-                        label = stringResource(tab.labelRes),
-                        selected = pagerState.currentPage == index,
-                        badgeCount = if (tab == MainTab.UPDATES) updateCount else 0,
-                        onClick = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(index) }
-                        }
-                    )
-                }
-                MetroCommandButton(
-                    iconRes = R.drawable.ic_round_search,
-                    label = stringResource(R.string.action_search),
-                    onClick = { onNavigateTo(Destination.Search) }
-                )
-            }
+            MetroAppBar(
+                buttons = listOf(
+                    MetroAppBarButton(
+                        iconRes = R.drawable.ic_round_search,
+                        label = stringResource(R.string.action_search)
+                    ) { onNavigateTo(Destination.Search) }
+                ),
+                menuItems = hubMenuItems(updateCount, notificationCount, onNavigateTo)
+            )
         }
     ) { paddingValues ->
-        Box(
+        StorePanorama(
             modifier = Modifier
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
-                .fillMaxSize()
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                userScrollEnabled = false,
-                beyondViewportPageCount = MainTab.entries.size - 1,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                when (MainTab.entries[page]) {
-                    MainTab.APPS -> AppsGamesScreen(
-                        pageType = 0,
+                .fillMaxSize(),
+            sections = sections,
+            updateCount = updateCount,
+            isForYouEnabled = isForYouEnabled,
+            streamViewModel = streamViewModel,
+            categoryViewModel = categoryViewModel,
+            onNavigateTo = onNavigateTo
+        )
+    }
+}
+
+@Composable
+private fun StorePanorama(
+    modifier: Modifier,
+    sections: List<HubSection>,
+    updateCount: Int,
+    isForYouEnabled: Boolean,
+    streamViewModel: StreamViewModel,
+    categoryViewModel: CategoryViewModel,
+    onNavigateTo: (Destination) -> Unit
+) {
+    val startPage = sections.size * PANORAMA_LAPS
+    val pagerState = rememberPagerState(initialPage = startPage) {
+        sections.size * PANORAMA_LAPS * 2
+    }
+
+    Column(modifier = modifier) {
+        // The panorama title moves at a fraction of the content's speed, sliding off to the
+        // left as the user travels through the sections.
+        Text(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.spacing_medium))
+                .graphicsLayer {
+                    val travelled = pagerState.currentPage - startPage +
+                        pagerState.currentPageOffsetFraction
+                    translationX = -travelled.mod(sections.size.toFloat()) * 36.dp.toPx()
+                },
+            text = stringResource(R.string.metro_store_title),
+            style = MaterialTheme.typography.displayLarge,
+            maxLines = 1,
+            softWrap = false
+        )
+
+        HorizontalPager(
+            modifier = Modifier.fillMaxSize(),
+            state = pagerState,
+            contentPadding = PaddingValues(end = 40.dp),
+            verticalAlignment = Alignment.Top,
+            key = { it }
+        ) { page ->
+            val section = sections[page % sections.size]
+            Column(modifier = Modifier.fillMaxSize()) {
+                section.captionRes?.let { SectionHeader(title = stringResource(it), trailing = {}) }
+                when (section) {
+                    HubSection.FEATURED -> ForYouContent(
+                        pageType = PAGE_TYPE_APPS,
+                        viewModel = streamViewModel,
+                        tiles = true,
+                        onAppClick = { onNavigateTo(Destination.AppDetails(it.packageName)) },
+                        onHeaderClick = { onNavigateTo(Destination.StreamBrowse(it)) },
+                        onClusterScrolled = { cluster ->
+                            streamViewModel.observeCluster(
+                                StreamContract.Category.APPLICATION,
+                                cluster
+                            )
+                        },
+                        onScrolledToEnd = {
+                            streamViewModel.observe(
+                                StreamContract.Category.APPLICATION,
+                                StreamContract.Type.HOME
+                            )
+                        }
+                    )
+
+                    HubSection.QUICK_LINKS -> QuickLinks(
+                        updateCount = updateCount,
+                        isForYouEnabled = isForYouEnabled,
                         onNavigateTo = onNavigateTo
                     )
-                    MainTab.GAMES -> AppsGamesScreen(
-                        pageType = 1,
-                        onNavigateTo = ::handleNavigation
+
+                    HubSection.CATEGORIES -> CategoriesContent(
+                        pageType = PAGE_TYPE_APPS,
+                        viewModel = categoryViewModel,
+                        onCategoryClick = { onNavigateTo(Destination.CategoryBrowse(it)) },
+                        header = {
+                            // Like the WP Store, games are reached from the top of the list.
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onNavigateTo(Destination.StoreSection(PAGE_TYPE_GAMES))
+                                    }
+                                    .padding(
+                                        horizontal = dimensionResource(R.dimen.spacing_medium),
+                                        vertical = dimensionResource(R.dimen.spacing_small)
+                                    ),
+                                text = stringResource(R.string.title_games).lowercase(),
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                        }
                     )
-                    MainTab.UPDATES -> {
-                        UpdatesScreen(
-                            viewModel = updatesViewModel,
-                            onNavigateTo = ::handleNavigation,
-                            onRequestUpdate = { update ->
-                                if (!Preferences.getBoolean(
-                                        context,
-                                        PREFERENCE_UPDATES_WARN_TRACKERS,
-                                        false
-                                    )
-                                ) {
-                                    performUpdate(update)
-                                } else {
-                                    val job = coroutineScope.launch {
-                                        val installedVc = PackageUtil.getInstalledVersionCode(
-                                            context,
-                                            update.packageName
-                                        )
-                                        val trackers = updatesViewModel.getNewTrackers(
-                                            update.packageName,
-                                            installedVc
-                                        )
-                                        if (trackers.isEmpty()) {
-                                            performUpdate(update)
-                                        } else {
-                                            trackerWarning = update to trackers
-                                        }
-                                    }
-                                    checkingJobs[update.packageName] = job
-                                }
-                            },
-                            onRequestUpdateAll = { selectedUpdates ->
-                                val needsObb = selectedUpdates.any {
-                                    it.fileList.requiresObbDir()
-                                }
-                                if (needsObb &&
-                                    !isGranted(context, PermissionType.STORAGE_MANAGER)
-                                ) {
-                                    onNavigateTo(
-                                        Destination.PermissionRationale(
-                                            setOf(PermissionType.STORAGE_MANAGER)
-                                        )
-                                    )
-                                } else {
-                                    updatesViewModel.downloadAll(selectedUpdates)
-                                }
-                            },
-                            onCancelUpdate = { packageName ->
-                                if (downloads.any {
-                                        it.packageName == packageName && !it.isFinished
-                                    }
-                                ) {
-                                    checkingJobs.remove(packageName)
-                                    updatesViewModel.cancelDownload(packageName)
-                                } else {
-                                    checkingJobs.remove(packageName)?.cancel()
-                                }
-                            },
-                            onCancelAll = { updatesViewModel.cancelAll() },
-                            checkingPackages = checkingJobs.keys
-                        )
-                    }
                 }
             }
         }
     }
+}
 
-    trackerWarning?.let { (update, trackers) ->
-        TrackerUpdateWarningDialog(
-            trackers = trackers,
-            onConfirm = {
-                val pending = update
-                trackerWarning = null
-                performUpdate(pending)
-            },
-            onDismiss = {
-                trackerWarning = null
-                checkingJobs.remove(update.packageName)
-            }
-        )
+private data class QuickLink(val label: String, val count: Int? = null, val destination: Destination)
+
+/**
+ * Accent tiles into the apps and games pivots, two per row, headed by my apps (showing the
+ * pending update count like a live tile) and downloads.
+ */
+@Composable
+private fun QuickLinks(
+    updateCount: Int,
+    isForYouEnabled: Boolean,
+    onNavigateTo: (Destination) -> Unit
+) {
+    val apps = stringResource(R.string.title_apps)
+    val games = stringResource(R.string.title_games)
+    val chartPages = buildList {
+        if (isForYouEnabled) add(StorePage.FOR_YOU)
+        add(StorePage.TOP_FREE)
+        add(StorePage.TRENDING)
+        add(StorePage.TOP_PAID)
+        add(StorePage.TOP_GROSSING)
     }
 
-    storageWarning?.let { requirement ->
-        InsufficientStorageDialog(
-            requirement = requirement,
-            onFreeUpSpace = {
-                storageWarning = null
-                StorageUtil.openFreeUpSpace(context)
-            },
-            onDismiss = { storageWarning = null }
+    val links = buildList {
+        add(
+            QuickLink(
+                label = if (updateCount > 0) {
+                    stringResource(R.string.title_updates)
+                } else {
+                    stringResource(R.string.metro_my_apps).replaceFirstChar { it.uppercase() }
+                },
+                count = updateCount.takeIf { it > 0 },
+                destination = Destination.MyApps
+            )
         )
+        add(QuickLink(stringResource(R.string.title_download_manager), destination = Destination.Downloads))
+        chartPages.forEach { page ->
+            val title = stringResource(page.titleRes)
+            add(QuickLink("$title\n$apps", destination = Destination.StoreSection(PAGE_TYPE_APPS, page.ordinal)))
+            add(QuickLink("$title\n$games", destination = Destination.StoreSection(PAGE_TYPE_GAMES, page.ordinal)))
+        }
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.spacing_medium),
+            vertical = dimensionResource(R.dimen.spacing_small)
+        ),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
+    ) {
+        items(links.chunked(2)) { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))) {
+                row.forEach { link ->
+                    MetroTile(
+                        modifier = Modifier.weight(1f),
+                        label = link.label,
+                        count = link.count,
+                        onClick = { onNavigateTo(link.destination) }
+                    )
+                }
+            }
+        }
     }
 }
 
 /**
- * Windows Phone application bar: a flat charcoal strip along the bottom edge holding circled
- * icon buttons with small lowercase labels.
+ * The hub's application bar menu: everything the old "more" sheet and toolbar icons offered.
  */
 @Composable
-private fun MetroCommandBar(content: @Composable () -> Unit) {
-    Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(vertical = dimensionResource(R.dimen.spacing_small)),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            content()
-        }
-    }
-}
-
-@Composable
-private fun MetroCommandButton(
-    @DrawableRes iconRes: Int,
-    label: String,
-    selected: Boolean = false,
-    badgeCount: Int = 0,
-    onClick: () -> Unit
-) {
-    val color = if (selected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
-
-    Column(
-        modifier = Modifier
-            .semantics { this.selected = selected }
-            .clickable(role = Role.Tab, onClick = onClick)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        BadgedBox(
-            badge = {
-                if (badgeCount > 0) Badge { Text(text = "$badgeCount") }
-            }
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .border(width = 2.dp, color = color, shape = CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    modifier = Modifier.size(18.dp),
-                    painter = painterResource(iconRes),
-                    contentDescription = null,
-                    tint = color
-                )
-            }
-        }
-        Text(
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_xsmall)),
-            text = label.lowercase(),
-            style = MaterialTheme.typography.labelSmall,
-            color = color,
-            maxLines = 1
-        )
-    }
+private fun hubMenuItems(
+    updateCount: Int,
+    notificationCount: Int,
+    onNavigateTo: (Destination) -> Unit
+): List<MetroMenuItem> {
+    fun withCount(label: String, count: Int) = if (count > 0) "$label ($count)" else label
+    return listOf(
+        MetroMenuItem(withCount(stringResource(R.string.metro_my_apps), updateCount)) {
+            onNavigateTo(Destination.MyApps)
+        },
+        MetroMenuItem(stringResource(R.string.title_download_manager)) {
+            onNavigateTo(Destination.Downloads)
+        },
+        MetroMenuItem(withCount(stringResource(R.string.title_notifications), notificationCount)) {
+            onNavigateTo(Destination.Notifications)
+        },
+        MetroMenuItem(stringResource(R.string.title_installed)) {
+            onNavigateTo(Destination.Installed)
+        },
+        MetroMenuItem(stringResource(R.string.title_favourites_manager)) {
+            onNavigateTo(Destination.Favourite)
+        },
+        MetroMenuItem(stringResource(R.string.title_blacklist_manager)) {
+            onNavigateTo(Destination.Blacklist)
+        },
+        MetroMenuItem(stringResource(R.string.title_spoof_manager)) {
+            onNavigateTo(Destination.Spoof)
+        },
+        MetroMenuItem(stringResource(R.string.title_account_manager)) {
+            onNavigateTo(Destination.Accounts)
+        },
+        MetroMenuItem(stringResource(R.string.title_settings)) {
+            onNavigateTo(Destination.Settings)
+        },
+        MetroMenuItem(stringResource(R.string.title_about)) { onNavigateTo(Destination.About) }
+    )
 }

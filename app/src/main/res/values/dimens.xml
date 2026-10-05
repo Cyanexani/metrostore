@@ -47,5 +47,9 @@
     <dimen name="radius_medium">0dp</dimen>
     <dimen name="radius_large">0dp</dimen>
 
+    <dimen name="rating_bar_height">10dp</dimen>
+    <dimen name="page_indicator_size">8dp</dimen>
+    <dimen name="page_indicator_size_selected">12dp</dimen>
+
     <dimen name="scroll_hint_padding">5dp</dimen>
 </resources>

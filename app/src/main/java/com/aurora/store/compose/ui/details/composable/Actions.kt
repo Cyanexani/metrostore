@@ -8,14 +8,9 @@ package com.aurora.store.compose.ui.details.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -23,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewWrapper
-import com.aurora.extensions.isWindowCompact
+import androidx.compose.ui.unit.dp
 import com.aurora.store.R
 import com.aurora.store.compose.composable.MetroButton
 import com.aurora.store.compose.preview.ThemePreviewProvider
@@ -37,7 +32,6 @@ import com.aurora.store.compose.preview.ThemePreviewProvider
  * @param isSecondaryActionEnabled Whether the secondary action is enabled
  * @param onPrimaryAction Callback when the primary action is clicked
  * @param onSecondaryAction Callback when the secondary action is clicked
- * @param windowAdaptiveInfo Adaptive window information
  */
 @Composable
 fun Actions(
@@ -46,19 +40,12 @@ fun Actions(
     isPrimaryActionEnabled: Boolean = true,
     isSecondaryActionEnabled: Boolean = true,
     onPrimaryAction: () -> Unit = {},
-    onSecondaryAction: () -> Unit = {},
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfoV2()
+    onSecondaryAction: () -> Unit = {}
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(PaddingValues(horizontal = dimensionResource(R.dimen.spacing_medium))),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium))
-    ) {
-        val buttonWidthModifier = when {
-            windowAdaptiveInfo.isWindowCompact -> Modifier.weight(1F)
-            else -> Modifier.widthIn(min = dimensionResource(R.dimen.width_button))
-        }
+    // Windows Phone app pages put these in the application bar: compact text buttons from the
+    // left edge rather than full-width blocks.
+    Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium))) {
+        val buttonWidthModifier = Modifier.widthIn(min = 96.dp)
 
         MetroButton(
             modifier = buttonWidthModifier,

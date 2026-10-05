@@ -53,11 +53,11 @@ fun FavouriteMenu(
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_import)) },
+                text = { Text(text = stringResource(R.string.action_import).lowercase()) },
                 onClick = { onClick(MenuItem.IMPORT) }
             )
             DropdownMenuItem(
-                text = { Text(text = stringResource(R.string.action_export)) },
+                text = { Text(text = stringResource(R.string.action_export).lowercase()) },
                 onClick = { onClick(MenuItem.EXPORT) },
                 enabled = items > 0
             )

@@ -97,7 +97,7 @@ fun NetworkScreen() {
                         }
                     }
                 ) {
-                    Text(stringResource(R.string.action_check))
+                    Text(stringResource(R.string.action_check).lowercase())
                 }
             }
         }

@@ -38,6 +38,7 @@ import com.aurora.store.R
 import com.aurora.store.compose.ui.about.AboutScreen
 import com.aurora.store.compose.ui.accounts.AccountsScreen
 import com.aurora.store.compose.ui.accounts.GoogleLoginScreen
+import com.aurora.store.compose.ui.apps.AppsGamesScreen
 import com.aurora.store.compose.ui.blacklist.BlacklistScreen
 import com.aurora.store.compose.ui.commons.CategoryBrowseScreen
 import com.aurora.store.compose.ui.commons.ExpandedStreamBrowseScreen
@@ -64,6 +65,7 @@ import com.aurora.store.compose.ui.preferences.updates.UpdatesPreferenceScreen
 import com.aurora.store.compose.ui.search.SearchScreen
 import com.aurora.store.compose.ui.splash.SplashScreen
 import com.aurora.store.compose.ui.spoof.SpoofScreen
+import com.aurora.store.compose.ui.updates.MyAppsScreen
 import com.aurora.store.data.event.AuthEvent
 import com.aurora.store.data.event.InstallerEvent
 import com.aurora.store.data.model.AccountType
@@ -182,6 +184,10 @@ fun NavDisplay(startDestination: NavKey) {
                 Screen.PermissionRationale(destination.permissions)
             )
 
+            is Destination.StoreSection -> backstack.add(
+                Screen.StoreSection(destination.pageType, destination.page)
+            )
+
             is Destination.AppDetails -> backstack.add(Screen.AppDetails(destination.packageName))
             is Destination.DevProfile -> backstack.add(Screen.DevProfile(destination.devId))
             is Destination.AppUpdate -> Unit
@@ -189,6 +195,7 @@ fun NavDisplay(startDestination: NavKey) {
             is Destination.GoogleLogin -> backstack.add(Screen.GoogleLogin(destination.addAccount))
 
             Destination.Search -> backstack.add(Screen.Search)
+            Destination.MyApps -> backstack.add(Screen.MyApps)
             Destination.Downloads -> backstack.add(Screen.Downloads)
             Destination.Notifications -> backstack.add(Screen.Notifications)
             Destination.Accounts -> backstack.add(Screen.Accounts)
@@ -236,6 +243,16 @@ fun NavDisplay(startDestination: NavKey) {
                     onNavigateTo = ::navigate
                 )
             }
+
+            entry<Screen.StoreSection> { screen ->
+                AppsGamesScreen(
+                    pageType = screen.pageType,
+                    initialPage = screen.page,
+                    onNavigateTo = ::navigate
+                )
+            }
+
+            entry<Screen.MyApps> { MyAppsScreen(onNavigateTo = ::navigate) }
 
             entry<Screen.AppDetails> { screen ->
                 AppDetailsScreen(

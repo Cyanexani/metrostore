@@ -242,7 +242,7 @@ private fun ScreenContent(
                                                     enabled = !isEnqueuing
                                                 ) {
                                                     Text(
-                                                        stringResource(R.string.action_install_all)
+                                                        stringResource(R.string.action_install_all).lowercase()
                                                     )
                                                 }
                                             }
