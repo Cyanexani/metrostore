@@ -61,8 +61,41 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v4
 
+      - name: Configure release signing
+        shell: bash
+        env:
+          RELEASE_KEYSTORE_B64: ${{ secrets.RELEASE_KEYSTORE_B64 }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          if [[ -z "$RELEASE_KEYSTORE_B64" || -z "$RELEASE_KEY_ALIAS" || -z "$RELEASE_KEY_PASSWORD" ]]; then
+            echo "Release signing secrets are missing; refusing to publish unsigned APKs." >&2
+            exit 1
+          fi
+          KEYSTORE_PATH="$RUNNER_TEMP/metrostore-release.jks"
+          printf '%s' "$RELEASE_KEYSTORE_B64" | base64 -d > "$KEYSTORE_PATH"
+          {
+            echo "STORE_FILE=$KEYSTORE_PATH"
+            echo "KEY_ALIAS=$RELEASE_KEY_ALIAS"
+            echo "KEY_PASSWORD=$RELEASE_KEY_PASSWORD"
+          } > signing.properties
+          cp signing.properties app/signing.properties
+
       - name: Build release APK
         run: ./gradlew --no-daemon --stacktrace assembleVanillaRelease
+
+      - name: Verify APK signatures
+        shell: bash
+        run: |
+          set -euo pipefail
+          for apk in app/build/outputs/apk/vanilla/release/*-release*.apk; do
+            if [[ "$apk" == *unsigned* ]]; then
+              echo "Unsigned APK detected: $apk" >&2
+              exit 1
+            fi
+            $ANDROID_HOME/build-tools/36.0.0/apksigner verify --print-certs "$apk" > /dev/null
+            echo "Signed and verified: $(basename "$apk")"
+          done
 
       - name: Prepare release notes
         id: release_notes
